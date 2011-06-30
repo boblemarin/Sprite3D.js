@@ -1,0 +1,31 @@
+<h1>Sprite3D.js</h1>
+<p>A simple javascript library to help making thing move in 3D space for webkit browser using CSS transforms.</p>
+<p>Project's homepage:  <a href="http://minimal.be/lab/Sprite3D/">http://minimal.be/lab/Sprite3D/</a>
+<h2>Overview</h2>
+<p>Sprite3D acts like a wrapper around HTML elements, helping to easily control their 3D-position using a simple Javascript syntax. When you create a Sprite object, you can supply an existing DOM object or let the library create an empty <code>&lt;div&gt;</code> (you can apply a CSS class to the DOM element after it's creation).</p>
+<p>As you manipulate "real" HTML elements, you don't need a <code>&lt;canvas&gt;</code> object (and it's performance problems), nor a WebGL-enabled browser. And, as 3D transforms are hardware-accelerated, you can get a very decent framerate, even on (Apple's) mobile devices.</p>
+<p>At this stage of development, 3D positionning is achieved via WebKit's CSS 3D transform, restricting the library usage to Chrome and Safari browsers, as well as iOS's Mobile Safari. However, due to it's wrapping, non-intrusive nature, it allows to build semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
+<p>
+<p>Sprite3D.js has no dependencies, so it can be easily integrated with other JS libs. We recommend using the requestAnimationFrame technique
+(when available) for a more browser-friendly result. In our examples, we have also been using Grant Skinner's Tween.js engine for handling some of the animations.</p>
+<h2>Features</h2>
+<ul class="features">
+	<li>AS3-style properties : 
+<pre>	x, y, z
+rotationX, rotationY, rotationZ
+width, height
+alpha</pre></li>
+	<li>AS3-style scenography via the <code>addChild()</code> and <code>removeChild()</code> method, children inheriting of their parent's transformations
+	<li>JS-style method chaining : 
+		<pre>new Sprite3D()
+.setPosition(x,y,z)
+.setRotation(rx,ry,rz)
+.setClassName('class')
+.update();</pre></li>
+</ul>
+<h2>Future plans</h2>
+<ul>
+	<li>Support for more browsers</li>
+	<li>Support for animated sprites using sprite sheets as background image</li>
+	<li>Providing a decent solution for event handling (right now, it requires iterating through the Sprite's list to find the Sprite associated to the DOM element)</li>
+</ul>

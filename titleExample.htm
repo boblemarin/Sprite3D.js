@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+
+<meta name='HandheldFriendly' content='True' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+
+<title>SALOP.js - first engine tech test</title>
+
+<!--
+<link rel="stylesheet" href="styles.css" media="screen">
+<script src="jquery-1.6.1.min.js" type="text/javascript"></script>
+<script src="logs.js" type="text/javascript"></script>
+-->
+		
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
+<style>
+		
+html, body { height: 100%; }
+
+body {
+	background-color: #555;
+	color: white;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	
+	background: -webkit-gradient(radial, 50% 50%, 500, 50% 50%, 59, from(#000000), to(#7A7A7A))
+}
+
+
+#debug {
+	color: #FFF;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	text-align: center;
+	font-family: courier;
+}
+
+.stripe {
+	background: white;
+	width: 1px;
+	height: 20px;
+}
+
+.particle {
+	background-image: url("img/star16.png");
+	width: 16px;
+	height: 16px;
+}
+			
+</style>
+
+<!-- =========================================================== -->		
+<!-- JAVASCRIPT SECTION ======================================== -->
+<!-- =========================================================== -->
+<!-- Paul Irish's cross-browser RequestAnimationFrame technique -->
+<script type="text/javascript" src="js/RequestAnimationFrame.js"></script>
+
+<!-- mr doob's Stats engine -->
+<script type="text/javascript" src="js/Stats.js"></script>
+
+<!-- boblemarin's Sprite3D utility class -->
+<script src="js/Sprite3D.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+var debug,
+	t = 0,
+	step = 32,
+	radius = 40,
+	originX,
+	stage,
+	container,
+	stripeContainer,
+	lastTime,
+	numStripes = 100;
+		
+function init() {
+	debug = document.getElementById("debug");
+	
+	// create a centered 3D stage
+	stage = Sprite3D.createCenteredContainer();
+	
+	// create the container for title letters
+	container = stage.addChild( new Sprite3D().setPosition( 0, -17, 500 ).update() );
+	
+	// create title letters images and sprites, add them to the container
+	var s,e,i,
+		urls = [ 's','p','r','i','t','e','3','d'],
+		numSprites = urls.length;
+		
+	originX = step * numSprites * -.5;
+	
+	for( i = 0; i < numSprites; i++ )
+	{
+		// create <img> element, set src attribute
+		e = document.createElement("img");
+		e.src = 'img/salop_' + urls[i] + '.png';
+		
+		// link the <img> to a sprite, add it to the container
+		container.addChild( 
+			new Sprite3D( e )
+				.setPosition( originX + step * i, 0, 0 )
+				.setRotation( Math.random() * 60 - 30, Math.random() * 60 - 30, 0 )
+				.update()
+		);
+	}
+	
+	// create container for the stripes
+	stripeContainer = stage.addChild( new Sprite3D().setPosition( 0, 0, 550 ).update() );
+	
+	// create stripes with extreme chaining syntax ;)
+	for ( i = 0; i < numStripes; i++ )
+	{
+		stripeContainer.addChild(
+			new Sprite3D()
+				.setClassName( "stripe" )
+				.setOpacity( .2 )
+				.setRotateFirst( true )
+				.setRotation( Math.random() * 360, 0, 0 )
+				.setPosition( Math.random() * 200 - 100, Math.random() * 20 - 10, 70 + Math.random() * 60 )
+				.setProperty( "speed", 2 + Math.random() * 10 )
+				.update()
+		);
+	}
+	
+	msg( numStripes + " rotating css stripes, and " + numSprites + " floating png sprites" );
+	
+	// add statistics
+	stats = new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.top = '0px';
+	document.body.appendChild(stats.domElement);
+	
+	// capture touchstart event to prevent scrolling
+	document.addEventListener( "touchstart", onTouchStart );
+	
+	animate();
+}	
+
+function onTouchStart( event ) {
+	// prevent user from scrolling the page
+	event.preventDefault();
+}
+
+function animate() {
+	requestAnimationFrame( animate );
+	update();
+	stats.update();
+}
+
+function update()
+{
+	var s,i;
+	t += .07;
+	
+	// wave effect for title letters
+	for( i = 0; i < container.numChildren; i++ )
+	{
+		s = radius * .5 * Math.sin(t+i*.5);
+		container.children[i]
+			.setY( s )
+			.setZ( s )
+			.setRotation( s, s, s * .3 )
+			.update();
+	}
+	// rotating effect for the surrounding stripes
+	
+	for( i = 0; i < numStripes; i++ )
+	{
+		s = stripeContainer.children[i];
+		s.rotateX( s.speed ).update();
+	}
+
+	// apply a very subtle rotation on the stripes container
+	stripeContainer.setRotation( 0, radius * Math.sin( t/2 ), 0 ).update();
+	
+	
+	// one could avoid the manual updates like above 
+	// by using the supa-powaful recursive update call :
+	//
+	// stage.updateWithChildren(true);
+	//
+	// (also available in "false" mode, thus non recursive, only direct children)
+}
+
+
+
+function msg( t ) { debug.innerHTML = t; }
+
+</script>
+</head>
+
+<!-- =========================================================== -->		
+<!-- HTML BODY ================================================= -->
+<!-- =========================================================== -->
+
+<body onload="init();">
+	
+	<div id="debug"></div>
+	<!--
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-9528692-4");
+	pageTracker._trackPageview();
+	} catch(err) {}</script>
+	-->
+</body>
+</html>

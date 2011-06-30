@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+
+<meta name='HandheldFriendly' content='True' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+
+
+<title>Sprite3D.js, a javascript library for 3D positionning in WebKit</title>
+
+<!--
+<link rel="stylesheet" href="styles.css" media="screen">
+<script src="jquery-1.6.1.min.js" type="text/javascript"></script>
+<script src="logs.js" type="text/javascript"></script>
+-->
+		
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
+<style>
+		
+html, body { /*height: 100%;*/ }
+
+body {
+	background-color: white;
+	color: black;
+	margin: 0px;
+	padding: 0px;
+	font-family: "Lucida Grande", Geneva, Verdana, Arial, sans-serif;
+	line-height: 1.6em;
+}
+
+h1, h2 {
+	text-shadow: 0px 1px 0px #ffffff;
+	filter: dropshadow(color=#ffffff, offx=0, offy=1);
+	
+  background-color: #FFFFFF;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#DDDDDD), to(#FFFFFF)); 
+  background-image: -webkit-linear-gradient(top, #DDDDDD, #FFFFFF); 
+  background-image:    -moz-linear-gradient(top, #DDDDDD, #FFFFFF); 
+  background-image:     -ms-linear-gradient(top, #DDDDDD, #FFFFFF); 
+  background-image:      -o-linear-gradient(top, #DDDDDD, #FFFFFF); 
+  background-image:         linear-gradient(top, #DDDDDD, #FFFFFF);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#DDDDDD', EndColorStr='#FFFFFF');
+}
+
+h1 {
+	text-align: center;
+	font-size: 4em;
+	padding: .5em;
+	margin: 0px;
+	margin-bottom: 40px;
+}
+
+h2 {
+	padding: 10px 0px;
+	margin: 40px 0px 20px 0px;
+	width: 100%;
+	text-indent: 20px;
+}
+
+p { padding: 0px 20px;}
+
+ul.features li {
+	margin: 15px;
+}
+
+ul.examples {
+	list-style-type:none;
+	text-align: center;
+	margin: 0px; padding: 0px; 
+}
+
+ul.examples li {
+	margin: 20px 20px;
+	display: inline-block;
+}
+
+a img {
+	
+     -moz-border-radius: 12px; 
+  -webkit-border-radius: 12px; 
+          border-radius: 12px; 
+  -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+}
+			
+</style>
+
+<!-- =========================================================== -->		
+<!-- JAVASCRIPT SECTION ======================================== -->
+<!-- =========================================================== -->
+<script type="text/javascript">
+
+var debug;
+		
+function init() {
+
+}	
+
+</script>
+</head>
+
+<!-- =========================================================== -->		
+<!-- HTML BODY ================================================= -->
+<!-- =========================================================== -->
+
+<body onload="init();">
+	
+	<h1>Sprite3D.js</h1>
+	<p>A simple javascript library to help making thing move in 3D space for webkit browser using CSS transforms.</p>
+	<h2>Overview</h2>
+	<p>Sprite3D acts like a wrapper around HTML elements, helping to easily control their 3D-position using a simple Javascript syntax. When you create a Sprite object, you can supply an existing DOM object or let the library create an empty <code>&lt;div&gt;</code> (you can apply a CSS class to the DOM element after it's creation).</p>
+	<p>As you manipulate "real" HTML elements, you don't need a <code>&lt;canvas&gt;</code> object (and it's performance problems), nor a WebGL-enabled browser. And, as 3D transforms are hardware-accelerated, you can get a very decent framerate, even on (Apple's) mobile devices.</p>
+	<p>At this stage of development, 3D positionning is achieved via WebKit's CSS 3D transform, restricting the library usage to Chrome and Safari browsers, as well as iOS's Mobile Safari. However, due to it's wrapping, non-intrusive nature, it allows to build semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
+	<p>
+	<p>Sprite3D.js has no dependencies, so it can be easily integrated with other JS libs. We recommend using the requestAnimationFrame technique
+	(when available) for a more browser-friendly result. In our examples, we have also been using Grant Skinner's Tween.js engine for handling some of the animations.</p>
+	<h2>Features</h2>
+	<ul class="features">
+		<li>AS3-style properties : 
+<pre>	x, y, z
+	rotationX, rotationY, rotationZ
+	width, height
+	alpha</pre></li>
+		<li>AS3-style scenography via the <code>addChild()</code> and <code>removeChild()</code> method, children inheriting of their parent's transformations
+		<li>JS-style method chaining : 
+			<pre>new Sprite3D()
+	.setPosition(x,y,z)
+	.setRotation(rx,ry,rz)
+	.setClassName('class')
+	.update();</pre></li>
+	</ul>
+	<h2>Future plans</h2>
+	<ul>
+		<li>Support for more browsers</li>
+		<li>Support for animated sprites using sprite sheets as background image</li>
+		<li>Providing a decent solution for event handling (right now, it requires iterating through the Sprite's list to find the Sprite associated to the DOM element)</li>
+	</ul>
+	<h2>Download</h2>
+	<p>Get <a href="https://github.com/boblemarin/Sprite3D">the full project source code on GitHub</a>, or just grab <a href="js/Sprite3D.js">Sprite3D.js here</a>.</p>
+	<h2>Examples</h2>
+	<ul class="examples">
+		<li><a href="titleExample.htm"><img src="home/title.jpg" /></a></li>
+		<li><a href="tweenExample.htm"><img src="home/tweens.png" /></a></li>
+		<li><a href="eventsExample.htm"><img src="home/nyantouch.jpg" /></a></li>
+		<li><a href="psycheExample.htm"><img src="home/psyche.png" /></a></li>
+	</ul>
+	<h2>Reference</h2>
+	<p>Under construction. Please check the code, as it is rather commented.</p>
+</body>
+</html>
