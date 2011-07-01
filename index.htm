@@ -33,8 +33,8 @@ body {
 }
 
 h1, h2 {
-	text-shadow: 0px 1px 0px #ffffff;
-	filter: dropshadow(color=#ffffff, offx=0, offy=1);
+	text-shadow: 0px 2px 0px #FFFFFF;
+	filter: dropshadow(color=#ffffff, offx=0, offy=2);
 	
   background-color: #FFFFFF;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#DDDDDD), to(#FFFFFF)); 
@@ -61,12 +61,20 @@ h2 {
 	text-indent: 20px;
 }
 
-p { padding: 0px 20px;}
+p.baseline {
+	margin: 0px;
+	margin-top: -40px;
+	padding: 0px;
+	text-align: center;
+	/*background: #555;*/
+}
 
+p { padding: 0px 20px;}
+/*
 ul.features li {
 	margin: 15px;
 }
-
+*/
 ul.examples {
 	list-style-type:none;
 	text-align: center;
@@ -109,14 +117,18 @@ function init() {
 <body onload="init();">
 	
 	<h1>Sprite3D.js</h1>
-	<p>A simple javascript library to help making thing move in 3D space for webkit browser using CSS transforms.</p>
+	<p class="baseline">A simple javascript library <br/>to help making things move in 3D space<br/>in webkit browsers using CSS transforms.</p>
+	
+	
 	<h2>Overview</h2>
-	<p>Sprite3D acts like a wrapper around HTML elements, helping to easily control their 3D-position using a simple Javascript syntax. When you create a Sprite object, you can supply an existing DOM object or let the library create an empty <code>&lt;div&gt;</code> (you can apply a CSS class to the DOM element after it's creation).</p>
+	<p>Sprite3D wraps HTML elements with the necessary behaviours to easily control their 3D-position using a simple Javascript syntax. To create a Sprite object, you can either supply an existing DOM object or let the library create an empty <code>&lt;div&gt;</code> (you can apply a CSS class to the DOM element after it's creation).</p>
 	<p>As you manipulate "real" HTML elements, you don't need a <code>&lt;canvas&gt;</code> object (and it's performance problems), nor a WebGL-enabled browser. And, as 3D transforms are hardware-accelerated, you can get a very decent framerate, even on (Apple's) mobile devices.</p>
-	<p>At this stage of development, 3D positionning is achieved via WebKit's CSS 3D transform, restricting the library usage to Chrome and Safari browsers, as well as iOS's Mobile Safari. However, due to it's wrapping, non-intrusive nature, it allows to build semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
+	<p>At this stage of development, 3D positionning is achieved via WebKit's CSS 3D transforms, restricting the library usage to Chrome and Safari browsers, as well as iOS's Mobile Safari. However, due to it's wrapping, non-intrusive nature, it allows to build semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
 	<p>
-	<p>Sprite3D.js has no dependencies, so it can be easily integrated with other JS libs. We recommend using the requestAnimationFrame technique
-	(when available) for a more browser-friendly result. In our examples, we have also been using Grant Skinner's Tween.js engine for handling some of the animations.</p>
+	<p>Sprite3D.js has no dependencies, so it can easily be integrated with other JS libs. We recommend using the requestAnimationFrame technique
+	(when available, see in the examples) for a more browser-friendly result.</p>
+	
+	
 	<h2>Features</h2>
 	<ul class="features">
 		<li>AS3-style properties : 
@@ -125,29 +137,50 @@ function init() {
 	width, height
 	alpha</pre></li>
 		<li>AS3-style scenography via the <code>addChild()</code> and <code>removeChild()</code> method, children inheriting of their parent's transformations
-		<li>JS-style method chaining : 
+		<li>JS-style method chaining :
 			<pre>new Sprite3D()
 	.setPosition(x,y,z)
 	.setRotation(rx,ry,rz)
 	.setClassName('class')
 	.update();</pre></li>
 	</ul>
+	
+	
 	<h2>Future plans</h2>
 	<ul>
 		<li>Support for more browsers</li>
 		<li>Support for animated sprites using sprite sheets as background image</li>
 		<li>Providing a decent solution for event handling (right now, it requires iterating through the Sprite's list to find the Sprite associated to the DOM element)</li>
 	</ul>
+	
+	
 	<h2>Download</h2>
-	<p>Get <a href="https://github.com/boblemarin/Sprite3D">the full project source code on GitHub</a>, or just grab <a href="js/Sprite3D.js">Sprite3D.js here</a>.</p>
+	<p>Get <a href="https://github.com/boblemarin/Sprite3D.js">the full project source code on GitHub</a>, or just grab <a href="js/Sprite3D.js">Sprite3D.js here</a>.</p>
+	
+	
 	<h2>Examples</h2>
 	<ul class="examples">
+		<li><a href="basicExample.htm"><img src="home/basic.png" /></a></li>
+		<li><a href="basicHierarchyExample.htm"><img src="home/basic2.png" /></a></li>
 		<li><a href="titleExample.htm"><img src="home/title.jpg" /></a></li>
 		<li><a href="tweenExample.htm"><img src="home/tweens.png" /></a></li>
 		<li><a href="eventsExample.htm"><img src="home/nyantouch.jpg" /></a></li>
 		<li><a href="psycheExample.htm"><img src="home/psyche.png" /></a></li>
 	</ul>
+	
 	<h2>Reference</h2>
-	<p>Under construction. Please check the code, as it is rather commented.</p>
+	<p>Under construction. For now, you can check the code, as it is rather commented.</p>
+	<ul>
+		<li>setX( px )</li>
+		<li>setY( py )</li>
+		<li>setZ( pz )</li>
+		<li>moveX( px )</li>
+		<li>moveY( py )</li>
+		<li>moveZ( pz )</li>
+		
+	</ul>
+	<h2>Credits</h2>
+	<p>[todo] Thanks to Grant Skinner's Tween.js, MrDoob's Stats utility, Paul Irish's requestAnimationFrame code, Robert Penner's equations....</p>
+	
 </body>
 </html>

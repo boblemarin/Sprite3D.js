@@ -36,13 +36,13 @@ var Sprite3D = Sprite3D || ( function ( element ) {
 	if ( element == null )
 	{
 		element = document.createElement("div");
-		element.style.margin = "0px";
-		element.style.padding = "0px";
-		element.style.position = "absolute";
 	}
 	
 	// prepare for 3D positionning
 	element.style.webkitTransformStyle = "preserve-3d";
+	element.style.margin = "0px";
+	element.style.padding = "0px";
+	element.style.position = "absolute";
 	
 	// trigger hardware acceleration even if no property is set
 	element.style.webkitTransform = "translateZ(0px)"; 
@@ -116,13 +116,6 @@ var Sprite3D = Sprite3D || ( function ( element ) {
 			this.rotationZ = rz;
 			return this;
 		},
-
-		// size setter
-		setSize: function( width, height ) {
-			this.style.width = ( this.width = width ) + "px";
-			this.style.height = ( this.height = height ) + "px";
-			return this;
-		},
 		
 		// registration point setter
 		setRegistrationPoint: function( rx, ry, rz ) {
@@ -131,8 +124,21 @@ var Sprite3D = Sprite3D || ( function ( element ) {
 			this.regZ = rz;
 			return this;
 		},
+		
+		// transform origin setter
+		setTransformOrigin: function( px, py ) {
+			this.style.webkitTransformOrigin = px + " " + py;
+			return this;
+		},
+		
+		// size setter (this one does not need to be followed by a call to the update() method)
+		setSize: function( width, height ) {
+			this.style.width = ( this.width = width ) + "px";
+			this.style.height = ( this.height = height ) + "px";
+			return this;
+		},
 
-		// alpha
+		// alpha  (this one does not need to be followed by a call to the update() method)
 		setOpacity: function( a ) {
 			this.style.opacity = this.alpha = a;
 			return this;
@@ -143,6 +149,7 @@ var Sprite3D = Sprite3D || ( function ( element ) {
 		},
 		
 		// element css class name access
+		// className : String
 		setClassName: function( className ) {
 			this.domElement.className = className;
 			return this;
@@ -154,12 +161,20 @@ var Sprite3D = Sprite3D || ( function ( element ) {
 		
 		// this dirty one is intended to those who love
 		// extreme chaining and custom properties :)
+		// label : String
+		// value : *
 		setProperty: function( label, value ) {
 			this[label] = value;
 			return this;
 		},
 		
-		
+		// rg = true|false
+		// defines in which order transformations are applied
+		// rotations first, then translations or translations first, then rotations
+		setRotateFirst: function( rf ) {
+			this.rotateFirst = rf;
+			return this;
+		},
 		
 		
 		
@@ -168,15 +183,13 @@ var Sprite3D = Sprite3D || ( function ( element ) {
 		NOTE TO SELF : has to choose between all of those method which ones are the best fit, then clean.
 		
 		TODO: change that rotateFirst stuff for something more adaptable, like a format string "rx ry rz t" or "rz t ty rx"...
+		
+		
 		*/
 		
 		
-		setRotateFirst: function( rf ) {
-			this.rotateFirst = rf;
-			return this;
-		},
-		
-		update: function() { // updates position and rotation
+		// updates position and rotation
+		update: function() { 
 			p = "translate3D(" + (this.x-this.regX) + "px," + (this.y-this.regY) + "px," + (this.z-this.regZ) + "px) ";
 			rx = "rotateX(" + this.rotationX + "deg) ";
 			ry = "rotateY(" + this.rotationY + "deg) ";
@@ -190,7 +203,9 @@ var Sprite3D = Sprite3D || ( function ( element ) {
 			return this;
 		},
 		
-		updateAll: function() { // updates position, rotation, opacity and size
+		
+		// updates position, rotation, opacity and size
+		updateAll: function() { 
 			this.update();
 			//this.style.opacity = this.alpha;
 			this.style.width = this.width + "px";
@@ -198,31 +213,29 @@ var Sprite3D = Sprite3D || ( function ( element ) {
 			return this.update();
 		},
 		
-		
-		updateChildren: function() { // calls update() on every child
+		// calls update() on every child
+		updateChildren: function() { 
 			for ( i = 0; i < this.numChildren; i++ ) {
 				this.children[i].update();
 			}
 			return this;
 		},
 		
-		
-		updateChildrenAll: function() { // calls updateAll() on every child
+		// calls updateAll() on every child
+		updateChildrenAll: function() { 
 			for ( i = 0; i < this.numChildren; i++ ) {
 				this.children[i].updateAll();
 			}
 			return this;
 		},
 		
-
-		updateWithChildren: function( recurse ) {
+		// updates itself, then updates every child
+		// recursive : true|false, set to true and the process will be recursive
+		updateWithChildren: function( recursive ) {
 			this.update();
 
 			for ( i = 0; i < this.numChildren; i++ ) {
-//				this.children[i].updateWithChildren();
-//				this.children[i].update();
-
-				if ( recurse ) 
+				if ( recursive ) 
 					this.children[i].updateWithChildren( recurse );
 				else
 					this.children[i].update();
@@ -255,6 +268,8 @@ var Sprite3D = Sprite3D || ( function ( element ) {
 			return this.children.splice( n, 1 )[0];
 		},
 		
+		// returns the child associated with the provided Dom element
+		// use this when listening to user input events (using addEventListener)
 		findFromDOMElement: function( elmnt ) {
 			for ( i = 0; i < this.numChildren; i++ ) {
 				if ( elmnt == this.children[i].domElement ) return this.children[i];
@@ -263,7 +278,7 @@ var Sprite3D = Sprite3D || ( function ( element ) {
 		
 		
 		
-		// event handling (needs findFromDOMElement() when receiving event, has to be fixed by haching the event system)
+		// event handling (needs findFromDOMElement() when receiving event, has to be fixed one day :-)
 		
 		addEventListener: function( event, callback ) {
 			this.domElement.addEventListener( event, callback );
@@ -298,6 +313,26 @@ Sprite3D.createCenteredContainer = function() {
 	s.margin = "0px";
 	s.padding = "0px";
 	//s.border = "1px solid red";
+	document.body.appendChild(c);
+	
+	return new Sprite3D(c);
+};
+
+Sprite3D.createTopLeftCenteredContainer = function() {
+	var c = document.createElement('div');
+	var s = c.style;
+	s.webkitPerspective = 800;
+//	s.webkitPerspectiveOrigin = "0 0";
+//	s.webkitTransformOrigin = "0 0";
+	s.webkitTransform = "translateZ(0px)";
+	s.position = "absolute";
+	s.top = "0px";
+	s.left = "0px";
+	s.right = "0px"
+	s.bottom = "0px"
+	s.margin = "0px";
+	s.padding = "0px";
+	s.border = "1px solid red";
 	document.body.appendChild(c);
 	
 	return new Sprite3D(c);
