@@ -57,7 +57,7 @@ function init() {
 	container = new Sprite3D().setZ(-00).rotateX(-20).update();
 	stage.addChild( container );
 	
-	// 3. create left face
+	// 3. create front left face
 	container.addChild( 
 		new Sprite3D()
 			.setClassName("imageLeft")
@@ -68,7 +68,7 @@ function init() {
 			.update()
 	);
 	
-	// 4. create right face
+	// 4. create front right face
 	container.addChild( 
 		new Sprite3D()
 			.setClassName("imageRight")
@@ -79,7 +79,30 @@ function init() {
 			.update()
 	);
 	
-	// 5. set up an interval for rotating the container
+	// 5. create back left face
+	container.addChild( 
+		new Sprite3D()
+			.setClassName("imageLeft")
+			.setTransformOrigin( 0, 0 )
+			.setPosition( -100, -250, 100 )
+			.rotateY( 135 )
+			.setRotateFirst(true)
+			.update()
+	);
+	
+	// 6. create back right face
+	container.addChild( 
+		new Sprite3D()
+			.setClassName("imageRight")
+			.setTransformOrigin( 0, 0 )
+			.setPosition( -100, -250, 100 )
+			.rotateY( -135 )
+			.setRotateFirst(true)
+			.update()
+	);
+	
+	// 7. set up an interval for rotating the container
+	// (should be done using requestAnimationFrame, but this page tries to keep the code very simple)
 	setInterval( move, 1000 / 40 );
 	
 }	
@@ -90,7 +113,7 @@ function move() {
 	
 	// rotate the container around the X and Y axis, then apply these transformations
 	container
-		.setRotationY( Math.sin(t) * 15 )
+		.rotateY( -3 )
 		.setRotationX( Math.cos(t) * 15 - 20 )
 		.update();
 }
