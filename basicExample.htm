@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<title>Sprite3D.js - Basics - Sprite creation</title>
+
+
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
+		<style>
+		
+html, body { height: 100%; }
+
+body {
+	background-color: white;
+	color: color;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.image {
+	background-image: url('img/html5_logo.png');
+	width: 400px;
+	height: 500px;
+}
+
+			
+		</style>
+
+		<!-- =========================================================== -->		
+		<!-- JAVASCRIPT SECTION ======================================== -->
+		<!-- =========================================================== -->
+		<script src="js/Sprite3D.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+function init() {
+	
+	// 1. first, let's create the root container for our sprites
+	var stage = Sprite3D.createCenteredContainer();
+	
+	// 2. then, let's create one object
+	var image = new Sprite3D();
+	
+	// 3. set it's class so that it displays the image chosen in the CSS
+	image.setClassName("image");
+	
+	// 4. set it's registration point to the center of the image, so that it will appear centered
+	// note: this function takes 3 arguments, because the reg point is expressed in 3D space
+	image.setRegistrationPoint( 200, 250, 0 );
+	
+	// 5. rotate the sprite around the X axis
+	image.rotateX( -20 );
+	
+	// 6. update the image css properties to apply the above changes 
+	// this step is required for the result to be visible
+	image.update();
+	
+	// 7. add the sprite to the stage, so that it appears on the screen
+	stage.addChild( image );
+	
+	/* NOTE: all those steps could be written in a more compact way :
+	
+	Sprite3D.createCenteredContainer().addChild( 
+		new Sprite3D()
+			.setClassName("image")
+			.setRegistrationPoint( 200, 250, 0 )
+			.rotateX( -20 )
+			.update()
+	);
+	
+	*/
+	
+	
+}	
+
+		</script>
+	</head>
+	<body onload="init();">
+	
+	</body>
+</html>

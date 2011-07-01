@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<title>Sprite3D.js - Basics - Simple Hierarchy and animation</title>
+
+
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
+		<style>
+		
+html, body { height: 100%; }
+
+body {
+	background-color: white;
+	color: color;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.imageLeft {
+	background: url('img/html5_logo.png') 0px 0px;
+	width: 200px;
+	height: 500px;
+}
+
+.imageRight {
+	background: url('img/html5_logo.png') -200px 0px;
+	width: 200px;
+	height: 500px;
+}
+
+			
+		</style>
+
+		<!-- =========================================================== -->		
+		<!-- JAVASCRIPT SECTION ======================================== -->
+		<!-- =========================================================== -->
+		<script src="js/Sprite3D.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+var stage,
+	container, 
+	t = 0;
+
+function init() {
+	
+	// 1. create the "stage" (root container)
+	stage = Sprite3D.createCenteredContainer();
+	
+	// 2. create the container that will be used to rotate its children, and add it to the stage
+	container = new Sprite3D().setZ(-00).rotateX(-20).update();
+	stage.addChild( container );
+	
+	// 3. create left face
+	container.addChild( 
+		new Sprite3D()
+			.setClassName("imageLeft")
+			.setTransformOrigin( 0, 0 )
+			.setPosition( -100, -250, 100 )
+			.rotateY( -45 )
+			.setRotateFirst(true)
+			.update()
+	);
+	
+	// 4. create right face
+	container.addChild( 
+		new Sprite3D()
+			.setClassName("imageRight")
+			.setTransformOrigin( 0, 0 )
+			.setPosition( -100, -250, 100 )
+			.rotateY( 45 )
+			.setRotateFirst(true)
+			.update()
+	);
+	
+	// 5. set up an interval for rotating the container
+	setInterval( move, 1000 / 40 );
+	
+}	
+
+function move() {
+	// increment the t value, used for angle calculation
+	t += .05;
+	
+	// rotate the container around the X and Y axis, then apply these transformations
+	container
+		.setRotationY( Math.sin(t) * 15 )
+		.setRotationX( Math.cos(t) * 15 - 20 )
+		.update();
+}
+
+		</script>
+	</head>
+	<body onload="init();">
+	
+	</body>
+</html>
