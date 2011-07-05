@@ -112,41 +112,41 @@ a img {
 
 	/* border: 1px solid #DDBBBB; */
 }
+
+div.overview {
+	-moz-column-count: 2;
+	-moz-column-gap: 20px;
+	-webkit-column-count: 2;
+	-webkit-column-gap: 20px;
+	column-count: 2;
+	column-gap: 20px;
+}
 			
 </style>
 
-<!-- =========================================================== -->		
-<!-- JAVASCRIPT SECTION ======================================== -->
-<!-- =========================================================== -->
-<script type="text/javascript">
-
-var debug;
-		
-function init() {
-
-}	
-
-</script>
 </head>
 
 <!-- =========================================================== -->		
 <!-- HTML BODY ================================================= -->
 <!-- =========================================================== -->
 
-<body onload="init();">
+<body>
 	
 	<h1>Sprite3D.js</h1>
 	<p class="baseline">A simple javascript library <br/>to help making things move in 3D space<br/>in webkit browsers using CSS transforms.</p>
 	
 	
 	<h2>Overview</h2>
+	<div class="overview">
 	<p>Sprite3D wraps HTML elements with the necessary behaviours to easily control their <b>3D-position using a simple Javascript syntax</b>. To create a Sprite object, you can either supply an existing DOM object or let the library create an empty <code>&lt;div&gt;</code> (you can apply a CSS class to the DOM element after it's creation).</p>
+	
 	<p>As you manipulate "real" HTML elements, you don't need a <code>&lt;canvas&gt;</code> object (and it's performance problems), nor a WebGL-enabled browser. And, as 3D transforms are hardware-accelerated, you can get a very decent framerate, even on (Apple's) mobile devices.</p>
+	
 	<p>At this stage of development, 3D positionning is achieved via WebKit's CSS 3D transforms, restricting the library usage to <b>Chrome and Safari</b> browsers, as well as <b>iOS's Mobile Safari</b>. However, due to it's wrapping, non-intrusive nature, it allows to build semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
-	<p>
+	
 	<p>Sprite3D.js has <b>no dependencies</b>, so it can easily be integrated with other JS libs. We recommend using the requestAnimationFrame technique
 	(when available, see in the examples) for a more browser-friendly result.</p>
-	
+	</div>
 	
 	<h2>Features</h2>
 	<ul class="features">
@@ -215,6 +215,22 @@ function init() {
 			<p>This example is inspired by <a href="http://paperjs.org/examples/rounded-rectangles/">this one from paperjs</a>. It offers a good comparison between canvas- and DOM-based animation framerates.</p>
 		</li>
 		
+		<li>
+			<a href="examples/flowerExample.htm">
+				<img src="home/flower.png" />
+				<h3>Flower</h3>
+			</a>
+			<p>A bit of recursive hierarchy, CSS classes and a simple rotation. That's all it takes to build a flower. The flower parameters are slightly randomized.</p>
+		</li>	
+		
+		<li>
+			<a href="examples/hoverFlowerExample.htm">
+				<img src="home/flower.png" />
+				<h3>Hover-Flower</h3>
+			</a>
+			<p>Same as above, but it mutates randomly when hovered or touched.</p>
+		</li>		
+		
 	</ul>
 	
 	<h2>Download</h2>
@@ -227,7 +243,7 @@ function init() {
 	<ul>
 		<li>Support for more browsers</li>
 		<li>Support for animated sprites using sprite sheets as background image</li>
-		<li>Providing a decent solution for event handling (right now, it requires iterating through the Sprite's list to find the Sprite associated to the DOM element)</li>
+		<li><strike>Providing a decent solution for event handling (right now, it requires iterating through the Sprite's list to find the Sprite associated to the DOM element)</strike> Stabilise the event handling system.</li>
 	</ul>
 
 	<h2>Credits</h2>

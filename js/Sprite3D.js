@@ -54,6 +54,9 @@ function Sprite3D( element ) {
 	// trigger hardware acceleration even if no property is set
 	element.style.webkitTransform = "translateZ(0px)";	
 	
+	// debug style
+	//element.style.border = '1px solid red';
+	
 	this.domElement = element;
 	this.style = element.style;
 	this.children = [];
@@ -475,7 +478,14 @@ Sprite3D.prototype.findFromDOMElement = function( element ) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.addEventListener = function( event, callback ) {
-	this.domElement.addEventListener( event, callback );
+	// old way, not so satisfying (does not bring the sprite's reference to the callback funcion)
+	//this.domElement.addEventListener( event, callback );
+	
+	// experimental hacking
+	var sprite = this;
+	this.domElement.addEventListener( event, function( e ) {
+		callback( e, sprite );
+	});
 	return this;
 };
 
