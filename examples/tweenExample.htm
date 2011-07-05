@@ -94,33 +94,32 @@ function init() {
 	// create a centered 3D stage
 	stage = Sprite3D.createCenteredContainer();
 	
+	// divide screen
 	stepH = window.innerWidth / 10;
 	stepV = window.innerHeight / 10;
-	
-	//alert( stepH + "x" + stepV);
 	
 	targets = [];
 	var target, img;
 	
 	for( var i = 0; i < numTargets; i++ )
 	{
-		
+		// create an <img> element and set it's source
 		img = document.createElement('img');
 		img.src = "img/sprite.png";
 		
+		// create a sprite3D associated with the <img>
 		target = new Sprite3D(img)
-			//.setOpacity( .3 )
-			//.setClassName( "box" )
 			.setSize( stepH, stepV )
 			.update();
 		stage.addChild( target );
 		targets.push( target );
 
+		// start a tween, and make it call moveAgain() when it's finished
 		Tween.get( target, false 	).to({ 
-			x: Math.floor( Math.random() * 10 - 5 ) * stepH, //Math.random()*900-450,
-			y: Math.floor( Math.random() * 10 - 5 ) * stepV, //Math.random()*700-350,
+			x: Math.floor( Math.random() * 10 - 5 ) * stepH,
+			y: Math.floor( Math.random() * 10 - 5 ) * stepV,
 			z: 0
-		},Math.random()*500+800,Easing.Quadratic.EaseInOut).call(remove);
+		},Math.random()*500+800,Easing.Quadratic.EaseInOut).call(moveAgain);
 	}
 	
 	msg( numTargets + ' tweening png objects');
@@ -130,6 +129,7 @@ function init() {
 	stats.domElement.style.top = '0px';
 	document.body.appendChild(stats.domElement);
 	
+	// keep track of the time to tick the tween engine
 	lastTime = new Date().getTime();
 	
 	document.addEventListener( "touchstart", onTouchStart );
@@ -142,25 +142,19 @@ function onTouchStart( event ) {
 	event.preventDefault();
 }
 
-function remove( tween ) {
+function moveAgain( tween ) {
+	// when the tween is over, start a new one to a random position,
+	// and again, call this function when it's done
 	Tween.get( tween._target, false).to({ 
-		x: Math.floor( Math.random() * 10 - 5 ) * stepH, //Math.random()*900-450,
-		y: Math.floor( Math.random() * 10 - 5 ) * stepV, //Math.random()*700-350,
-		z: 0,//Math.random()*800-400,
+		x: Math.floor( Math.random() * 10 - 5 ) * stepH,
+		y: Math.floor( Math.random() * 10 - 5 ) * stepV,
+		z: 0,
 		rotationY: tween._target.rotationY==180?0:180,
 		rotationX: Math.round( Math.random() ) * 180
-		//width: Math.ceil( Math.random() * 3 ) * stepH,
-		//height: Math.ceil( Math.random() * 2) * stepV
-		/*
-		rotationX: Math.random() * 120 - 60,
-		rotationZ: Math.random() * 120 - 60,
-		rotationY: Math.random() * 120 - 60
-		*/
-	},Math.random()*500+800,Easing.Quadratic.EaseInOut).call(remove);
+	},Math.random()*500+800,Easing.Quadratic.EaseInOut).call(moveAgain);
 }
 
 function animate() {
-	
 	requestAnimationFrame( animate );
 	update();
 	stats.update();
@@ -168,15 +162,13 @@ function animate() {
 
 function update()
 {
+	// manually compute the elapsed time since last screen refresh,
+	// achieving time-based rather than frame-based animation 
 	var newTime = new Date().getTime();
 	Tween.tick( newTime - lastTime );
 	lastTime = newTime;
-	/*
-	for( var i = 0; i < numTargets; i++ )
-	{
-		targets[i].update();		
-	}
-*/
+
+	// update all stage's children at once
 	stage.updateChildrenAll();
 }
 

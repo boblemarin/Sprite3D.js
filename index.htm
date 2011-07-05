@@ -26,7 +26,8 @@ html, body { /*height: 100%;*/ }
 body {
 	background-color: white;
 	color: black;
-	margin: 0px;
+	margin: 0px auto;
+	max-width: 850px;
 	padding: 0px;
 	padding-bottom: 50px;
 	font-family: "Lucida Grande", Geneva, Verdana, Arial, sans-serif;
@@ -34,17 +35,8 @@ body {
 }
 
 h1, h2 {
-	text-shadow: 0px 2px 0px #FFFFFF;
+	text-shadow: 0px 2px 0px #DDDDDD;
 	filter: dropshadow(color=#ffffff, offx=0, offy=2);
-	
-  background-color: #FFFFFF;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#DDDDDD), to(#FFFFFF)); 
-  background-image: -webkit-linear-gradient(top, #DDDDDD, #FFFFFF); 
-  background-image:    -moz-linear-gradient(top, #DDDDDD, #FFFFFF); 
-  background-image:     -ms-linear-gradient(top, #DDDDDD, #FFFFFF); 
-  background-image:      -o-linear-gradient(top, #DDDDDD, #FFFFFF); 
-  background-image:         linear-gradient(top, #DDDDDD, #FFFFFF);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#DDDDDD', EndColorStr='#FFFFFF');
 }
 
 h1 {
@@ -53,6 +45,8 @@ h1 {
 	padding: .5em;
 	margin: 0px;
 	margin-bottom: 40px;
+	color: #DD3333;
+	
 }
 
 h2 {
@@ -60,6 +54,9 @@ h2 {
 	margin: 40px 0px 20px 0px;
 	width: 100%;
 	text-indent: 20px;
+	color: #DD3333;
+	border-bottom: 1px solid #DD3333;
+	clear: both;
 }
 
 p.baseline {
@@ -67,12 +64,10 @@ p.baseline {
 	margin-top: -40px;
 	padding: 0px;
 	text-align: center;
-	max-width: 2000px;
 	/*background: #555;*/
 }
 
 ul, p {
-	max-width: 60em;
 	margin: 1em auto;
 }
 
@@ -84,13 +79,28 @@ ul.features li {
 */
 ul.examples {
 	list-style-type:none;
-	text-align: center;
-	margin: 0px auto; padding: 0px; 
+	/*text-align: center;*/
+	/*margin: 0px auto; 
+	padding: 0px; */
+	padding: 0px;
 }
 
 ul.examples li {
-	margin: 20px 20px;
-	display: inline-block;
+	/*margin: 20px 20px;*/
+	/*display: inline-block;*/
+	clear: both;
+	margin: 40px 20px;
+	border-top: 1px solid #FFF;
+}
+
+ul.examples li a, ul.examples li a h3 {
+	color: #000;
+	text-decoration: none;
+}
+
+ul.examples li img {
+	float: left;
+	margin: 20px 20px 20px 0px;
 }
 
 a img {
@@ -99,6 +109,8 @@ a img {
   -webkit-border-radius: 12px; 
           border-radius: 12px; 
   -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+
+	/* border: 1px solid #DDBBBB; */
 }
 			
 </style>
@@ -128,23 +140,23 @@ function init() {
 	
 	
 	<h2>Overview</h2>
-	<p>Sprite3D wraps HTML elements with the necessary behaviours to easily control their 3D-position using a simple Javascript syntax. To create a Sprite object, you can either supply an existing DOM object or let the library create an empty <code>&lt;div&gt;</code> (you can apply a CSS class to the DOM element after it's creation).</p>
+	<p>Sprite3D wraps HTML elements with the necessary behaviours to easily control their <b>3D-position using a simple Javascript syntax</b>. To create a Sprite object, you can either supply an existing DOM object or let the library create an empty <code>&lt;div&gt;</code> (you can apply a CSS class to the DOM element after it's creation).</p>
 	<p>As you manipulate "real" HTML elements, you don't need a <code>&lt;canvas&gt;</code> object (and it's performance problems), nor a WebGL-enabled browser. And, as 3D transforms are hardware-accelerated, you can get a very decent framerate, even on (Apple's) mobile devices.</p>
-	<p>At this stage of development, 3D positionning is achieved via WebKit's CSS 3D transforms, restricting the library usage to Chrome and Safari browsers, as well as iOS's Mobile Safari. However, due to it's wrapping, non-intrusive nature, it allows to build semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
+	<p>At this stage of development, 3D positionning is achieved via WebKit's CSS 3D transforms, restricting the library usage to <b>Chrome and Safari</b> browsers, as well as <b>iOS's Mobile Safari</b>. However, due to it's wrapping, non-intrusive nature, it allows to build semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
 	<p>
-	<p>Sprite3D.js has no dependencies, so it can easily be integrated with other JS libs. We recommend using the requestAnimationFrame technique
+	<p>Sprite3D.js has <b>no dependencies</b>, so it can easily be integrated with other JS libs. We recommend using the requestAnimationFrame technique
 	(when available, see in the examples) for a more browser-friendly result.</p>
 	
 	
 	<h2>Features</h2>
 	<ul class="features">
-		<li>AS3-style properties : 
+		<li>AS3-style <b>properties</b> : 
 <pre>	x, y, z
 	rotationX, rotationY, rotationZ
 	width, height
 	alpha</pre></li>
-		<li>AS3-style scenography via the <code>addChild()</code> and <code>removeChild()</code> method, children inheriting of their parent's transformations
-		<li>JS-style method chaining :
+		<li>AS3-style <b>scenography</b> via the <code>addChild()</code> and <code>removeChild()</code> method, children inheriting of their parent's transformations
+		<li>JS-style method <b>chaining</b> :
 			<pre>new Sprite3D()
 	.setPosition(x,y,z)
 	.setRotation(rx,ry,rz)
@@ -152,6 +164,64 @@ function init() {
 	.update();</pre></li>
 	</ul>
 	
+	<h2>Examples</h2>
+	<ul class="examples">
+		
+		<li>
+			<a href="examples/basicExample.htm">
+				<img src="home/basic.png" />
+				<h3>Hello World</h3>
+			</a>
+			<p>Basic example, showing how to create a root container, add a single Sprite3D object, apply a CSS class and x-axis rotation.</p>
+		</li>
+		
+		<li>
+			<a href="examples/basicHierarchyExample.htm">
+				<img src="home/basic2.png" />
+				<h3>Hello World 3D</h3>
+			</a>
+			<p>A more advanced version of the first example. A simple 3D object is create using four faces, then animated using it's container's 3D rotation methods.</p>
+		</li>
+		
+		<li>
+			<a href="examples/titleExample.htm">
+				<img src="home/title.jpg" />
+				<h3>Particles (kind of)</h3>
+			</a>
+			<p>Two containers, some png's, some more pure CSS divs, and rotations all the way.</p>
+		</li>
+		
+		<li>
+			<a href="examples/tweenExample.htm">
+				<img src="home/tweens.png" />
+				<h3>Tweening example</h3>
+			</a>
+			<p>Showing how to tween positions and rotations using <a href="https://github.com/gskinner/TweenJS">TweenJS</a>.</p>
+		</li>
+		
+		<li>
+			<a href="examples/eventsExample.htm">
+				<img src="home/nyantouch.jpg" />
+				<h3>Events example</h3>
+			</a>
+			<p>This might be the base for a simple point-and-touch game for the iPad. </p>
+		</li>
+		
+		<li>
+			<a href="examples/psycheExample.htm">
+				<img src="home/psyche.png" />
+				<h3>Round corners example</h3>
+			</a>
+			<p>This example is inspired by <a href="http://paperjs.org/examples/rounded-rectangles/">this one from paperjs</a>. It offers a good comparison between canvas- and DOM-based animation framerates.</p>
+		</li>
+		
+	</ul>
+	
+	<h2>Download</h2>
+	<p>Get <a href="https://github.com/boblemarin/Sprite3D.js">the full project source code on GitHub</a>, or just grab <a href="js/Sprite3D.js">Sprite3D.js here</a>.</p>
+	
+	<h2>Reference</h2>
+	<p>The source code has been commented using the jsDoc syntax. Here is <a href="jsdoc/symbols/Sprite3D.html">the generated reference page</a>.</p>
 	
 	<h2>Future plans</h2>
 	<ul>
@@ -159,27 +229,10 @@ function init() {
 		<li>Support for animated sprites using sprite sheets as background image</li>
 		<li>Providing a decent solution for event handling (right now, it requires iterating through the Sprite's list to find the Sprite associated to the DOM element)</li>
 	</ul>
-	
-	
-	<h2>Download</h2>
-	<p>Get <a href="https://github.com/boblemarin/Sprite3D.js">the full project source code on GitHub</a>, or just grab <a href="js/Sprite3D.js">Sprite3D.js here</a>.</p>
-	
-	
-	<h2>Examples</h2>
-	<ul class="examples">
-		<li><a href="examples/basicExample.htm"><img src="home/basic.png" /></a></li>
-		<li><a href="examples/basicHierarchyExample.htm"><img src="home/basic2.png" /></a></li>
-		<li><a href="examples/titleExample.htm"><img src="home/title.jpg" /></a></li>
-		<li><a href="examples/tweenExample.htm"><img src="home/tweens.png" /></a></li>
-		<li><a href="examples/eventsExample.htm"><img src="home/nyantouch.jpg" /></a></li>
-		<li><a href="examples/psycheExample.htm"><img src="home/psyche.png" /></a></li>
-	</ul>
-	
-	<h2>Reference</h2>
-	<p>The source code has been commented using the jsDoc syntax. Here, you can find <a href="jsdoc/symbols/Sprite3D.html">the generated reference page</a>.</p>
 
 	<h2>Credits</h2>
-	<p>[todo] Thanks to Grant Skinner's Tween.js, MrDoob's Stats utility, Paul Irish's requestAnimationFrame code, Robert Penner's equations....</p>
+	<p>Sprite3D.js has been created by <a href="http://www.minimal.be/">boblemarin</a></p>
+	<p>Thanks to <a href="https://github.com/gskinner/TweenJS/">Grant Skinner's TweenJS</a>, <a href="https://github.com/mrdoob/stats.js">MrDoob's Stats utility</a>, <a href="http://paulirish.com/2011/requestanimationframe-for-smart-animating/">Paul Irish's requestAnimationFrame code</a>.</p>
 	
 </body>
 </html>

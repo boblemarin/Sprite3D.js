@@ -89,7 +89,7 @@ function init() {
 	stage = Sprite3D.createCenteredContainer();
 	
 	// create the container for title letters
-	container = stage.addChild( new Sprite3D().setPosition( 0, -17, 500 ).update() );
+	container = stage.addChild( new Sprite3D().setPosition( 0, -17, 300 ).update() );
 	
 	// create title letters images and sprites, add them to the container
 	var s,e,i,
@@ -114,7 +114,7 @@ function init() {
 	}
 	
 	// create container for the stripes
-	stripeContainer = stage.addChild( new Sprite3D().setPosition( 0, 0, 550 ).update() );
+	stripeContainer = stage.addChild( new Sprite3D().setPosition( 0, 0, 350 ).update() );
 	
 	// create stripes with extreme chaining syntax ;)
 	for ( i = 0; i < numStripes; i++ )
@@ -122,7 +122,7 @@ function init() {
 		stripeContainer.addChild(
 			new Sprite3D()
 				.setClassName( "stripe" )
-				.setOpacity( .2 )
+				.setOpacity( .4 )
 				.setRotateFirst( true )
 				.setRotation( Math.random() * 360, 0, 0 )
 				.setPosition( Math.random() * 200 - 100, Math.random() * 20 - 10, 70 + Math.random() * 60 )
@@ -180,7 +180,7 @@ function update()
 	}
 
 	// apply a very subtle rotation on the stripes container
-	stripeContainer.setRotation( 0, radius * Math.sin( t/2 ), 0 ).update();
+	stripeContainer.setRotation( 0, 20 * Math.sin( t/2 ), 0 ).update();
 	
 	
 	// one could avoid the manual updates like above 

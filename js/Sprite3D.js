@@ -56,6 +56,7 @@ function Sprite3D( element ) {
 	
 	this.domElement = element;
 	this.style = element.style;
+	this.children = [];
 }
 
 /** The X-axis position of the Sprite3D */
