@@ -48,7 +48,7 @@ function Sprite3D( element ) {
 	// prepare for 3D positionning
 	element.style.webkitTransformStyle = "preserve-3d";
 	element.style.margin = "0px";
-	element.style.padding = "0px";
+	//element.style.padding = "0px";
 	element.style.position = "absolute";
 	
 	// trigger hardware acceleration even if no property is set
@@ -329,6 +329,16 @@ Sprite3D.prototype.getClassName = function() {
 };
 
 /**
+ * Allows direct write access to the innerHTML property of the DOM element
+ * @param {string} value The string to write into the innerHTML property
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.setInnerHTML = function( value ) {
+	this.domElement.innerHTML = value;
+	return this;
+};
+
+/**
  * Allows to set a arbitary property value while using the chaining syntax
  * @param {string} label The name of the property
  * @param {object} value The value for that property
@@ -362,7 +372,8 @@ Sprite3D.prototype.update = function() {
 	rz = "rotateZ(" + this.rotationZ + "deg) ";
 	
 	if ( this.rotateFirst )
-		this.style.webkitTransform = rx + ry + rz + p;
+		//this.style.webkitTransform = rx + ry + rz + p;
+		this.style.webkitTransform = rz + ry + rx + p;
 	else
 		this.style.webkitTransform = p + rx + ry + rz;
 		
