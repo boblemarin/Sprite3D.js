@@ -48,7 +48,7 @@ function Sprite3D( element ) {
 	// prepare for 3D positionning
 	element.style.webkitTransformStyle = "preserve-3d";
 	element.style.margin = "0px";
-	//element.style.padding = "0px";
+	element.style.padding = "0px";
 	element.style.position = "absolute";
 	
 	// trigger hardware acceleration even if no property is set
