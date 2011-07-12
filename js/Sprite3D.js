@@ -48,7 +48,7 @@ function Sprite3D( element, flat ) {
 	}
 	
 	// prepare for 3D positionning
-	//element.style.webkitTransformStyle = "preserve-3d"; // <- must find a solution for this line not to appear in the code ???!!!???
+	element.style.webkitTransformStyle = "preserve-3d"; // <- must find a solution for this line not to appear in the code ???!!!???
 	element.style.margin = "0px";
 	element.style.padding = "0px";
 	element.style.position = "absolute";
@@ -541,9 +541,9 @@ Sprite3D.prototype.addEventListener = function( event, callback ) {
 	// old way, not so satisfying (does not bring the sprite's reference to the callback funcion)
 	//this.domElement.addEventListener( event, callback );
 	
-	// experimental hacking
+	// experimental version, allows to get the reference of the target Sprite3D, 
+	// but requires a little bit more work on the removeEventListener method
 	var sprite = this;
-//	var cf = 
 	this.domElement.addEventListener( event, function( e ) {
 		callback( e, sprite );
 	});
@@ -615,4 +615,4 @@ Sprite3D.createTopLeftCenteredContainer = function() {
 Sprite3D.isSupported = function() {
 	// TODO: should be extended when adding support for more browser engines
 	return 'webkitPerspective' in document.body.style;
-}
+};

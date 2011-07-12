@@ -46,15 +46,13 @@ body {
 	color: #FFF;
 	position: absolute;
 	bottom: 0px;
-	left: 0px;
-	width: 100%;
+	right: 20px;
 	font-size: 60px;
 	font-weight: bold;
 	text-align: right;
 	font-family: Geneva, Helvetica, Arial;
 	z-index: 0;
 	opacity: .5;
-	padding-right: 60px;
 }
 
 .box {
@@ -131,8 +129,7 @@ function init() {
 		starContainer.addChild( new Sprite3D()
 			.setClassName("star")
 			.setRotation( 0, Math.random() * 180, Math.random() * 90 )
-//			.setPosition( Math.random() * w - hw, Math.random() * h - hh, 0 )//Math.random()*400 )
-			.setPosition( Math.random() * 1000 - 500, Math.random() * 1000 - 500, Math.random() * 1000 - 500 )//Math.random()*400 )
+			.setPosition( Math.random() * 1000 - 500, Math.random() * 1000 - 500, Math.random() * 1000 - 500 )
 			.setSize( 4, 4 ) 
 			.update()
 		);
@@ -142,20 +139,22 @@ function init() {
 	
 	for( i = 0; i < 4; i++ )
 	{
+		// i wanted to use a animated gif version of the cat,
+		// but it makes Mobile Safari crash when they are displayed at a big size. :(
 		img = document.createElement('img');
 		img.src = "img/cat.png";
-		//img.src = "img/sprite.png";
+		
 		stage.addChild( target = new Sprite3D(img)
 			.setPosition( Math.floor( Math.random() * divs - hdivs ) * stepH, Math.floor( Math.random() * divs - hdivs ) * stepV, 0 )
-			//.setOpacity( .3 )
-//			.setClassName( "box" )
 			.setSize( stepH, stepV ) 
 			.addEventListener( "click", move, true )
 			.addEventListener( "touchstart", move, true )
 			.update()
 		);
 		
-		//target.domElement.innerHTML = ">";// was good for <div>, left for reference
+		// this was good when using <div> elements. 
+		// just left here for reference
+		//target.domElement.innerHTML = ">";
 		
 		numTargets = targets.push( target );
 	}
@@ -196,23 +195,17 @@ function setDivs( d ) {
 
 	
 
-function move( event ) {
-	
-	var t = stage.findFromDOMElement( event.target );
+function move( event, sprite ) {
+//	var t = stage.findFromDOMElement( event.target );
+	var t = sprite;
 	
 	if ( t )
 	{
 		t.rotationY = 360;
 		Tween.get( t, false).to({ 
-			x: Math.floor( Math.random() * divs - hdivs ) * stepH, //Math.random()*900-450,
-			y: Math.floor( Math.random() * divs - hdivs ) * stepV, //Math.random()*700-350,
-			rotationY: 0//t.rotationY==180?0:180,
-			//rotationX: Math.round( Math.random() ) * 180
-			/*
-			rotationX: Math.random() * 120 - 60,
-			rotationZ: Math.random() * 120 - 60,
-			rotationY: Math.random() * 120 - 60
-			*/
+			x: Math.floor( Math.random() * divs - hdivs ) * stepH,
+			y: Math.floor( Math.random() * divs - hdivs ) * stepV,
+			rotationY: 0
 		},500,Easing.Quadratic.EaseOut);
 
 		msg( ++score );
@@ -246,8 +239,9 @@ function update()
 	Tween.tick( newTime - lastTime );
 	lastTime = newTime;
 	
+	// make the star container rotate, 
+	// to get a cheap star field effect
 	starContainer.rotateY(.1);
-//	starContainer.rotationY += 10;
 	
 	// update sprites positions
 	stage.updateChildrenAll();
