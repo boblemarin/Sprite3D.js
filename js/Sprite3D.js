@@ -35,9 +35,11 @@
  * @this {Sprite3D}
  * @param {object} element The DOM element to wrap the Sprite3D object around. When no element is provided, a empty div is created and added to the document.
  */
-function Sprite3D( element ) {
+function Sprite3D( element, flat ) {
 	// private variables
-	var p,rx,ry,rz,i,alpha = 1;
+	var p,rx,ry,rz,i,
+		alpha = 1,
+		listeners = {};
 	
 	// create an empty <div> if no element is provided
 	if ( element == null )
@@ -46,7 +48,7 @@ function Sprite3D( element ) {
 	}
 	
 	// prepare for 3D positionning
-	element.style.webkitTransformStyle = "preserve-3d";
+	//element.style.webkitTransformStyle = "preserve-3d"; // <- must find a solution for this line not to appear in the code ???!!!???
 	element.style.margin = "0px";
 	element.style.padding = "0px";
 	element.style.position = "absolute";
@@ -87,6 +89,11 @@ Sprite3D.prototype.regX = 0;
 Sprite3D.prototype.regY = 0;
 /** The Y-axis registration point of the Sprite3D object used for 3D positionning */
 Sprite3D.prototype.regZ = 0;
+
+/** The width (in pixels) of the tiles in the spritesheet */
+Sprite3D.prototype.tileWidth = 0;
+/** The height (in pixels) of the tiles in the spritesheet */
+Sprite3D.prototype.tileHeight = 0;
 
 /** A reference to the DOM element associated with this Sprite3D object */
 Sprite3D.prototype.domElement;
@@ -290,6 +297,18 @@ Sprite3D.prototype.setSize = function( width, height ) {
 };
 
 /**
+ * Sets the size of the tiles in the spritesheet used as background image
+ * @param {number} width The desired width
+ * @param {number} height The desired height
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.setTileSize = function( width, height ) {
+	this.tileWidth = width;
+	this.tileHeight = height;
+	return this;
+};
+
+/**
  * Sets the opacity of the element
  * This method applies the changes to the style object, so it does not require a call to the update methods
  * @param {number} alpha The desired opacity, ranging from 0 to 1
@@ -338,6 +357,21 @@ Sprite3D.prototype.setInnerHTML = function( value ) {
 	return this;
 };
 
+
+
+/**
+ * Modifies the sprites's background image position to display the selected tile
+ * For this method to work, you are supposed to set a background image and limit the size of the element via CSS,
+ * and use a sprite sheet where all tiles have the same size. No checking is performed on the provided values.
+ * @param {number} tilePosX The horizontal index of the tile to be displayed
+ * @param {number} tilePosY The vertical index of the tile to be displayed
+ * @return {string} The CSS class name
+ */
+Sprite3D.prototype.setTilePosition = function( tilePosX, tilePosY ) {
+	this.style.backgroundPosition = "-"+(tilePosX*this.tileWidth) + "px -" + (tilePosY*this.tileHeight) + "px";
+	return this;
+};
+
 /**
  * Allows to set a arbitary property value while using the chaining syntax
  * @param {string} label The name of the property
@@ -370,7 +404,7 @@ Sprite3D.prototype.update = function() {
 	rx = "rotateX(" + this.rotationX + "deg) ";
 	ry = "rotateY(" + this.rotationY + "deg) ";
 	rz = "rotateZ(" + this.rotationZ + "deg) ";
-	
+
 	if ( this.rotateFirst )
 		//this.style.webkitTransform = rx + ry + rz + p;
 		this.style.webkitTransform = rz + ry + rx + p;
@@ -378,6 +412,20 @@ Sprite3D.prototype.update = function() {
 		this.style.webkitTransform = p + rx + ry + rz;
 		
 	return this;
+	
+	/*
+	future version, more flexible :
+	
+	var transformString = "rx ry rz p";
+	var tt = transformString;
+	tt = tt.replace( "p", p );
+	tt = tt.replace( "rx", rx );
+	tt = tt.replace( "ry", ry );
+	tt = tt.replace( "rz", rz );
+	
+	this.style.webkitTransform = tt;
+	
+	*/
 };
 
 /**
@@ -439,6 +487,7 @@ Sprite3D.prototype.updateWithChildren = function( recursive ) {
  * @return {Sprite3D} The reference to the added Sprite3D object
  */
 Sprite3D.prototype.addChild = function( e ) {
+//	this.style.webkitTransformStyle = "preserve-3d";
 	this.numChildren = this.children.push(e);
 	this.domElement.appendChild( e.domElement );
 	return e;
@@ -452,7 +501,7 @@ Sprite3D.prototype.addChild = function( e ) {
 Sprite3D.prototype.removeChild = function( child ) {
 	var n = this.children.indexOf( child );
 	if ( n > -1 ) {
-		return removeChildAt( n );
+		return this.removeChildAt( n );
 	}
 	return null;
 };
@@ -494,6 +543,7 @@ Sprite3D.prototype.addEventListener = function( event, callback ) {
 	
 	// experimental hacking
 	var sprite = this;
+//	var cf = 
 	this.domElement.addEventListener( event, function( e ) {
 		callback( e, sprite );
 	});
@@ -501,7 +551,7 @@ Sprite3D.prototype.addEventListener = function( event, callback ) {
 };
 
 /**
- * Removes an event listener to the DOM element for the provided event id
+ * Removes an event listener to the DOM element for the provided event id [CURRENTLY BROKEN]
  * @param {string} event The name of the event to watch
  * @param {function} callback The callback function
  * @return {Sprite3D} The reference to this Sprite3D object
@@ -557,3 +607,12 @@ Sprite3D.createTopLeftCenteredContainer = function() {
 	
 	return new Sprite3D(c);
 };
+
+/**
+ * Test for CSS 3D transforms support in the current browser
+ * @return {boolean} True if the 3D transforms are supported by the browser
+ */
+Sprite3D.isSupported = function() {
+	// TODO: should be extended when adding support for more browser engines
+	return 'webkitPerspective' in document.body.style;
+}
