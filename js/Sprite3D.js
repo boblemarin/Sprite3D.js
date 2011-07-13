@@ -1,7 +1,8 @@
 /*
-* Sprite3D by boblemarin
+* Sprite3D.js
 * Visit the internets for documentation, updates and examples.
 * https://github.com/boblemarin/Sprite3D.js
+* http://minimal.be/lab/Sprite3D
 *
 * Copyright (c) 2010 boblemarin http://www.minimal.be
 * 
@@ -111,28 +112,28 @@ Sprite3D.prototype.numChildren = 0;
 Sprite3D.prototype.rotateFirst = false;
 
 /**
- * Sets the X-axis position of the Sprite3D
+ * Sets the X-axis position of the Sprite3D.
  * @param {number} px The position
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setX = function ( px ) { this.x = px; return this; };
 
 /**
- * Sets the Y-axis position of the Sprite3D
+ * Sets the Y-axis position of the Sprite3D.
  * @param {number} py The position
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setY = function ( py ) { this.y = py; return this; };
 
 /**
- * Sets the Z-axis position of the Sprite3D
+ * Sets the Z-axis position of the Sprite3D.
  * @param {number} pz The position
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setZ = function ( pz ) { this.z = pz; return this; };
 
 /**
- * Sets the 3D position of the Sprite
+ * Sets the 3D position of the Sprite.
  * @param {number} px The position on the X-axis
  * @param {number} py The position on the Y-axis
  * @param {number} pz The position on the Z-axis
@@ -146,28 +147,28 @@ Sprite3D.prototype.setPosition = function ( px, py, pz ) {
 };
 
 /**
- * Applies a relative translation in 3D space on the X-axis
+ * Applies a relative translation in 3D space on the X-axis.
  * @param {number} px The value of the translation
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.moveX = function ( px ) { this.x += px; return this; };
 
 /**
- * Applies a relative translation in 3D space on the Y-axis
+ * Applies a relative translation in 3D space on the Y-axis.
  * @param {number} py The value of the translation
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.moveY = function ( py ) { this.y += py; return this; };
 
 /**
- * Applies a relative translation in 3D space on the Z-axis
+ * Applies a relative translation in 3D space on the Z-axis.
  * @param {number} pz The value of the translation
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.moveZ = function ( pz ) { this.z += pz; return this; };
 
 /**
- * Applies a relative translation in 3D space
+ * Applies a relative translation in 3D space.
  * @param {number} px The value of the translation on the X-axis
  * @param {number} py The value of the translation on the Y-axis
  * @param {number} pz The value of the translation on the Z-axis
@@ -183,28 +184,28 @@ Sprite3D.prototype.move = function ( px, py, pz ) {
 
 
 /**
- * Sets the amount of rotation around the X-axis of the Sprite3D
+ * Sets the amount of rotation around the X-axis of the Sprite3D.
  * @param {number} rx The value of the rotation
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setRotationX = function ( rx ) { this.rotationX = rx; return this; };
 
 /**
- * Sets the amount of rotation around the Y-axis of the Sprite3D
+ * Sets the amount of rotation around the Y-axis of the Sprite3D.
  * @param {number} ry The value of the rotation
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setRotationY = function ( ry ) { this.rotationY = ry; return this; };
 
 /**
- * Sets the amount of rotation around the Z-axis of the Sprite3D
+ * Sets the amount of rotation around the Z-axis of the Sprite3D.
  * @param {number} rz The value of the rotation
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setRotationZ = function ( rz ) { this.rotationZ = rz; return this; };
 
 /**
- * Sets the 3D rotation of the Sprite
+ * Sets the 3D rotation of the Sprite.
  * @param {number} rx The rotation around the X-axis
  * @param {number} ry The rotation around the Y-axis
  * @param {number} rz The rotation around the Z-axis
@@ -219,28 +220,28 @@ Sprite3D.prototype.setRotation = function ( rx, ry, rz ) {
 
 
 /**
- * Applies a relative rotation in 3D space around the X-axis
+ * Applies a relative rotation in 3D space around the X-axis.
  * @param {number} rx The value of the rotation
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.rotateX = function ( rx ) { this.rotationX += rx; return this; };
 
 /**
- * Applies a relative rotation in 3D space around the Y-axis
+ * Applies a relative rotation in 3D space around the Y-axis.
  * @param {number} ry The value of the rotation
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.rotateY = function ( ry ) { this.rotationY += ry; return this; };
 
 /**
- * Applies a relative rotation in 3D space around the Z-axis
+ * Applies a relative rotation in 3D space around the Z-axis.
  * @param {number} rz The value of the rotation
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.rotateZ = function ( rz ) { this.rotationZ += rz; return this; };
 
 /**
- * Applies a relative rotation in 3D space
+ * Applies a relative rotation in 3D space.
  * @param {number} rx The value of the rotation around the X-axis
  * @param {number} ry The value of the rotation around the Y-axis
  * @param {number} rz The value of the rotation around the Z-axis
@@ -271,7 +272,7 @@ Sprite3D.prototype.setRegistrationPoint = function( rx, ry, rz ) {
 };
 
 /**
- * Sets the origin of the 3D transforms
+ * Sets the origin of the 3D transforms.
  * By default, CSS transforms are relative to the center of the element.
  * @param {number} px The transform origin value for the X-axis
  * @param {number} py The transform origin value for the Y-axis
@@ -284,7 +285,7 @@ Sprite3D.prototype.setTransformOrigin = function( px, py ) {
 
 
 /**
- * Sets the size of the HTML element linked to the Sprite3D object
+ * Sets the size of the HTML element linked to the Sprite3D object.
  * This method applies the changes to the style object, so it does not require a call to the update methods
  * @param {number} width The desired width
  * @param {number} height The desired height
@@ -297,7 +298,7 @@ Sprite3D.prototype.setSize = function( width, height ) {
 };
 
 /**
- * Sets the size of the tiles in the spritesheet used as background image
+ * Sets the size of the tiles in the spritesheet used as background image.
  * @param {number} width The desired width
  * @param {number} height The desired height
  * @return {Sprite3D} The reference to this Sprite3D object
@@ -309,7 +310,7 @@ Sprite3D.prototype.setTileSize = function( width, height ) {
 };
 
 /**
- * Sets the opacity of the element
+ * Sets the opacity of the element.
  * This method applies the changes to the style object, so it does not require a call to the update methods
  * @param {number} alpha The desired opacity, ranging from 0 to 1
  * @return {Sprite3D} The reference to this Sprite3D object
@@ -320,7 +321,7 @@ Sprite3D.prototype.setOpacity = function( alpha ) {
 };
 
 /**
- * Returns the opacity of the element
+ * Returns the opacity of the element.
  * @return {number} The opacity of the element
  */
 Sprite3D.prototype.getOpacity = function() {
@@ -328,8 +329,9 @@ Sprite3D.prototype.getOpacity = function() {
 };
 
 /**
- * Sets the CSS class name of the DOM element associated with the Sprite3D object
- * This method applies the changes to the style object, so it does not require a call to the update methods
+ * Sets the CSS class name of the DOM element associated with the Sprite3D object.
+ * When applying multiple class names, provide a single string with space-separated class names like you would do in pure CSS manipulation.
+ * This method does not require a call to the update methods.
  * @param {string} className The name of the class
  * @return {Sprite3D} The reference to this Sprite3D object
  */
@@ -339,8 +341,7 @@ Sprite3D.prototype.setClassName = function( className ) {
 };
 
 /**
- * Returns the name of the CSS class of the DOM element
- * When applying multiple class names, provide a single string with space-separated class names like you would do in pure CSS manipulation
+ * Returns the name of the CSS class of the DOM element.
  * @return {string} The CSS class name
  */
 Sprite3D.prototype.getClassName = function() {
@@ -348,7 +349,51 @@ Sprite3D.prototype.getClassName = function() {
 };
 
 /**
- * Allows direct write access to the innerHTML property of the DOM element
+ * Sets the ID of the DOM element in the document.
+ * This method is just a helper allowing neverending chaining in the Sprite3D creation syntax.
+ * You can also simply access the <code>domElement</code> property of the Sprite3D and set it's <code>id</code> property.
+ * This method does not require a call to the update methods.
+ * @param {string} id The ID
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.setId = function( id ) {
+	this.domElement.id = id;
+	return this;
+};
+
+/**
+ * Returns the ID of the DOM element associated with the Sprite3D.
+ * @return {string} The CSS class name
+ */
+Sprite3D.prototype.getId = function() {
+	return this.domElement.id;
+};
+
+/**
+ * Allows to set any value in any CSS property of the style object of the DOM element.
+ * This method is just a helper allowing neverending chaining in the Sprite3D creation syntax.
+ * For one time modifications, you can simply use the <code>style</code> property of the Sprite3D.
+ * This method does not require a call to the update methods.
+ * @param {string} name The name of the CSS property in which the value will be stored
+ * @param {string} value The value to assign to the property
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.setCSS = function( name, value ) {
+	this.domElement.style[name] = value;
+	return this;
+};
+
+/**
+ * Returns the value assigned to the provided CSS property.
+ * @param {string} name The name of the property to get the value from
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.getCSS = function( name ) {
+	return this.domElement.style[name];
+};
+
+/**
+ * Allows direct write access to the innerHTML property of the DOM element.
  * @param {string} value The string to write into the innerHTML property
  * @return {Sprite3D} The reference to this Sprite3D object
  */
@@ -360,8 +405,8 @@ Sprite3D.prototype.setInnerHTML = function( value ) {
 
 
 /**
- * Modifies the sprites's background image position to display the selected tile
- * For this method to work, you are supposed to set a background image and limit the size of the element via CSS,
+ * Modifies the sprites's background image position to display the selected tile.
+ * For this method to work, you are supposed to set a background image and limit the size of the element using CSS styles,
  * and use a sprite sheet where all tiles have the same size. No checking is performed on the provided values.
  * @param {number} tilePosX The horizontal index of the tile to be displayed
  * @param {number} tilePosY The vertical index of the tile to be displayed
@@ -373,7 +418,7 @@ Sprite3D.prototype.setTilePosition = function( tilePosX, tilePosY ) {
 };
 
 /**
- * Allows to set a arbitary property value while using the chaining syntax
+ * Allows to set a arbitary property value while using the chaining syntax.
  * @param {string} label The name of the property
  * @param {object} value The value for that property
  * @return {Sprite3D} The reference to this Sprite3D object
@@ -384,9 +429,9 @@ Sprite3D.prototype.setProperty = function( label, value ) {
 };
 
 /**
- * Sets the order in which transformations are applied
+ * Sets the order in which transformations are applied.
  * If true, rotations are applied before translations. If false, translations are applied before rotations.
- * Note that, when applying rotations, the axis of the object rotate, and subsequent translations follow the modified orientation of the axis
+ * Note that, when applying rotations, the axis of the object rotate, and subsequent translations follow the modified orientation of the axis.
  * @param {boolean} rf true to rotate first, false to translate first
  * @return {Sprite3D} The reference to this Sprite3D object
  */
@@ -396,7 +441,7 @@ Sprite3D.prototype.setRotateFirst = function( rf ) {
 };
 
 /**
- * Applies position and rotation values
+ * Applies position and rotation values.
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.update = function() { 
@@ -429,7 +474,7 @@ Sprite3D.prototype.update = function() {
 };
 
 /**
- * Applies position and rotation values, as well as opacity and size
+ * Applies position and rotation values, as well as opacity and size.
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.updateAll = function() { 
@@ -442,7 +487,7 @@ Sprite3D.prototype.updateAll = function() {
 
 
 /**
- * Calls the update() method on every child of the Sprite3D object
+ * Calls the update() method on every child of the Sprite3D object.
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.updateChildren = function() { 
@@ -453,7 +498,7 @@ Sprite3D.prototype.updateChildren = function() {
 };
 
 /**
- * Calls the updateAll() method on every child of the Sprite3D object
+ * Calls the updateAll() method on every child of the Sprite3D object.
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.updateChildrenAll = function() { 
@@ -464,7 +509,7 @@ Sprite3D.prototype.updateChildrenAll = function() {
 };
 
 /**
- * Updates itself, then calls the update() method on every child of the Sprite3D object
+ * Updates itself, then calls the update() method on every child of the Sprite3D object.
  * @param {boolean} recursive If set to true, make the update call recursive, update every child's children
  * @return {Sprite3D} The reference to this Sprite3D object
  */
@@ -532,7 +577,7 @@ Sprite3D.prototype.findFromDOMElement = function( element ) {
 };
 
 /**
- * Adds an event listener to the DOM element for the provided event id
+ * Adds an event listener to the DOM element for the provided event id.
  * @param {string} event The name of the event to watch
  * @param {function} callback The callback function
  * @return {Sprite3D} The reference to this Sprite3D object
@@ -551,7 +596,7 @@ Sprite3D.prototype.addEventListener = function( event, callback ) {
 };
 
 /**
- * Removes an event listener to the DOM element for the provided event id [CURRENTLY BROKEN]
+ * Removes an event listener to the DOM element for the provided event id [CURRENTLY BROKEN].
  * @param {string} event The name of the event to watch
  * @param {function} callback The callback function
  * @return {Sprite3D} The reference to this Sprite3D object
@@ -563,7 +608,7 @@ Sprite3D.prototype.removeEventListener = function( event, callback ) {
 	
 
 /**
- * Creates a centered empty HTML div element to be used as root container for the other Sprite3D objects
+ * Creates a centered empty HTML div element to be used as root container for the other Sprite3D objects.
  * @return {Sprite3D} The created Sprite3D object
  */
 Sprite3D.createCenteredContainer = function() {
@@ -585,7 +630,7 @@ Sprite3D.createCenteredContainer = function() {
 };
 
 /**
- * Creates a top-left aligned empty HTML div element to be used as root container for the other Sprite3D objects
+ * Creates a top-left aligned empty HTML div element to be used as root container for the other Sprite3D objects.
  * @return {Sprite3D} The created Sprite3D object
  */
 Sprite3D.createTopLeftCenteredContainer = function() {
@@ -609,7 +654,7 @@ Sprite3D.createTopLeftCenteredContainer = function() {
 };
 
 /**
- * Test for CSS 3D transforms support in the current browser
+ * Test for CSS 3D transforms support in the current browser.
  * @return {boolean} True if the 3D transforms are supported by the browser
  */
 Sprite3D.isSupported = function() {

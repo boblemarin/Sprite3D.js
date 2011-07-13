@@ -149,19 +149,39 @@ div.overview {
 	</div>
 	
 	<h2>Features</h2>
+	
 	<ul class="features">
+		
 		<li>AS3-style <b>properties</b> : 
 <pre>	x, y, z
 	rotationX, rotationY, rotationZ
 	width, height
 	alpha</pre></li>
+	
 		<li>AS3-style <b>scenography</b> via the <code>addChild()</code> and <code>removeChild()</code> method, children inheriting of their parent's transformations
+			
 		<li>JS-style method <b>chaining</b> :
 			<pre>new Sprite3D()
 	.setPosition(x,y,z)
 	.setRotation(rx,ry,rz)
 	.setClassName('class')
 	.update();</pre></li>
+	
+		<li>Basic support for sprite sheets. At this point, all the tiles must have the same size (for one Sprite).
+<pre>/* CSS : */
+.spriteClass {
+	background: url("img/sheet.png");
+	width: 32px;
+	height: 64px;
+}
+
+/* JS : */
+// one-time set-up :
+mySprite.setClassName("spriteClass").setTileSize( 32, 64 );
+// then, later :
+mySprite.setTilePosition( 0, 3 );
+</pre>
+			</li>
 	</ul>
 	
 	<h2>Examples</h2>
@@ -262,6 +282,15 @@ div.overview {
 			</a>
 			<p>Porting your favorites old school games to HTML 5 is just a no-brainer with Sprite3D.js (just kidding). <em>Chrome has some rendering problems with this one, but [Mobile] Safari doesn't care.</em></p>
 		</li>
+		
+		<li>
+			<a href="examples/slideExample.htm">
+				<img src="home/slide.png" />
+				<h3>Slide it !</h3>
+			</a>
+			<p>Quick prototype for a classic game. <em>I still have to add tweens to make it more polished.</em></p>
+		</li>
+		
 	</ul>
 	
 	<h2>Download</h2>
@@ -273,7 +302,7 @@ div.overview {
 	<h2>Future plans</h2>
 	<ul>
 		<li>Support for more browsers</li>
-		<li>Support for animated sprites using sprite sheets as background image</li>
+		<li>Improve support for animated sprites (automating animations playback or what ? Suggestions welcome...)</li>
 		<li><strike>Providing a decent solution for event handling (right now, it requires iterating through the Sprite's list to find the Sprite associated to the DOM element)</strike> Stabilise the event handling system.</li>
 	</ul>
 
