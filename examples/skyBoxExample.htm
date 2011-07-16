@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!--
+		Sprite3D.js example file
+		Visit the internets for documentation, updates and examples.
+		https://github.com/boblemarin/Sprite3D.js
+		http://minimal.be/lab/Sprite3D
+
+		Copyright (c) 2010 boblemarin http://www.minimal.be
+
+		Permission is hereby granted, free of charge, to any person
+		obtaining a copy of this software and associated documentation
+		files (the "Software"), to deal in the Software without
+		restriction, including without limitation the rights to use,
+		copy, modify, merge, publish, distribute, sublicense, and/or sell
+		copies of the Software, and to permit persons to whom the
+		Software is furnished to do so, subject to the following
+		conditions:
+
+		The above copyright notice and this permission notice shall be
+		included in all copies or substantial portions of the Software.
+
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+		EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+		OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+		NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+		HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+		WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+		FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+		OTHER DEALINGS IN THE SOFTWARE.
+		-->
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<title>Sprite3D.js - SkyBox</title>
+
+
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
+		<style>
+		
+html, body { height: 100%; }
+
+body {
+	background-color: black;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+#note {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	text-align: center;
+	color: #AAA;
+	z-index: 100;
+}
+
+a {
+	color: #AAA;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.face {
+	background: url('img/tfh-skybox-hi.jpg');
+	background-size: 2000px 1500px;
+	width: 500px;
+	height: 500px;
+/*opacity: .3;*/
+}
+
+.top { background-position: -500px 0px; }
+.bottom { background-position: -500px -1000px; }
+.front { background-position: -500px -500px; }
+.back { background-position: -1500px -500px; }
+.left { background-position: 0px -500px; }
+.right { background-position: -1000px -500px; }
+			
+		</style>
+
+		<!-- =========================================================== -->		
+		<!-- JAVASCRIPT SECTION ======================================== -->
+		<!-- =========================================================== -->
+		<script src="../js/Sprite3D.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+var stage,
+	container, 
+	t = 0,
+	fs = 500,
+	rx = 0,
+	ry = 0,
+	tx = 0, ty = 0,
+	hfs = fs/2;
+
+function init() {
+	
+	// create the "stage" (root container)
+	stage = Sprite3D.createCenteredContainer();
+	stage.domElement.style.zIndex = 1;
+	// create the container that will be used to rotate its children, and add it to the stage
+	container = new Sprite3D().rotateX(-15).setZ(700).update();
+	stage.addChild( container );
+	
+	// create front face
+	container.addChild( 
+		new Sprite3D()
+			.setClassName("face front")
+			.setRotateFirst(true)
+			.setPosition(-hfs,-hfs,hfs)
+			.update()
+	);
+	
+	// create back face
+	container.addChild( 
+		new Sprite3D()
+			.setClassName("face back")
+			.setRotateFirst(true)
+			.rotateY(180)
+			.setPosition(hfs,-hfs,hfs)
+			.update()
+	);
+
+	// create left face
+	container.addChild( 
+		new Sprite3D()
+			.setClassName("face left")
+			.setRotateFirst(true)
+			.rotateY(-90)
+			.setPosition(0,-hfs,fs)
+			.update()
+	);
+	
+	// create right face
+	container.addChild( 
+		new Sprite3D()
+			.setClassName("face right")
+			.setRotateFirst(true)
+			.rotateY(90)
+			.setPosition(0,-hfs,0)
+			.update()
+	);
+	
+	// create bottom face
+	container.addChild( 
+		new Sprite3D()
+			.setClassName("face bottom")
+			.setRotateFirst(true)
+			.rotateX(90)
+			.setPosition(-hfs,-0,0)
+			.update()
+	);
+	
+	// create top face
+	container.addChild( 
+		new Sprite3D()
+			.setClassName("face top")
+			.setRotateFirst(true)
+			.rotateX(90)
+			.setPosition(-hfs,-0,fs)
+			.update()
+	);
+	
+	document.addEventListener( 'mousemove', onMouseMove );
+	document.addEventListener( 'touchmove', onTouchMove );
+	document.addEventListener( 'touchstart', onTouchStart );
+		
+	// 7. set up an interval for rotating the container
+	// (should be done using requestAnimationFrame, but this page tries to keep the code very simple)
+	setInterval( move, 1000 / 40 );
+	
+}	
+
+function onMouseMove( event ) {
+	rx = ( event.pageY / window.innerHeight ) - .5;
+	ry = ( event.pageX / window.innerWidth ) - .5;
+	//event.preventDefault();
+}
+
+function onTouchStart( event ) {
+	var t = event.changedTouches[0];
+	rx = ( -t.pageY / window.innerHeight ) + .5;
+	ry = ( -t.pageX / window.innerWidth ) + .5;
+	//event.preventDefault();
+}
+
+function onTouchMove( event ) {
+	var t = event.changedTouches[0];
+	rx = ( -t.pageY / window.innerHeight ) + .5;
+	ry = ( -t.pageX / window.innerWidth ) + .5;
+	event.preventDefault();
+}
+
+function move() {
+	//tx = (tx + rx)/2.0;
+	//ty = (ty + ry)/2.0;
+	
+	// rotate the container around the X and Y axis, then apply these transformations
+	container
+		.setRotationX( rx * -160.0 )
+		.setRotationY( ry * 360.0 )
+		.update();
+}
+
+		</script>
+	</head>
+	<body onload="init();">
+		<div id="note">Skybox image taken from <a href="http://www.tweetsforhonor.com/">Tweets for Honor</a> by <a href="http://epicagency.net/">Epic Web Agency</a></div>
+		<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+		try {
+		var pageTracker = _gat._getTracker("UA-9528692-4");
+		pageTracker._trackPageview();
+		} catch(err) {}</script>
+	</body>
+</html>

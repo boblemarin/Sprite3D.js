@@ -1,0 +1,12 @@
+#html
+slideExample.htm
+
+#js
+../js/RequestAnimationFrame.js
+../js/Tween.js
+../js/Easing.js
+../js/Sprite3D.js
+
+#images
+img/pattern.png
+img/country-cat.png

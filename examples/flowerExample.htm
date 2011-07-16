@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!--
+		Sprite3D.js example file
+		Visit the internets for documentation, updates and examples.
+		https://github.com/boblemarin/Sprite3D.js
+		http://minimal.be/lab/Sprite3D
+
+		Copyright (c) 2010 boblemarin http://www.minimal.be
+
+		Permission is hereby granted, free of charge, to any person
+		obtaining a copy of this software and associated documentation
+		files (the "Software"), to deal in the Software without
+		restriction, including without limitation the rights to use,
+		copy, modify, merge, publish, distribute, sublicense, and/or sell
+		copies of the Software, and to permit persons to whom the
+		Software is furnished to do so, subject to the following
+		conditions:
+
+		The above copyright notice and this permission notice shall be
+		included in all copies or substantial portions of the Software.
+
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+		EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+		OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+		NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+		HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+		WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+		FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+		OTHER DEALINGS IN THE SOFTWARE.
+		-->
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<title>Sprite3D.js - Flower - More hierarchy and animation</title>
+
+
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
+		<style>
+		
+html, body { height: 100%; }
+
+body {
+	background-color: white;
+	color: color;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.part0 {
+	width: 10px;
+	height: 20px;
+	background-color: #88FF88;
+}
+.part1 {
+	width: 10px;
+	height: 20px;
+	background-color: #FF8888;
+}
+.part2 {
+	width: 10px;
+	height: 20px;
+	opacity: .85;
+	background-color: #FF88FF;
+}
+
+#debug {
+	color: #000;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	text-align: center;
+	font-family: courier;
+}		
+
+q {
+	display: inline-block;
+	padding: 10px	;
+}
+		</style>
+
+		<!-- =========================================================== -->		
+		<!-- JAVASCRIPT SECTION ======================================== -->
+		<!-- =========================================================== -->
+		<script type="text/javascript" src="../js/RequestAnimationFrame.js"></script>
+		<script type="text/javascript" src="../js/Stats.js"></script>
+		<script src="../js/Sprite3D.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+var stage,
+	debug,
+	container, 
+	stats,
+	n = 0,
+	t = 0;
+
+function init() {
+	debug = document.getElementById("debug");
+	
+	// 1. create the "stage" (root container)
+	stage = Sprite3D.createCenteredContainer();
+	
+	// 2. create the container that will be used to rotate its children, and add it to the stage
+	container = new Sprite3D().rotateX(180).setPosition(0, 100, 200 ).update();
+	//container = new Sprite3D().rotateX(-45).setPosition(0, 0, 200 ).update();
+	stage.addChild( container );
+	
+	// 3. call helper functions to create the flower ( 3 parts )
+	addRing( 
+		container, 
+		8 + Math.round( Math.random() * 10 ), 
+		4 + Math.round( Math.random() * 4 ), 
+		15 + Math.round( Math.random() * 9 ), 
+		22, 
+		"part0"
+	);
+	addRing( 
+		container, 
+		8 + Math.round( Math.random() * 10 ), 
+		5 + Math.round( Math.random() * 8 ), 
+		5 + Math.round( Math.random() * 12 ),
+		20, 
+		"part1" 
+	);
+	addRing( 
+		container, 
+		8 + Math.round( Math.random() * 10 ), 
+		5 + Math.round( Math.random() * 8 ), 
+		5 + Math.round( Math.random() * 12 ),
+		10, 
+		"part2" 
+	);
+	
+	/*
+	addRing( container, 12, 6, 20, 22, "part0" );
+	addRing( container, 16, 10, 8, 20, "part1" );
+	addRing( container, 20, 8, 5, 10, "part2" );
+	*/
+	msg( n + ' divs, <a href="flowerExample.htm">refresh</a>' )
+	
+	stats = new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.top = '0px';
+	document.body.appendChild(stats.domElement);
+	
+	
+	animate();
+	
+}	
+
+function addRing( container, divisions, iterations, angle, zOffset, className ) {
+	var c, step = 360 / divisions;
+	for( var i = 0; i < divisions; i++ ) {
+		c = container.addChild( 
+			new Sprite3D()
+				.setTransformOrigin( "5px", "0px" )
+				.setRotationY( i * step )
+				.setZ(zOffset)
+				.setRotateFirst(true)
+				.update()
+		);
+		addLine( c, iterations, angle, className );
+		++n;
+	}
+}
+
+function addLine( container, iterations, angle, className ) {
+	for( var i = 0; i < iterations; i++ )
+	{
+		container = container.addChild( 
+			new Sprite3D()
+				.setClassName(className)
+				.setTransformOrigin( "5px", "0px" )
+				.setPosition( 0, 20, 0 )
+				.rotateX( angle )
+				.setRotateFirst(false)
+				.update()
+		);
+		++n;
+	}
+}
+
+function animate() {
+	requestAnimationFrame( animate );
+	update();
+	stats.update();
+}
+
+function update() {
+	// increment the t value, used for angle calculation
+	t += .02;
+	
+	// rotate the container around the X and Y axis, then apply these transformations
+	container
+		.rotateY( -1.25 )
+		.setRotationX( Math.cos(t) * 23 + 155 )
+		.update();
+}
+
+function msg( t )
+{
+	debug.innerHTML = t;
+}
+
+
+
+		</script>
+	</head>
+	<body onload="init();">
+		<div id="debug"></div>
+		<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+		try {
+		var pageTracker = _gat._getTracker("UA-9528692-4");
+		pageTracker._trackPageview();
+		} catch(err) {}</script>
+	</body>
+</html>
