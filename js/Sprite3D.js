@@ -4,7 +4,7 @@
 * https://github.com/boblemarin/Sprite3D.js
 * http://minimal.be/lab/Sprite3D
 *
-* Copyright (c) 2010 boblemarin http://www.minimal.be
+* Copyright (c) 2010 boblemarin emeric@minimal.be http://www.minimal.be
 * 
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
@@ -38,7 +38,7 @@
  */
 function Sprite3D(element) {
     // private variables
-    var p,
+    var p,s,
     rx,
     ry,
     rz,
@@ -54,7 +54,6 @@ function Sprite3D(element) {
 
     // prepare for 3D positionning
     element.style.webkitTransformStyle = "preserve-3d";
-    // <- must find a solution for this line not to appear in the code ???!!!???
     element.style.margin = "0px";
     element.style.padding = "0px";
     element.style.position = "absolute";
@@ -82,6 +81,13 @@ Sprite3D.prototype.rotationX = 0;
 Sprite3D.prototype.rotationY = 0;
 /** The Z-axis rotation of the Sprite3D */
 Sprite3D.prototype.rotationZ = 0;
+
+/** The X-axis scale of the Sprite3D */
+Sprite3D.prototype.scaleX = 1;
+/** The Y-axis scale of the Sprite3D */
+Sprite3D.prototype.scaleY = 1;
+/** The Z-axis scale of the Sprite3D */
+Sprite3D.prototype.scaleZ = 1;
 
 /** The width of the HTML element associated with the Sprite3D object */
 Sprite3D.prototype.width = 0;
@@ -294,6 +300,49 @@ Sprite3D.prototype.rotate = function(rx, ry, rz) {
     return this;
 };
 
+/**
+ * Sets the scaling of the Sprite3D object on the X-axis.
+ * @param {Number} sx The value of the scaling on the X-axis
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.setScaleX = function( sx ) {
+	this.scaleX = sx;
+	return this;
+}
+
+/**
+ * Sets the scaling of the Sprite3D object on the Y-axis.
+ * @param {Number} sy The value of the scaling on the Y-axis
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.setScaleY = function( sy ) {
+	this.scaleY = sy;
+	return this;
+}
+
+/**
+ * Sets the scaling of the Sprite3D object on the Z-axis.
+ * @param {Number} sz The value of the scaling on the Z-axis
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.setScaleZ = function( sz ) {
+	this.scaleZ = sz;
+	return this;
+}
+
+/**
+ * Sets the scaling of the Sprite3D object on the 3 axis.
+ * @param {Number} sx The value of the scaling on the X-axis
+ * @param {Number} sy The value of the scaling on the Y-axis
+ * @param {Number} sz The value of the scaling on the Z-axis
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.setScale = function( sx, sy, sz ) {
+	this.scaleX = sx;
+	this.scaleY = sy;
+	this.scaleZ = sz;
+	return this;
+}
 
 /**
  * Sets the registrations point for the Sprite3D object. 
@@ -325,7 +374,9 @@ Sprite3D.prototype.setTransformOrigin = function(px, py) {
 
 
 /**
- * Sets the size of the HTML element linked to the Sprite3D object.
+ * Sets the size of the HTML element linked to the Sprite3D object, using the width and height css properties.
+ * Note that animating using these properties does not provide an optimal performance.
+ * You should rather try to use CSS scale using the scale() method
  * This method applies the changes to the style object, so it does not require a call to the update methods
  * @param {Number} width The desired width
  * @param {Number} height The desired height
@@ -334,18 +385,6 @@ Sprite3D.prototype.setTransformOrigin = function(px, py) {
 Sprite3D.prototype.setSize = function(width, height) {
     this.style.width = (this.width = width) + "px";
     this.style.height = (this.height = height) + "px";
-    return this;
-};
-
-/**
- * Sets the size of the tiles in the spritesheet used as background image.
- * @param {Number} width The desired width
- * @param {Number} height The desired height
- * @return {Sprite3D} The reference to this Sprite3D object
- */
-Sprite3D.prototype.setTileSize = function(width, height) {
-    this.tileWidth = width;
-    this.tileHeight = height;
     return this;
 };
 
@@ -372,7 +411,7 @@ Sprite3D.prototype.getOpacity = function() {
  * Sets the CSS class name of the DOM element associated with the Sprite3D object.
  * When applying multiple class names, provide a single string with space-separated class names like you would do in pure CSS manipulation.
  * This method does not require a call to the update methods.
- * @param {String} className The name of the class
+ * @param {String} className The name of the class to be set
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setClassName = function(className) {
@@ -386,6 +425,29 @@ Sprite3D.prototype.setClassName = function(className) {
  */
 Sprite3D.prototype.getClassName = function() {
     return this.domElement.className;
+};
+
+/**
+ * Adds a CSS class to the DOM element
+ * This method does not require a call to the update methods.
+ * @param {String} className The name of the class to be added
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.addClassName = function(className) {
+ 	this.domElement.className += " " + className + " ";
+    return this;
+};
+
+/**
+ * [BETA] Removes a CSS class from the DOM element
+ * This method does not require a call to the update methods.
+ * @param {String} className The name of the class to be removed
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.removeClassName = function(className) {
+	this.domElement.className = this.domElement.className.replace(className, '');
+    //this.domElement.className += " " + className;
+    return this;
 };
 
 /**
@@ -443,6 +505,17 @@ Sprite3D.prototype.setInnerHTML = function(value) {
 };
 
 
+/**
+ * Sets the size of the tiles in the spritesheet used as background image.
+ * @param {Number} width The desired width
+ * @param {Number} height The desired height
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.setTileSize = function(width, height) {
+    this.tileWidth = width;
+    this.tileHeight = height;
+    return this;
+};
 
 /**
  * Modifies the sprites's background image position to display the selected tile.
@@ -485,16 +558,17 @@ Sprite3D.prototype.setRotateFirst = function(rf) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.update = function() {
-    p = "translate3D(" + (this.x - this.regX) + "px," + (this.y - this.regY) + "px," + (this.z - this.regZ) + "px) ";
+    p = "translate3d(" + (this.x - this.regX) + "px," + (this.y - this.regY) + "px," + (this.z - this.regZ) + "px) ";
     rx = "rotateX(" + this.rotationX + "deg) ";
     ry = "rotateY(" + this.rotationY + "deg) ";
     rz = "rotateZ(" + this.rotationZ + "deg) ";
+	s = "scale3d(" + this.scaleX + ", " + this.scaleY + ", " + this.scaleX + ") ";
 
     if (this.rotateFirst)
     //this.style.webkitTransform = rx + ry + rz + p;
-    this.style.webkitTransform = rz + ry + rx + p;
+    this.style.webkitTransform = rz + ry + rx + p + s;
     else
-    this.style.webkitTransform = p + rx + ry + rz;
+    this.style.webkitTransform = p + rx + ry + rz + s;
 
     return this;
 
