@@ -17,27 +17,4 @@ Sprite3D.js has no dependencies, so it can be easily integrated with other JS li
 
 
 
-Features
-
-	- AS3-style properties :
-		x, y, z
-		rotationX, rotationY, rotationZ
-		width, height
-		alpha
-	
-	- AS3-style scenography via the addChild() and removeChild() method, children inheriting of their parent's transformations
-
-	- JS-style method chaining :
-		new Sprite3D()
-			.setPosition(x,y,z)
-			.setRotation(rx,ry,rz)
-			.setClassName('class')
-			.update();
-	
-	
-	
-Future plans
-
-	- Support for more browsers
-	- Support for animated sprites using sprite sheets as background image
-	- Providing a decent solution for event handling (right now, it requires iterating through the Sprite's list to find the Sprite associated to the DOM element)
+Check the provided examples for usage information.

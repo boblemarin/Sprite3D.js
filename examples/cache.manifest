@@ -1,12 +1,10 @@
-#html
-slideExample.htm
+CACHE MANIFEST
 
-#js
-../js/RequestAnimationFrame.js
-../js/Tween.js
-../js/Easing.js
-../js/Sprite3D.js
-
-#images
-img/pattern.png
-img/country-cat.png
+http://www.minimal.be/lab/Sprite3D/examples/slideExample.htm
+http://www.minimal.be/lab/Sprite3D/js/RequestAnimationFrame.js
+http://www.minimal.be/lab/Sprite3D/js/Tween.js
+http://www.minimal.be/lab/Sprite3D/js/Easing.js
+http://www.minimal.be/lab/Sprite3D/js/Sprite3D.js
+http://www.google-analytics.com/ga.js
+http://www.minimal.be/lab/Sprite3D/examples/img/pattern.png
+http://www.minimal.be/lab/Sprite3D/examples/img/country-cat.png

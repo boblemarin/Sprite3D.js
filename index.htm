@@ -2,22 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-
 <meta name='HandheldFriendly' content='True' />
 <meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
 
-
 <title>Sprite3D.js, a javascript library for 3D positionning in WebKit</title>
-
-<!--
-<link rel="stylesheet" href="styles.css" media="screen">
-<script src="jquery-1.6.1.min.js" type="text/javascript"></script>
-<script src="logs.js" type="text/javascript"></script>
--->
-		
-<!-- =========================================================== -->		
-<!-- CSS SECTION =============================================== -->
-<!-- =========================================================== -->
 
 <style>
 		
@@ -72,22 +60,17 @@ ul, p {
 }
 
 p { padding: 0px 20px; }
-/*
+
 ul.features li {
-	margin: 15px;
+	margin-bottom: 45px;
 }
-*/
+
 ul.examples {
 	list-style-type:none;
-	/*text-align: center;*/
-	/*margin: 0px auto; 
-	padding: 0px; */
 	padding: 0px;
 }
 
 ul.examples li {
-	/*margin: 20px 20px;*/
-	/*display: inline-block;*/
 	clear: both;
 	margin: 40px 20px;
 	border-top: 1px solid #FFF;
@@ -104,39 +87,40 @@ ul.examples li img {
 }
 
 a img {
-	
      -moz-border-radius: 12px; 
   -webkit-border-radius: 12px; 
           border-radius: 12px; 
   -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+}
 
-	/* border: 1px solid #DDBBBB; */
+ul.menu {
+	list-style-type: none;
+	text-align: center;
 }
-/*
-div.overview {
-	-moz-column-count: 2;
-	-moz-column-gap: 20px;
-	-webkit-column-count: 2;
-	-webkit-column-gap: 20px;
-	column-count: 2;
-	column-gap: 20px;
+
+ul.menu li {
+	display: inline-block;
+	margin: 20px;
 }
-*/			
+	
 </style>
 
 </head>
-
-<!-- =========================================================== -->		
-<!-- HTML BODY ================================================= -->
-<!-- =========================================================== -->
 
 <body>
 	
 	<h1>Sprite3D.js</h1>
 	<p class="baseline">A simple javascript library <br/>to help making things move in 3D space<br/>in webkit browsers using CSS transforms.</p>
 	
+	<ul class="menu">
+		<li><a href="#overview">Overview</a></li>
+		<li><a href="#features">Features</a></li>
+		<li><a href="#examples">Examples</a></li>
+		<li><a href="#download">Download</a></li>
+		<li><a href="#documentation">Documentation</a></li>
+	</ul>
 	
-	<h2>Overview</h2>
+	<h2 id="overview">Overview</h2>
 	<div class="overview">
 	<p>Sprite3D wraps HTML elements with the necessary behaviours to easily control their <b>3D-position using a simple Javascript syntax</b>. To create a Sprite object, you can either supply an existing DOM object or let the library create an empty <code>&lt;div&gt;</code> (you can apply a CSS class to the DOM element after it's creation).</p>
 	
@@ -146,19 +130,29 @@ div.overview {
 	
 	<p>Sprite3D.js has <b>no dependencies</b>, so it can easily be integrated with other JS libs. We recommend using the requestAnimationFrame technique
 	(when available, see in the examples) for a more browser-friendly result.</p>
+	
 	</div>
 	
-	<h2>Features</h2>
+	<h2 id="features">Features</h2>
 	
 	<ul class="features">
 		
 		<li>AS3-style <b>properties</b> : 
 <pre>	x, y, z
 	rotationX, rotationY, rotationZ
+	scaleX, scaleY, scaleZ
 	width, height
 	alpha</pre></li>
 	
-		<li>AS3-style <b>scenography</b> via the <code>addChild()</code> and <code>removeChild()</code> method, children inheriting of their parent's transformations
+		<li>Lots of accessor <b>methods</b> : 
+<pre>	setPosition(x,y,z) setX(x) setY(y) setZ(z) 
+	move(x,y,z) moveX(x) moveY(y) moveZ(z) 
+	setRotation(x,y,z) setRotationX(x) setRotationY(y) setRotationZ(z)
+	rotate(x,y,z) rotateX(x) rotateY(y) rotateZ(z)
+	setScale(x,y,z) setScaleX(x) setScaleY(y) setScaleZ(z)</pre></li>
+	
+	
+		<li>AS3-style <b>scenography</b> via the <code>addChild()</code> and <code>removeChild()</code> method, children inheriting of their parent's transformations</li>
 			
 		<li>JS-style method <b>chaining</b> :
 			<pre>new Sprite3D()
@@ -167,7 +161,7 @@ div.overview {
 	.setClassName('class')
 	.update();</pre></li>
 	
-		<li>Basic support for sprite sheets. At this point, all the tiles must have the same size (for one Sprite).
+		<li>Basic support for <b>sprite sheets</b>. At this point, all the tiles must have the same size (for one Sprite).
 <pre>/* CSS : */
 .spriteClass {
 	background: url("img/sheet.png");
@@ -182,9 +176,13 @@ mySprite.setClassName("spriteClass").setTileSize( 32, 64 );
 mySprite.setTilePosition( 0, 3 );
 </pre>
 			</li>
+			
+		<li>Easily manipulate the <b>underlying DOM elements</b> with the <code>domElement</code> and <code>style</code> properties. There's also a bunch of helper methods like <code>setClassName, getClassName, addClassName, removeClassName, setId, getId, setCSS, getCSS</code> and <code>setInnerHTML</code> that let you keep your <b>CSS workflow</b></li>
+		
+		<li>Check for browser support using the <code>Sprite3D.isSupported()</code> method</li>
 	</ul>
 	
-	<h2>Examples</h2>
+	<h2 id="examples">Examples</h2>
 	<ul class="examples">
 		
 		<li>
@@ -293,21 +291,21 @@ mySprite.setTilePosition( 0, 3 );
 		
 	</ul>
 	
-	<h2>Download</h2>
-	<p>Get <a href="https://github.com/boblemarin/Sprite3D.js">the full project source code on GitHub</a>, or just grab <a href="js/Sprite3D.js">Sprite3D.js here</a>.</p>
+	<h2 id="download">Download</h2>
+	<p>Get <a href="https://github.com/boblemarin/Sprite3D.js">the full project source code on GitHub</a>.</p>
 	
-	<h2>Reference</h2>
+	<h2 id="documentation">Documentation</h2>
 	<p>The source code has been commented using the jsDoc syntax. Here is <a href="jsdoc/symbols/Sprite3D.html">the generated reference page</a>.</p>
 	
 	<h2>Future plans</h2>
 	<ul>
-		<li>Implement CSS scaling</li>
-		<li>Support for more browsers (at this time, Firefox only supports 2D transform)</li>
+		<li>Support for more browsers (at this time, Firefox only supports 2D transform, and I don't want to know about IE)</li>
 		<li>Improve support for animated sprites (automating animations playback or what ? Suggestions welcome...)</li>
+		<li>Implement a way to freely specify the order in which transformations are applied while keeping performance at it's current level</li>
 		<li><strike>Providing a decent solution for event handling (right now, it requires iterating through the Sprite's list to find the Sprite associated to the DOM element)</strike> Stabilise the event handling system.</li>
 	</ul>
 
-	<h2>Credits</h2>
+	<h2 id="credits">Credits</h2>
 	<p>Sprite3D.js has been created by <a href="http://www.minimal.be/">boblemarin</a> (<a href="http://twitter.com/#!/boblemarin">@</a>)</p>
 	<p>Thanks to <a href="https://github.com/gskinner/TweenJS/">Grant Skinner's TweenJS</a>, <a href="https://github.com/mrdoob/stats.js">MrDoob's Stats utility</a>, <a href="http://paulirish.com/2011/requestanimationframe-for-smart-animating/">Paul Irish's requestAnimationFrame code</a>.</p>
 	
