@@ -122,11 +122,11 @@ ul.menu li {
 	
 	<h2 id="overview">Overview</h2>
 	<div class="overview">
-	<p>Sprite3D wraps HTML elements with the necessary behaviours to easily control their <b>3D-position using a simple Javascript syntax</b>. To create a Sprite object, you can either supply an existing DOM object or let the library create an empty <code>&lt;div&gt;</code> (you can apply a CSS class to the DOM element after it's creation).</p>
+	<p>Sprite3D wraps HTML elements with the necessary behaviours to easily control their <b>3D-position using a simple Javascript syntax</b>. To create a Sprite object, you can either supply an existing DOM object or let the library create an empty <code>&lt;div&gt;</code> (you can apply a CSS class to the DOM element after its creation).</p>
 	
-	<p>As you manipulate "real" HTML elements, you don't need a <code>&lt;canvas&gt;</code> object (and it's performance problems), nor a WebGL-enabled browser. And, as 3D transforms are hardware-accelerated, you can get a very decent framerate, even on (Apple's) mobile devices.</p>
+	<p>As you manipulate "real" HTML elements, you don't need a <code>&lt;canvas&gt;</code> object (and its performance problems), nor a WebGL-enabled browser. And, as 3D transforms are hardware-accelerated, you can get a very decent framerate, even on (Apple's) mobile devices.</p>
 	
-	<p>At this stage of development, 3D positionning is achieved via WebKit's CSS 3D transforms, restricting the library usage to <b>Chrome and Safari</b> browsers, as well as <b>iOS's Mobile Safari</b>. However, due to it's wrapping, non-intrusive nature, it allows to build semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
+	<p>At this stage of development, 3D positionning is achieved via WebKit's CSS 3D transforms, restricting the library usage to <b>Chrome and Safari</b> browsers, as well as <b>iOS's Mobile Safari</b>. However, due to its wrapping, non-intrusive nature, it allows for building semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
 	
 	<p>Sprite3D.js has <b>no dependencies</b>, so it can easily be integrated with other JS libs. We recommend using the requestAnimationFrame technique
 	(when available, see in the examples) for a more browser-friendly result.</p>
@@ -198,7 +198,7 @@ mySprite.setTilePosition( 0, 3 );
 				<img src="home/basic2.png" />
 				<h3>Hello World 3D</h3>
 			</a>
-			<p>A more advanced version of the first example. A simple 3D object is create using four faces, then animated using it's container's 3D rotation methods.</p>
+			<p>A more advanced version of the first example. A simple 3D object is create using four faces, then animated using its container's 3D rotation methods.</p>
 		</li>
 		
 		<li>
@@ -301,7 +301,7 @@ mySprite.setTilePosition( 0, 3 );
 	<ul>
 		<li>Support for more browsers (at this time, Firefox only supports 2D transform, and I don't want to know about IE)</li>
 		<li>Improve support for animated sprites (automating animations playback or what ? Suggestions welcome...)</li>
-		<li>Implement a way to freely specify the order in which transformations are applied while keeping performance at it's current level</li>
+		<li>Implement a way to freely specify the order in which transformations are applied while keeping performance at its current level</li>
 		<li><strike>Providing a decent solution for event handling (right now, it requires iterating through the Sprite's list to find the Sprite associated to the DOM element)</strike> Stabilise the event handling system.</li>
 	</ul>
 

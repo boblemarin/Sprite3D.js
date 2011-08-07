@@ -453,7 +453,7 @@ Sprite3D.prototype.removeClassName = function(className) {
 /**
  * Sets the ID of the DOM element in the document.
  * This method is just a helper allowing neverending chaining in the Sprite3D creation syntax.
- * You can also simply access the <code>domElement</code> property of the Sprite3D and set it's <code>id</code> property.
+ * You can also simply access the <code>domElement</code> property of the Sprite3D and set its <code>id</code> property.
  * This method does not require a call to the update methods.
  * @param {String} id The ID
  * @return {Sprite3D} The reference to this Sprite3D object
