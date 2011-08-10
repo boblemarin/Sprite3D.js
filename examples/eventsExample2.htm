@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--
+	Sprite3D.js example file
+	Visit the internets for documentation, updates and examples.
+	https://github.com/boblemarin/Sprite3D.js
+	http://minimal.be/lab/Sprite3D
+
+	Copyright (c) 2010 boblemarin http://www.minimal.be
+
+	Permission is hereby granted, free of charge, to any person
+	obtaining a copy of this software and associated documentation
+	files (the "Software"), to deal in the Software without
+	restriction, including without limitation the rights to use,
+	copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the
+	Software is furnished to do so, subject to the following
+	conditions:
+
+	The above copyright notice and this permission notice shall be
+	included in all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+	OTHER DEALINGS IN THE SOFTWARE.
+	-->
+<meta charset="utf-8" />
+
+<meta name='HandheldFriendly' content='True' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+
+
+<title>Sprite3D - touch events demo</title>
+
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
+<style>
+	* {
+	  -webkit-touch-callout: none; /* prevent callout to copy image, etc when tap to hold */
+	  -webkit-text-size-adjust: none; /* prevent webkit from resizing text to fit */
+	  -webkit-tap-highlight-color: rgba(0,0,0,0); 
+	  -webkit-user-select: none; /* prevent copy paste, to allow, change 'none' to 'text' */
+	}
+		
+html, body { height: 100%; }
+
+body {
+	background-color: #555;
+	color: white;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	
+	background: -webkit-gradient(radial, 50% 100%, 800, 50% 100%, 59, from(#000055), to(#7A7AFF))
+}
+
+
+#debug {
+	color: #FFF;
+	position: absolute;
+	bottom: 0px;
+	right: 20px;
+	font-size: 60px;
+	font-weight: bold;
+	text-align: right;
+	font-family: Geneva, Helvetica, Arial;
+	z-index: 0;
+	opacity: .5;
+}
+
+.box {
+	background: white;
+	width: 10%;/*60px;*/
+	height: 10%;
+	text-align: left;
+	padding-top: 40px;
+	font-size: 100px;
+	color: black;
+}
+
+.star {
+	background-color: white;
+	width: 4px;
+	height: 4px;
+/*	border: 1px solid black;*/
+}
+			
+</style>
+
+<!-- =========================================================== -->		
+<!-- JAVASCRIPT SECTION ======================================== -->
+<!-- =========================================================== -->
+
+<!-- Paul Irish's cross-browser RequestAnimationFrame technique -->
+<script type="text/javascript" src="../js/RequestAnimationFrame.js"></script>
+
+<!-- Grant Skinner's Tween engine -->
+<script type="text/javascript" src="../js/Tween.js"></script>
+
+<!-- Robert Penner's easing equations -->
+<script type="text/javascript" src="../js/Easing.js"></script>
+
+<!-- boblemarin's Sprite3D utility class -->
+<script src="../js/Sprite3D.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+var debug,
+	t = 0,
+	originX,
+	stage,
+	lastTime,
+	targets,
+	stepH,
+	stepV,
+	divs = 2,
+	hdivs = 1,
+	score = 0,
+	stars,
+	starContainer,
+	numTargets = [];
+		
+function init() {
+	debug = document.getElementById("debug");
+	
+	// create a centered 3D stage
+	stage = Sprite3D.createCenteredContainer();
+	
+	setDivs( 2 );
+	
+	targets = [];
+	var target, img, i, 
+		w = window.innerWidth,
+		hw = w/2,
+		h = window.innerHeight,
+		hh = h / 2;
+	
+	starContainer = stage.addChild( new Sprite3D() );
+	
+	for( i = 0; i < 50; i++ )
+	{
+		starContainer.addChild( new Sprite3D()
+			.setClassName("star")
+			.setRotation( 0, Math.random() * 180, Math.random() * 90 )
+			.setPosition( Math.random() * 1000 - 500, Math.random() * 1000 - 500, Math.random() * 1000 - 500 )
+			.setSize( 4, 4 ) 
+			.update()
+		);
+	}
+	
+	
+	
+	for( i = 0; i < 4; i++ )
+	{
+		// i wanted to use a animated gif version of the cat,
+		// but it makes Mobile Safari crash when they are displayed at a big size. :(
+		img = document.createElement('img');
+		img.src = "img/jesus.png";
+		
+		stage.addChild( target = new Sprite3D(img)
+			.setPosition( Math.floor( Math.random() * divs - hdivs ) * stepH, Math.floor( Math.random() * divs - hdivs ) * stepV, 0 )
+			.setSize( stepH, stepV ) 
+			.addEventListener( "click", move, true )
+			.addEventListener( "touchstart", move, true )
+			.update()
+		);
+		
+		// this was good when using <div> elements. 
+		// just left here for reference
+		//target.domElement.innerHTML = ">";
+		
+		numTargets = targets.push( target );
+	}
+	
+	// capture touch start to prevent scrolling
+	document.addEventListener( "touchstart", onTouchStart );
+
+	// keep track of time to tick the tweens
+	lastTime = new Date().getTime();	
+	
+	// start animation
+	animate();
+}	
+
+function onTouchStart( event ) {
+	event.preventDefault();
+}
+
+function setDivs( d ) {
+	divs = d;
+	hdivs = d/2;
+	stepH = window.innerWidth / divs;
+	stepV = window.innerHeight / divs;
+	
+	for( var i = 0; i < numTargets; i++ )
+	{
+		Tween.get( targets[i].setRotationY(360), false).to({ 
+			x: Math.floor( Math.random() * divs - hdivs ) * stepH,
+			y: Math.floor( Math.random() * divs - hdivs ) * stepV,
+			rotationY: 0,
+			//rotationX: 0,
+			width: stepH,
+			height: stepV
+		},500,Easing.Elastic.EaseOut);
+	}
+}
+
+
+	
+
+function move( event, sprite ) {
+//	var t = stage.findFromDOMElement( event.target );
+	var t = sprite;
+	
+	if ( t )
+	{
+		t.rotationY = 360;
+		t.rotationZ = 360;
+		Tween.get( t, false).to({ 
+			x: Math.floor( Math.random() * divs - hdivs ) * stepH,
+			y: Math.floor( Math.random() * divs - hdivs ) * stepV,
+			rotationY: 0,
+			rotationZ: 0
+		},500,Easing.Quadratic.EaseOutIn);
+		
+		Tween.get( t, false).to({ 
+			z: -2800
+		},250,Easing.Quadratic.EaseOut);
+		
+		Tween.get( t, false).to({ 
+			z: 0
+		},250,Easing.Quadratic.EaseOut).wait(250);
+		
+		msg( ++score );
+
+		if ( score == 10 ) setDivs(4);
+		if ( score == 40 ) setDivs(6);
+		if ( score == 70 ) setDivs(8);
+		if ( score == 110 ) setDivs(12);
+		if ( score == 160 ) setDivs(16);
+		if ( score == 500 ) setDivs(40); // go to hell :)
+
+		event.preventDefault();		
+	}
+	else
+	{
+		alert("missed");
+	}
+
+}
+
+function animate() {
+	
+	requestAnimationFrame( animate );
+	update();
+}
+
+function update()
+{
+	// tick the tweens
+	var newTime = new Date().getTime();
+	Tween.tick( newTime - lastTime );
+	lastTime = newTime;
+	
+	// make the star container rotate, 
+	// to get a cheap star field effect
+	starContainer.rotateY(.1);
+	
+	// update sprites positions
+	stage.updateChildrenAll();
+}
+
+function msg( t )
+{
+	debug.innerHTML = t;
+}
+
+
+
+</script>
+</head>
+
+<!-- =========================================================== -->		
+<!-- HTML BODY ================================================= -->
+<!-- =========================================================== -->
+
+<body onload="init();">
+	
+	<div id="debug">0</div>
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-9528692-4");
+	pageTracker._trackPageview();
+	} catch(err) {}</script>
+	<a href="http://minimal.be/lab/Sprite3D/"><img src="img/banner.png" style="border:0;position:absolute;right:0;top:0" alt="built width Sprite3D.js" /></a>
+</body>
+</html>

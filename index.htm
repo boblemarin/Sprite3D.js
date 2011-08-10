@@ -76,7 +76,11 @@ ul.examples li {
 	border-top: 1px solid #FFF;
 }
 
-ul.examples li a, ul.examples li a h3 {
+ul.examples li a {
+	color: #333;
+}
+
+ul.examples li a h3 {
 	color: #000;
 	text-decoration: none;
 }
@@ -101,6 +105,10 @@ ul.menu {
 ul.menu li {
 	display: inline-block;
 	margin: 20px;
+}
+
+.jesus {
+	color: #DD3333;
 }
 	
 </style>
@@ -128,8 +136,7 @@ ul.menu li {
 	
 	<p>At this stage of development, 3D positionning is achieved via WebKit's CSS 3D transforms, restricting the library usage to <b>Chrome and Safari</b> browsers, as well as <b>iOS's Mobile Safari</b>. However, due to it's wrapping, non-intrusive nature, it allows to build semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
 	
-	<p>Sprite3D.js has <b>no dependencies</b>, so it can easily be integrated with other JS libs. We recommend using the requestAnimationFrame technique
-	(when available, see in the examples) for a more browser-friendly result.</p>
+	<p>Sprite3D.js has <b>no dependencies</b>, so it can easily be integrated with other JS libs. <br/>It is provided under the <b>MIT Licence</b>. </p>
 	
 	</div>
 	
@@ -222,7 +229,7 @@ mySprite.setTilePosition( 0, 3 );
 				<img src="home/nyantouch.jpg" />
 				<h3>Events example</h3>
 			</a>
-			<p>This might be the base for a simple point-and-touch game for the iPad. </p>
+			<p>This might be the base for a simple point-and-touch game for the iPad.<br/><b class="jesus">For the Nyan-haters out there,  here's <a href="examples/eventsExample2.htm">a JESUS version</a>.</b></p>
 		</li>
 		
 		<li>
@@ -289,6 +296,14 @@ mySprite.setTilePosition( 0, 3 );
 			<p>Quick prototype for a classic game.</p>
 		</li>
 		
+		<li>
+			<a href="http://www.ologame.com/">
+				<img src="home/olo.jpg" />
+				<h3>OLO Game</h3>
+			</a>
+			<p>London-based studio <a href="http://www.sennep.com/">Sennep</a> created a full featured iOS game with HTML5 technologies and Sprite3D. The result is a free touch game that you can install on your device and that's just what Sprite3D was created for.</p>
+		</li>
+		
 	</ul>
 	
 	<h2 id="download">Download</h2>
@@ -309,12 +324,34 @@ mySprite.setTilePosition( 0, 3 );
 	<p>Sprite3D.js has been created by <a href="http://www.minimal.be/">boblemarin</a> (<a href="http://twitter.com/#!/boblemarin">@</a>)</p>
 	<p>Thanks to <a href="https://github.com/gskinner/TweenJS/">Grant Skinner's TweenJS</a>, <a href="https://github.com/mrdoob/stats.js">MrDoob's Stats utility</a>, <a href="http://paulirish.com/2011/requestanimationframe-for-smart-animating/">Paul Irish's requestAnimationFrame code</a>.</p>
 	
+	
+	<h2 id="social">Social stuff</h2>
+	
 	<p><script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 	<g:plusone></g:plusone>
 	<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="boblemarin">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 		<iframe src="http://www.facebook.com/plugins/like.php?app_id=221981371170477&amp;href=http%3A%2F%2Fminimal.be%2Flab%2FSprite3D%2F&amp;send=false&amp;layout=button_count&amp;width=200&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:200px; height:21px;" allowTransparency="true"></iframe>
 
 </p>
+	<br/><br/><br/>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'minimalbe';
+
+	    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+	    // var disqus_identifier = 'sprite3d';
+	    // var disqus_url = 'http://minimal.be/lab/Sprite3D/';
+
+	    /* * * DON'T EDIT BELOW THIS LINE * * */
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+	
 	
 	<script type="text/javascript">
 	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

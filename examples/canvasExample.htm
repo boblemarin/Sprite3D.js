@@ -35,7 +35,7 @@
 <meta name='HandheldFriendly' content='True' />
 <meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
 
-<title>Sprite3D - tweening demo</title>
+<title>Sprite3D - canvas demo</title>
 
 <!-- =========================================================== -->		
 <!-- CSS SECTION =============================================== -->
@@ -69,6 +69,13 @@ body {
 
 .box {
 	background-color: rgba( 43, 79, 211, .1 );
+}
+
+.star {
+	background-color: #8888AA;
+	width: 2px;
+	height: 2px;
+/*	border: 1px solid black;*/
 }
 			
 </style>
@@ -105,7 +112,7 @@ var debug,
 	lastTime,
 	zStep = 100,
 	zOffset = 0,
-	zSpeed = 1000,
+	zSpeed = 3000,
 	i,
 	x = 0, y = 0,
 	r = 0,
@@ -123,6 +130,19 @@ function init() {
 	path = [];
 	for( i = 0; i < np; i++ ) path.push( sliceHeight >> 1 );
 	xStep = sliceWidth / (np-1);
+	
+	starContainer = stage.addChild( new Sprite3D() );
+	
+	for( i = 0; i < 25; i++ )
+	{
+		starContainer.addChild( new Sprite3D()
+			.setClassName("star")
+			.setRotateFirst(true)
+			.setRotation( Math.random() * 360, Math.random() * 360, Math.random() * 360 )
+			.setPosition( 0, 0, 800 )
+			.update()
+		);
+	}
 	
 	var canvas;
 	
@@ -167,6 +187,7 @@ function onMouseMove( event ) {
 	var dy = ( event.pageY / window.innerHeight - .5 );
 	container.x = dx * -1200;
 	container.y = dy  * -900;
+	//starContainer.rotationZ = container.rotationZ = dx * 120;
 	//event.preventDefault();
 }
 
@@ -176,6 +197,7 @@ function onTouchMove( event ) {
 	var dy = ( t.pageY / window.innerHeight - .5 );
 	container.x = dx * 1600;
 	container.y = dy  * 1000;
+	//starContainer.rotationZ = container.rotationZ = dx * 120;
 	event.preventDefault();
 }
 
@@ -185,6 +207,7 @@ function onTouchStart( event ) {
 	var dy = ( t.pageY / window.innerHeight - .5 );
 	container.x = dx * 1600;
 	container.y = dy  * 1000;
+	//starContainer.rotationZ = container.rotationZ = dx * 120;
 	event.preventDefault();
 }
 
@@ -192,9 +215,9 @@ function moveXYAgain() {
 	// when the tween is over, start a new one to a random position,
 	// and again, call this function when it's done
 	Tween.get( this, false).to({ 
-		x: ( Math.random() - .5 ) * 800,
-		y: ( Math.random() - .5 ) * 600
-	},Math.random()*500+1300,Easing.Quadratic.EaseInOut).call(moveXYAgain);
+		x: ( Math.random() - .5 ) * 1800,
+		y: ( Math.random() - .5 ) * 1200
+	},Math.random()*1000+400,Easing.Quadratic.EaseInOut).call(moveXYAgain);
 }
 
 function animate() {
@@ -249,6 +272,8 @@ function update()
 			.moveZ( delta )
 			.update();
 	}
+	
+	starContainer.rotateY(.03).update();
 
 	stats.update();
 }
