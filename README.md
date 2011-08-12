@@ -2,8 +2,8 @@
 
 A simple javascript library to help making thing move in 3D space for webkit browser using CSS transforms.
 
-* Created by [boblemarin](http://github.com/boblemarin)
-* Project's homepage: [minimal.be/lab/Sprite3D](http://minimal.be/lab/Sprite3D "Sprite3D.js, a javascript library for 3D positionning in WebKit")
+* Created by : [boblemarin](http://github.com/boblemarin)
+* Project's homepage : [minimal.be/lab/Sprite3D](http://minimal.be/lab/Sprite3D "Sprite3D.js, a javascript library for 3D positionning in WebKit")
 * Feedback, suggestions, requests and more : [emeric@minimal.be](mailto:emeric@minimal.be)
 
 
