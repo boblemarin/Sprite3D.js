@@ -56,17 +56,20 @@ body {
 	width: 10px;
 	height: 20px;
 	background-color: #88FF88;
+	border: 1px solid #88EE88;
 }
 .part1 {
 	width: 10px;
 	height: 20px;
 	background-color: #FF8888;
+	border: 1px solid #EE8888;
 }
 .part2 {
 	width: 10px;
 	height: 20px;
 	opacity: .85;
 	background-color: #FF88FF;
+	border: 1px solid #EE88EE;
 }
 
 #debug {
@@ -142,17 +145,27 @@ function init() {
 	addRing( container, 16, 10, 8, 20, "part1" );
 	addRing( container, 20, 8, 5, 10, "part2" );
 	*/
-	msg( n + ' divs, <a href="flowerExample.htm">refresh</a>' )
+	msg( n )
 	
 	stats = new Stats();
 	stats.domElement.style.position = 'absolute';
 	stats.domElement.style.top = '0px';
 	document.body.appendChild(stats.domElement);
 	
+	document.addEventListener( "touchstart", onTouchStart );
+	
+	document.getElementById("refresh").addEventListener( "touchstart", function(evt) {
+		window.location = "hoverFlowerExample.html";
+		evt.preventDefault();
+	});
 	
 	animate();
 	
 }	
+
+function onTouchStart( event ) {
+	event.preventDefault();
+}
 
 function addRing( container, divisions, iterations, angle, zOffset, className ) {
 	var c, step = 360 / divisions;
@@ -177,13 +190,33 @@ function addLine( container, iterations, angle, className ) {
 			new Sprite3D()
 				.setClassName(className)
 				.setTransformOrigin( "5px", "0px" )
-				.setPosition( 0, 20, 0 )
+				.setPosition( -1, 20, 0 )
 				.rotateX( angle )
 				.setRotateFirst(false)
+				.addEventListener( "mouseover", onDivHovered )
+				.addEventListener( "touchstart", onDivTouched )
 				.update()
 		);
 		++n;
 	}
+}
+
+function onDivTouched( event, target ) {
+	var r = target.rotationX + Math.random() * 30 - 15;
+	while( true )
+	{
+		target.setRotationX( r ).update();
+		if ( target.numChildren)
+			target = target.children[0];
+		else
+			break;
+	}
+}
+
+function onDivHovered( event, target ) {
+	// simple
+	target.rotateX( Math.random() * 40 - 20 ).update();
+	event.preventDefault();
 }
 
 function animate() {
@@ -205,7 +238,7 @@ function update() {
 
 function msg( t )
 {
-	debug.innerHTML = t;
+	debug.innerHTML = t + debug.innerHTML;
 }
 
 
@@ -213,7 +246,7 @@ function msg( t )
 		</script>
 	</head>
 	<body onload="init();">
-		<div id="debug"></div>
+		<div id="debug"> divs, <a href="hoverFlowerExample.html" id="refresh">refresh</a></div>
 		<script type="text/javascript">
 		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
