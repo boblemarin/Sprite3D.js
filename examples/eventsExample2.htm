@@ -214,12 +214,9 @@ function setDivs( d ) {
 		},500,Easing.Elastic.EaseOut);
 	}
 }
-
-
 	
 
 function move( event, sprite ) {
-//	var t = stage.findFromDOMElement( event.target );
 	var t = sprite;
 	
 	if ( t )
@@ -239,7 +236,7 @@ function move( event, sprite ) {
 		
 		Tween.get( t, false).to({ 
 			z: 0
-		},250,Easing.Quadratic.EaseOut).wait(250);
+		},250,Easing.Quadratic.EaseIn).wait(250);
 		
 		msg( ++score );
 
@@ -254,7 +251,7 @@ function move( event, sprite ) {
 	}
 	else
 	{
-		alert("missed");
+		//alert("missed");
 	}
 
 }

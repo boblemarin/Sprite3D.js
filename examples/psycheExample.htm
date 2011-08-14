@@ -108,14 +108,15 @@ function init() {
 	// create a centered 3D stage
 	stage = Sprite3D.createCenteredContainer();
 	
-	
 	var rect, hs,
 		colors = ["red","white","blue","white"],
 		colIndex = 1,
-		size = 1040,
-		step = 40;
+		step = 40,
+		size = step * 3,
+		z = 0,
+		maxSize = 1040;
 	
-	while( size > step*2 )
+	while( size <= maxSize )
 	{
 		hs = size >> 1;
 		
@@ -123,15 +124,16 @@ function init() {
 			.setClassName("rounded " + colors[colIndex] )
 			.setSize( size, size )
 			.setRegistrationPoint( hs, hs, 0 )
-//			.setPosition( -hs, -hs, 0 )
 			.rotateZ( -90 )
+			.setPosition( 0, 0, z * -100 )
 			.update()
 		);
 		
+		z-= 1;
+		
 		colIndex = ++colIndex % colors.length;
-		size -= step;
+		size += step;
 	}
-	
 	
 	stats = new Stats();
 	stats.domElement.style.position = 'absolute';
@@ -141,7 +143,7 @@ function init() {
 	lastTime = new Date().getTime();
 	
 	// start tweens with progressive delay
-	numTweens = stage.numChildren - 1;
+	numTweens = 0;//stage.numChildren - 1;
 	setTimeout( addTween, 1000 );
 	
 	document.addEventListener( "touchstart", onTouchStart );
@@ -159,7 +161,8 @@ function addTween() {
 		.to({ rotationZ: -90 },1000,Easing.Quadratic.EaseInOut)
 		.loop();
 	
-	if ( --numTweens > -1 ) setTimeout( addTween, 30 );
+	//if ( --numTweens > -1 ) setTimeout( addTween, 30 );
+	if ( ++numTweens < stage.numChildren ) setTimeout( addTween, 30 );
 }
 
 function onTouchStart( event ) {
@@ -219,12 +222,10 @@ function update()
 		k = (i+3) / (n+2) * .4;
 		ik = 1 - k;
 		t = stage.children[i];
-//		t.x = 0;//targetX;
-//		t.y = targetY;
-		t.setPosition( t.x * ik + targetX * k, t.y * ik + targetY * k, 0 );
+		t.setPosition( t.x * ik + targetX * k, t.y * ik + targetY * k, 0 ).update();
 	}
 
-	stage.updateChildren();
+//	stage.updateChildren();
 }
 
 function msg( t )

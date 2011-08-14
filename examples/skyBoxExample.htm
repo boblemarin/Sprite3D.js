@@ -97,6 +97,7 @@ var stage,
 	rx = 0,
 	ry = 0,
 	tx = 0, ty = 0,
+	vertical = true,
 	hfs = fs/2;
 
 function init() {
@@ -167,6 +168,12 @@ function init() {
 			.update()
 	);
 	
+	if ( DeviceOrientationEvent ) {
+		window.addEventListener( "deviceorientation", onOrientationChange, false );
+		window.addEventListener( "resize", onWindowResize, false );
+	}
+
+	
 	document.addEventListener( 'mousemove', onMouseMove );
 	document.addEventListener( 'touchmove', onTouchMove );
 	document.addEventListener( 'touchstart', onTouchStart );
@@ -195,6 +202,17 @@ function onTouchMove( event ) {
 	rx = ( -t.pageY / window.innerHeight ) + .5;
 	ry = ( -t.pageX / window.innerWidth ) + .5;
 	event.preventDefault();
+}
+
+function onWindowResize( event ) {
+	vertical = (window.innerHeight > window.innerWidth);
+}
+
+function onOrientationChange( event ) {
+	if ( vertical )
+		container.setRotation( event.beta-90, -event.gamma, 0 ).update();
+	else
+		container.setRotation( event.gamma-90, event.beta, 0 ).update();
 }
 
 function move() {

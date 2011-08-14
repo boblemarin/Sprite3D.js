@@ -110,6 +110,13 @@ ul.menu li {
 .jesus {
 	color: #DD3333;
 }
+
+#warning {
+	display: none;
+	font-weight: bold;
+	color: #DD3333;
+	border: 2px solid #D33;
+}
 	
 </style>
 
@@ -190,6 +197,9 @@ mySprite.setTilePosition( 0, 3 );
 	</ul>
 	
 	<h2 id="examples">Examples</h2>
+	
+	<p id="warning">I'm so sorry !<br/>It seems that your browser does not support CSS 3D transforms. <br/>Please try to view those examples with a recent webkit-based browser, like <a href="http://www.google.com/chrome/">Chrome</a> or <a href="http://www.apple.com/safari/">Safari</a>, or you might get strange results...</p>
+	
 	<ul class="examples">
 		
 		<li>
@@ -231,7 +241,7 @@ mySprite.setTilePosition( 0, 3 );
 			</a>
 			<p>This might be the base for a simple point-and-touch game for the iPad.<br/><b class="jesus">For the Nyan-haters out there,  here's <a href="examples/eventsExample2.htm">a JESUS version</a>.</b></p>
 		</li>
-		
+		<!--
 		<li>
 			<a href="examples/psycheExample.htm">
 				<img src="home/psyche.png" />
@@ -239,7 +249,7 @@ mySprite.setTilePosition( 0, 3 );
 			</a>
 			<p>This example is inspired by <a href="http://paperjs.org/examples/rounded-rectangles/">this one from paperjs</a>. It offers a good comparison between canvas- and DOM-based animation framerates.</p>
 		</li>
-		
+		-->
 		<li>
 			<a href="examples/flowerExample.htm">
 				<img src="home/flower.png" />
@@ -263,7 +273,7 @@ mySprite.setTilePosition( 0, 3 );
 			</a>
 			<p>A classic use of 3D positionning for a spatial image gallery.</p>
 		</li>
-		
+		<!--
 		<li>
 			<a href="examples/skyBoxExample.htm">
 				<img src="home/skybox.jpg" />
@@ -271,7 +281,7 @@ mySprite.setTilePosition( 0, 3 );
 			</a>
 			<p>Use a panoramic image to build a skybox cube.</p>
 		</li>
-		
+		-->
 		<li>
 			<a href="examples/canvasExample.htm">
 				<img src="home/canvas.jpg" />
@@ -322,8 +332,19 @@ mySprite.setTilePosition( 0, 3 );
 
 	<h2 id="credits">Credits</h2>
 	<p>Sprite3D.js has been created by <a href="http://www.minimal.be/">boblemarin</a> (<a href="http://twitter.com/#!/boblemarin">@</a>)</p>
-	<p>Thanks to <a href="https://github.com/gskinner/TweenJS/">Grant Skinner's TweenJS</a>, <a href="https://github.com/mrdoob/stats.js">MrDoob's Stats utility</a>, <a href="http://paulirish.com/2011/requestanimationframe-for-smart-animating/">Paul Irish's requestAnimationFrame code</a>.</p>
+	<p>Thanks to <a href="https://github.com/gskinner/TweenJS/">Grant Skinner's TweenJS</a>, <a href="https://github.com/mrdoob/stats.js">MrDoob's Stats utility</a>, <a href="http://paulirish.com/2011/requestanimationframe-for-smart-animating/">Paul Irish's requestAnimationFrame code</a>, <a href="https://github.com/veganstraightedge">Shane Becker</a> and <a href="https://github.com/drench">Daniel Rench</a> for the house cleaning on github.</p>
 	
+	
+	
+	<script type="text/javascript" src="js/Sprite3D.js"></script>
+	<script>
+	
+		if ( !Sprite3D.isSupported() )
+		{
+			document.getElementById("warning").style.display = "block";
+		}
+	
+	</script>
 	
 	<h2 id="social">Social stuff</h2>
 	
@@ -337,12 +358,8 @@ mySprite.setTilePosition( 0, 3 );
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">
 	    var disqus_shortname = 'minimalbe';
-
-	    // The following are highly recommended additional parameters. Remove the slashes in front to use.
-	    // var disqus_identifier = 'sprite3d';
-	    // var disqus_url = 'http://minimal.be/lab/Sprite3D/';
-
-	    /* * * DON'T EDIT BELOW THIS LINE * * */
+	    var disqus_identifier = 'sprite3d';
+	    var disqus_url = 'http://minimal.be/lab/Sprite3D/';
 	    (function() {
 	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
 	        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
