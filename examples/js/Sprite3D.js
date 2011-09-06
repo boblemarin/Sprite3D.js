@@ -37,45 +37,35 @@
  * @param {Object} element The DOM element to wrap the Sprite3D object around. When no element is provided, a empty div is created and added to the document.
  */
 function Sprite3D(element) {
+    // private variables
+    var p,s,r = "marotation",
+    rx,
+    ry,
+    rz,
+    i,
+    alpha = 1,
+    listeners = {};
 
-	if ( !Sprite3D.prototype._isInit )
-	{
-		Sprite3D.isSupported();
-		/*
-		this._transformProperty = Sprite3D.prototype._transformProperty;
-		this._browserPrefix = Sprite3D.prototype._browserPrefix;
-		this.update = Sprite3D.prototype.update;
-		*/
-	}
+    // create an empty <div> if no element is provided
+    if (element == null)
+    {
+        element = document.createElement("div");
+    }
 
-	// private variables
-	var p = "", 
-		s = "",
-		rx = "",
-		ry = "",
-		rz = "",
-		ts = "",
-		i,
-		alpha = 1,
-		listeners = {};
+    // prepare for 3D positionning
+    element.style.webkitTransformStyle = "preserve-3d";
+    element.style.margin = "0px";
+    element.style.padding = "0px";
+    element.style.position = "absolute";
 
-	// create an empty <div> if no element is provided
-	if (element == null) { element = document.createElement("div"); }
+    // trigger hardware acceleration even if no property is set
+    element.style.webkitTransform = "translateZ(0px)";
 
-	// prepare for 3D positionning
-	element.style[ this._browserPrefix + "TransformStyle" ] = "preserve-3d";
-	element.style.margin = "0px";
-	element.style.padding = "0px";
-	element.style.position = "absolute";
-
-	// trigger hardware acceleration even if no property is set
-	element.style[ this._transformProperty ] = "translateZ(0px)";
-
-	// debug style
-	//element.style.border = '1px solid red';
-	this.domElement = element;
-	this.style = element.style;
-	this.children = [];
+    // debug style
+    //element.style.border = '1px solid red';
+    this.domElement = element;
+    this.style = element.style;
+    this.children = [];
 }
 
 /** The X-axis position of the Sprite3D */
@@ -117,10 +107,10 @@ Sprite3D.prototype.tileWidth = 0;
 Sprite3D.prototype.tileHeight = 0;
 
 /** A reference to the DOM element associated with this Sprite3D object */
-Sprite3D.prototype.domElement = null;
+Sprite3D.prototype.domElement;
 
 /** A reference to the CSS style object of the DOM element */
-Sprite3D.prototype.style = null;
+Sprite3D.prototype.style;
 
 /** An array holding references of the Sprite3D's children object */
 Sprite3D.prototype.children = [];
@@ -128,30 +118,8 @@ Sprite3D.prototype.children = [];
 /** The number of child objects */
 Sprite3D.prototype.numChildren = 0;
 
-/** A boolean value to decide in which order transformations are applied. If true, rotations are applied before translations. If false, translations are applied before rotations. For a more accurate control over transformations order, you should use the transformString property. This property is now BROKEN. */
+/** [DEPRACATED] A boolean value to decide in which order transformations are applied. If true, rotations are applied before translations. If false, translations are applied before rotations. */
 Sprite3D.prototype.rotateFirst = false;
-
-/** The transform string. You can use this property to fine control the order in which transformations are applied.
- * The following values will be replaced by their respective transformations :
- * _p for position/translations
- * _s for scaling
- * _rx for rotationX
- * _ry for rotationY
- * _rz for rotationZ
- * Example: sprite.transformString = "_rx _ry _rz _p _s";
- */
-Sprite3D.prototype.transformString = "_p _rx _ry _rz _s";
-
-/**
- * Sets the value of the transformString property, allowing to control transformations order.
- * A valid value may be "_rx _ry _rz _p _s". See the transformString property for more informations.
- * @param {String} ts The string that will be used to swap
- * @return {Sprite3D} The reference to this Sprite3D object
- */
-Sprite3D.prototype.setTransformString = function(ts) {
-	this.transformString = ts;
-	return this;
-};
 
 /**
  * Sets the X-axis position of the Sprite3D.
@@ -159,8 +127,8 @@ Sprite3D.prototype.setTransformString = function(ts) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setX = function(px) {
-	this.x = px;
-	return this;
+    this.x = px;
+    return this;
 };
 
 /**
@@ -169,8 +137,8 @@ Sprite3D.prototype.setX = function(px) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setY = function(py) {
-	this.y = py;
-	return this;
+    this.y = py;
+    return this;
 };
 
 /**
@@ -179,8 +147,8 @@ Sprite3D.prototype.setY = function(py) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setZ = function(pz) {
-	this.z = pz;
-	return this;
+    this.z = pz;
+    return this;
 };
 
 /**
@@ -191,10 +159,10 @@ Sprite3D.prototype.setZ = function(pz) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setPosition = function(px, py, pz) {
-	this.x = px;
-	this.y = py;
-	this.z = pz;
-	return this;
+    this.x = px;
+    this.y = py;
+    this.z = pz;
+    return this;
 };
 
 /**
@@ -203,8 +171,8 @@ Sprite3D.prototype.setPosition = function(px, py, pz) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.moveX = function(px) {
-	this.x += px;
-	return this;
+    this.x += px;
+    return this;
 };
 
 /**
@@ -213,8 +181,8 @@ Sprite3D.prototype.moveX = function(px) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.moveY = function(py) {
-	this.y += py;
-	return this;
+    this.y += py;
+    return this;
 };
 
 /**
@@ -223,8 +191,8 @@ Sprite3D.prototype.moveY = function(py) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.moveZ = function(pz) {
-	this.z += pz;
-	return this;
+    this.z += pz;
+    return this;
 };
 
 /**
@@ -235,10 +203,10 @@ Sprite3D.prototype.moveZ = function(pz) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.move = function(px, py, pz) {
-	this.x += px;
-	this.y += py;
-	this.z += pz;
-	return this;
+    this.x += px;
+    this.y += py;
+    this.z += pz;
+    return this;
 };
 
 
@@ -249,8 +217,8 @@ Sprite3D.prototype.move = function(px, py, pz) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setRotationX = function(rx) {
-	this.rotationX = rx;
-	return this;
+    this.rotationX = rx;
+    return this;
 };
 
 /**
@@ -259,8 +227,8 @@ Sprite3D.prototype.setRotationX = function(rx) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setRotationY = function(ry) {
-	this.rotationY = ry;
-	return this;
+    this.rotationY = ry;
+    return this;
 };
 
 /**
@@ -269,8 +237,8 @@ Sprite3D.prototype.setRotationY = function(ry) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setRotationZ = function(rz) {
-	this.rotationZ = rz;
-	return this;
+    this.rotationZ = rz;
+    return this;
 };
 
 /**
@@ -281,10 +249,10 @@ Sprite3D.prototype.setRotationZ = function(rz) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setRotation = function(rx, ry, rz) {
-	this.rotationX = rx;
-	this.rotationY = ry;
-	this.rotationZ = rz;
-	return this;
+    this.rotationX = rx;
+    this.rotationY = ry;
+    this.rotationZ = rz;
+    return this;
 };
 
 
@@ -294,8 +262,8 @@ Sprite3D.prototype.setRotation = function(rx, ry, rz) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.rotateX = function(rx) {
-	this.rotationX += rx;
-	return this;
+    this.rotationX += rx;
+    return this;
 };
 
 /**
@@ -304,8 +272,8 @@ Sprite3D.prototype.rotateX = function(rx) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.rotateY = function(ry) {
-	this.rotationY += ry;
-	return this;
+    this.rotationY += ry;
+    return this;
 };
 
 /**
@@ -314,8 +282,8 @@ Sprite3D.prototype.rotateY = function(ry) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.rotateZ = function(rz) {
-	this.rotationZ += rz;
-	return this;
+    this.rotationZ += rz;
+    return this;
 };
 
 /**
@@ -326,10 +294,10 @@ Sprite3D.prototype.rotateZ = function(rz) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.rotate = function(rx, ry, rz) {
-	this.rotationX += rx;
-	this.rotationY += ry;
-	this.rotationZ += rz;
-	return this;
+    this.rotationX += rx;
+    this.rotationY += ry;
+    this.rotationZ += rz;
+    return this;
 };
 
 /**
@@ -377,6 +345,18 @@ Sprite3D.prototype.setScale = function( sx, sy, sz ) {
 };
 
 /**
+ * Sets the uniform scaling of the Sprite3D object on the 3 axis.
+ * @param {Number} s The value of the scaling on all axis.
+ * @return {Sprite3D} The reference to this Sprite3D object
+ */
+Sprite3D.prototype.setScaleAll = function( s ) {
+	this.scaleX = s;
+	this.scaleY = s;
+	this.scaleZ = s;
+	return this;
+};
+
+/**
  * Sets the registrations point for the Sprite3D object. 
  * By default, CSS positionning is relative to the top left corner of the element.
  * The registration point values are simply substracted from the position when applied
@@ -386,10 +366,10 @@ Sprite3D.prototype.setScale = function( sx, sy, sz ) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setRegistrationPoint = function(rx, ry, rz) {
-	this.regX = rx;
-	this.regY = ry;
-	this.regZ = rz;
-	return this;
+    this.regX = rx;
+    this.regY = ry;
+    this.regZ = rz;
+    return this;
 };
 
 /**
@@ -400,9 +380,8 @@ Sprite3D.prototype.setRegistrationPoint = function(rx, ry, rz) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setTransformOrigin = function(px, py) {
-//	this.style.webkitTransformOrigin = px + " " + py;
-	this.style[ this._browserPrefix + "TransformOrigin" ] = px + " " + py;
-	return this;
+    this.style.webkitTransformOrigin = px + " " + py;
+    return this;
 };
 
 
@@ -416,9 +395,9 @@ Sprite3D.prototype.setTransformOrigin = function(px, py) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setSize = function(width, height) {
-	this.style.width = (this.width = width) + "px";
-	this.style.height = (this.height = height) + "px";
-	return this;
+    this.style.width = (this.width = width) + "px";
+    this.style.height = (this.height = height) + "px";
+    return this;
 };
 
 /**
@@ -428,8 +407,8 @@ Sprite3D.prototype.setSize = function(width, height) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setOpacity = function(alpha) {
-	this.style.opacity = this.alpha = alpha;
-	return this;
+    this.style.opacity = this.alpha = alpha;
+    return this;
 };
 
 /**
@@ -437,7 +416,7 @@ Sprite3D.prototype.setOpacity = function(alpha) {
  * @return {Number} The opacity of the element
  */
 Sprite3D.prototype.getOpacity = function() {
-	return this.alpha;
+    return this.alpha;
 };
 
 /**
@@ -448,8 +427,8 @@ Sprite3D.prototype.getOpacity = function() {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setClassName = function(className) {
-	this.domElement.className = className;
-	return this;
+    this.domElement.className = className;
+    return this;
 };
 
 /**
@@ -457,7 +436,7 @@ Sprite3D.prototype.setClassName = function(className) {
  * @return {String} The CSS class name
  */
 Sprite3D.prototype.getClassName = function() {
-	return this.domElement.className;
+    return this.domElement.className;
 };
 
 /**
@@ -467,8 +446,8 @@ Sprite3D.prototype.getClassName = function() {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.addClassName = function(className) {
-	this.domElement.className += " " + className + " ";
-	return this;
+ 	this.domElement.className += " " + className + " ";
+    return this;
 };
 
 /**
@@ -479,21 +458,21 @@ Sprite3D.prototype.addClassName = function(className) {
  */
 Sprite3D.prototype.removeClassName = function(className) {
 	this.domElement.className = this.domElement.className.replace(className, '');
-	//this.domElement.className += " " + className;
-	return this;
+    //this.domElement.className += " " + className;
+    return this;
 };
 
 /**
  * Sets the ID of the DOM element in the document.
  * This method is just a helper allowing neverending chaining in the Sprite3D creation syntax.
- * You can also simply access the <code>domElement</code> property of the Sprite3D and set its <code>id</code> property.
+ * You can also simply access the <code>domElement</code> property of the Sprite3D and set it's <code>id</code> property.
  * This method does not require a call to the update methods.
  * @param {String} id The ID
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setId = function(id) {
-	this.domElement.id = id;
-	return this;
+    this.domElement.id = id;
+    return this;
 };
 
 /**
@@ -501,7 +480,7 @@ Sprite3D.prototype.setId = function(id) {
  * @return {String} The CSS class name
  */
 Sprite3D.prototype.getId = function() {
-	return this.domElement.id;
+    return this.domElement.id;
 };
 
 /**
@@ -514,8 +493,8 @@ Sprite3D.prototype.getId = function() {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setCSS = function(name, value) {
-	this.domElement.style[name] = value;
-	return this;
+    this.domElement.style[name] = value;
+    return this;
 };
 
 /**
@@ -524,7 +503,7 @@ Sprite3D.prototype.setCSS = function(name, value) {
  * @return {String} The value of the CSS property
  */
 Sprite3D.prototype.getCSS = function(name) {
-	return this.domElement.style[name];
+    return this.domElement.style[name];
 };
 
 /**
@@ -533,8 +512,8 @@ Sprite3D.prototype.getCSS = function(name) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setInnerHTML = function(value) {
-	this.domElement.innerHTML = value;
-	return this;
+    this.domElement.innerHTML = value;
+    return this;
 };
 
 
@@ -545,9 +524,9 @@ Sprite3D.prototype.setInnerHTML = function(value) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setTileSize = function(width, height) {
-	this.tileWidth = width;
-	this.tileHeight = height;
-	return this;
+    this.tileWidth = width;
+    this.tileHeight = height;
+    return this;
 };
 
 /**
@@ -559,8 +538,8 @@ Sprite3D.prototype.setTileSize = function(width, height) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setTilePosition = function(tilePosX, tilePosY) {
-	this.style.backgroundPosition = "-" + (tilePosX * this.tileWidth) + "px -" + (tilePosY * this.tileHeight) + "px";
-	return this;
+    this.style.backgroundPosition = "-" + (tilePosX * this.tileWidth) + "px -" + (tilePosY * this.tileHeight) + "px";
+    return this;
 };
 
 /**
@@ -570,96 +549,66 @@ Sprite3D.prototype.setTilePosition = function(tilePosX, tilePosY) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setProperty = function(label, value) {
-	this[label] = value;
-	return this;
+    this[label] = value;
+    return this;
 };
 
 /**
  * Sets the order in which transformations are applied.
  * If true, rotations are applied before translations. If false, translations are applied before rotations.
  * Note that, when applying rotations, the axis of the object rotate, and subsequent translations follow the modified orientation of the axis.
- * For a more accurate control, you should use the transformString property.
  * @param {boolean} rf true to rotate first, false to translate first
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setRotateFirst = function(rf) {
-	this.rotateFirst = rf;
-	if ( rf ) {	
-		this.transformString = "_rx _ry _rz _p _s";
-	} else {
-		this.transformString = "_p _rz _ry _rx _s";
-	}
-	return this;
+    this.rotateFirst = rf;
+    return this;
 };
 
 /**
  * Applies position and rotation values.
  * @return {Sprite3D} The reference to this Sprite3D object
  */
-Sprite3D.prototype.update = function() {
-	this.p = "translate3d(" + (this.x - this.regX) + "px," + (this.y - this.regY) + "px," + (this.z - this.regZ) + "px) ";
-	this.rx = "rotateX(" + this.rotationX + "deg) ";
-	this.ry = "rotateY(" + this.rotationY + "deg) ";
-	this.rz = "rotateZ(" + this.rotationZ + "deg) ";
-	this.s = "scale3d(" + this.scaleX + ", " + this.scaleY + ", " + this.scaleX + ") ";
-	/*
-	if (this.rotateFirst)
-		this.style.webkitTransform = this.rz + this.ry + this.rx + this.p + this.s;
-	else
-		this.style.webkitTransform = this.p + this.rx + this.ry + this.rz + this.s;
+Sprite3D.prototype.update = function() {    p = "translate3d(" + (this.x - this.regX) + "px," + (this.y - this.regY) + "px," + (this.z - this.regZ) + "px) ";
+    rx = "rotateX(" + this.rotationX + "deg) ";
+    ry = "rotateY(" + this.rotationY + "deg) ";
+    rz = "rotateZ(" + this.rotationZ + "deg) ";
+    //r = 
+	s = "scale3d(" + this.scaleX + ", " + this.scaleY + ", " + this.scaleX + ") ";
+
+    if (this.rotateFirst)
+    //this.style.webkitTransform = rx + ry + rz + p;
+    this.style.webkitTransform = rz + ry + rx + p + s;
+    else
+    this.style.webkitTransform = p + rx + ry + rz + s;
+
+    return this;
+
+    /*
+	future version, more flexible :
+	
+	var transformString = "rx ry rz p";
+	var tt = transformString;
+	tt = tt.replace( "p", p );
+	tt = tt.replace( "rx", rx );
+	tt = tt.replace( "ry", ry );
+	tt = tt.replace( "rz", rz );
+	
+	this.style.webkitTransform = tt;
+	
 	*/
-
-	//	var transformString = "_rx _ry _rz _p _s";
-	this.ts = this.transformString;
-	this.ts = this.ts.replace( "_p", this.p );
-	this.ts = this.ts.replace( "_rx", this.rx );
-	this.ts = this.ts.replace( "_ry", this.ry );
-	this.ts = this.ts.replace( "_rz", this.rz );
-	this.ts = this.ts.replace( "_s", this.s );
-	//this.style.webkitTransform = this.ts;
-	this.style[this._transformProperty] = this.ts;
-
-	return this;
 };
-
-
-/**
- * Applies 2D position, rotation and scaling values.
- * This method allows to use Sprite3D with browsers that only support 2D transforms.
- * When applying the transforms, it uses the x and y position, z rotation and x and y scaling.
- * The other values are ignored.
- * @return {Sprite3D} The reference to this Sprite3D object
- */
-Sprite3D.prototype.update2D = function() {
-	this.p = "translate(" + (this.x - this.regX) + "px," + (this.y - this.regY) + "px) ";
-	this.rz = "rotate(" + this.rotationZ + "deg) ";
-	this.s = "scale(" + this.scaleX + ", " + this.scaleY + ") ";
-
-	this.ts = this.transformString;
-	this.ts = this.ts.replace( "_p", this.p );
-	this.ts = this.ts.replace( "_rx", "" );
-	this.ts = this.ts.replace( "_ry", "" );
-	this.ts = this.ts.replace( "_rz", this.rz );
-	this.ts = this.ts.replace( "_s", this.s );
-	//this.style.webkitTransform = this.ts;
-	this.style[this._transformProperty] = this.ts;
-
-	//console.log( "apply 2D transforms using " + this._transformProperty );
-
-	return this;
-};
-
 
 /**
  * Applies position and rotation values, as well as opacity and size.
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.updateAll = function() {
-	this.update();
-	this.style.opacity = this.alpha;
-	this.style.width = this.width + "px";
-	this.style.height = this.height + "px";
-	return this.update();
+    this.update();
+    this.style.opacity = this.alpha;
+    this.style.width = this.width + "px";
+    this.style.height = this.height + "px";
+    return this.update();
 };
 
 
@@ -668,10 +617,10 @@ Sprite3D.prototype.updateAll = function() {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.updateChildren = function() {
-	for (this.i = 0; this.i < this.numChildren; this.i++) {
-		this.children[this.i].update();
-	}
-	return this;
+    for (i = 0; i < this.numChildren; i++) {
+        this.children[i].update();
+    }
+    return this;
 };
 
 /**
@@ -679,10 +628,10 @@ Sprite3D.prototype.updateChildren = function() {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.updateChildrenAll = function() {
-	for (this.i = 0; this.i < this.numChildren; this.i++) {
-		this.children[this.i].updateAll();
-	}
-	return this;
+    for (i = 0; i < this.numChildren; i++) {
+        this.children[i].updateAll();
+    }
+    return this;
 };
 
 /**
@@ -691,17 +640,16 @@ Sprite3D.prototype.updateChildrenAll = function() {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.updateWithChildren = function(recursive) {
-	this.update();
+    this.update();
 
-	for (this.i = 0; this.i < this.numChildren; this.i++) {
-		if (recursive) {
-			this.children[this.i].updateWithChildren(recursive);
-		} else {
-			this.children[this.i].update();
-		}
-	}
+    for (i = 0; i < this.numChildren; i++) {
+        if (recursive)
+        this.children[i].updateWithChildren(recurse);
+        else
+        this.children[i].update();
+    }
 
-	return this;
+    return this;
 };
 
 /**
@@ -710,9 +658,9 @@ Sprite3D.prototype.updateWithChildren = function(recursive) {
  * @return {Sprite3D} The reference to the added Sprite3D object
  */
 Sprite3D.prototype.addChild = function(e) {
-	this.numChildren = this.children.push(e);
-	this.domElement.appendChild(e.domElement);
-	return e;
+    this.numChildren = this.children.push(e);
+    this.domElement.appendChild(e.domElement);
+    return e;
 };
 
 /**
@@ -721,11 +669,11 @@ Sprite3D.prototype.addChild = function(e) {
  * @return {Sprite3D} The reference to the removed Sprite3D object. null if the child was not found in this Sprite3D children list
  */
 Sprite3D.prototype.removeChild = function(child) {
-	var n = this.children.indexOf(child);
-	if (n > -1) {
-		return this.removeChildAt(n);
-	}
-	return null;
+    var n = this.children.indexOf(child);
+    if (n > -1) {
+        return this.removeChildAt(n);
+    }
+    return null;
 };
 
 /**
@@ -734,21 +682,23 @@ Sprite3D.prototype.removeChild = function(child) {
  * @return {Sprite3D} The reference to the removed Sprite3D object.
  */
 Sprite3D.prototype.removeChildAt = function(n) {
-	--this.numChildren;
-	this.domElement.removeChild(this.children[n].domElement);
-	return this.children.splice(n, 1)[0];
+    --this.numChildren;
+    this.domElement.removeChild(this.children[n].domElement);
+    return this.children.splice(n, 1)[0];
 };
 
+// returns the child associated with the provided Dom element
+// use this when listening to user input events (using addEventListener)
 /**
  * Finds and return the Sprite3D object associated with the provided DOM element
  * @param {Object} element The DOM element
  * @return {Sprite3D} The reference to the associated Sprite3D object. Returns null if no relevant Sprite3D object was found
  */
 Sprite3D.prototype.findFromDOMElement = function(element) {
-	for (this.i = 0; this.i < this.numChildren; this.i++) {
-		if (element == this.children[this.i].domElement) { return this.children[this.i]; }
-	}
-	return null;
+    for (i = 0; i < this.numChildren; i++) {
+        if (element == this.children[i].domElement) return this.children[i];
+    }
+    return null;
 };
 
 /**
@@ -758,18 +708,16 @@ Sprite3D.prototype.findFromDOMElement = function(element) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.addEventListener = function(event, callback) {
-	// old way, not so satisfying (does not bring the sprite's reference to the callback funcion)
-	//this.domElement.addEventListener( event, callback );
-	
-	// new version, allows to get the reference of the target Sprite3D,
-	// but requires a little bit more work on the removeEventListener method
-	var sprite = this;
-	this.domElement.addEventListener(event,
-		function(e) {
-			callback(e, sprite);
-		}
-	);
-	return this;
+    // old way, not so satisfying (does not bring the sprite's reference to the callback funcion)
+    //this.domElement.addEventListener( event, callback );
+    // experimental version, allows to get the reference of the target Sprite3D,
+    // but requires a little bit more work on the removeEventListener method
+    var sprite = this;
+    this.domElement.addEventListener(event,
+    function(e) {
+        callback(e, sprite);
+    });
+    return this;
 };
 
 /**
@@ -779,12 +727,8 @@ Sprite3D.prototype.addEventListener = function(event, callback) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.removeEventListener = function(event, callback) {
-	// should find a way to keep references of the functions created above,
-	// but needs a solution to manage multiple listeners for same event... 
-	// tip: should use event classing like in jQuery -- yeah !
-	// todo: implement that way properly :)
-	this.domElement.removeEventListener(event, callback);
-	return this;
+    this.domElement.removeEventListener(event, callback);
+    return this;
 };
 
 
@@ -793,21 +737,21 @@ Sprite3D.prototype.removeEventListener = function(event, callback) {
  * @return {Sprite3D} The created Sprite3D object
  */
 Sprite3D.createCenteredContainer = function() {
-	var c = document.createElement('div'),
-		s = c.style;
-	s.webkitPerspective = "800";
-	s.webkitPerspectiveOrigin = "0 0";
-	s.webkitTransformOrigin = "0 0";
-	s.webkitTransform = "translateZ(0px)";
-	s.position = "absolute";
-	s.top = "50%";
-	s.left = "50%";
-	s.margin = "0px";
-	s.padding = "0px";
-	//s.border = "1px solid red"; // <- this one is for debug
-	document.body.appendChild(c);
+    var c = document.createElement('div');
+    var s = c.style;
+    s.webkitPerspective = "800";
+    s.webkitPerspectiveOrigin = "0 0";
+    s.webkitTransformOrigin = "0 0";
+    s.webkitTransform = "translateZ(0px)";
+    s.position = "absolute";
+    s.top = "50%";
+    s.left = "50%";
+    s.margin = "0px";
+    s.padding = "0px";
+    //s.border = "1px solid red";
+    document.body.appendChild(c);
 
-	return new Sprite3D(c);
+    return new Sprite3D(c);
 };
 
 /**
@@ -815,72 +759,33 @@ Sprite3D.createCenteredContainer = function() {
  * @return {Sprite3D} The created Sprite3D object
  */
 Sprite3D.createTopLeftCenteredContainer = function() {
-    var c = document.createElement('div'),
-		s = c.style;
-		s.webkitPerspective = "800";
-		//	s.webkitPerspectiveOrigin = "0 0";
-		//	s.webkitTransformOrigin = "0 0";
-		s.webkitTransform = "translateZ(0px)";
-		s.position = "relative";
-		/*
-		s.position = "absolute";
-		s.top = "0px";
-		s.left = "0px";
-		s.right = "0px"
-		s.bottom = "0px"
-		s.margin = "0px";
-		s.padding = "0px";
-		s.border = "1px solid red";
-		*/
-		/* i left all those comments above because they might be useful in some use cases */
-		document.body.appendChild(c);
+    var c = document.createElement('div');
+    var s = c.style;
+    s.webkitPerspective = "800";
+    //	s.webkitPerspectiveOrigin = "0 0";
+    //	s.webkitTransformOrigin = "0 0";
+    s.webkitTransform = "translateZ(0px)";
+	s.position = "relative";
+	/*
+    s.position = "absolute";
+    s.top = "0px";
+    s.left = "0px";
+    s.right = "0px"
+    s.bottom = "0px"
+	s.margin = "0px";
+    s.padding = "0px";
+	s.border = "1px solid red";
+	*/
+	document.body.appendChild(c);
 
-		return new Sprite3D(c);
+    return new Sprite3D(c);
 };
-
-
-/** Private static property. Used internally for browser checking. You should not change its value. */
-Sprite3D.prototype._isInit = false;
-
-/** Private static property. Used internally for cross-browser compatibility. You should not change its value. */
-Sprite3D.prototype._transformProperty = "webkitTransform";
-
-/** Private static property. Used internally for cross-browser compatibility. You should not change its value. */
-Sprite3D.prototype._browserPrefix = "webkit";
 
 /**
  * Test for CSS 3D transforms support in the current browser.
- * If 3D transforms are not supported, the update() method is replaced by the update2D() method,
- * providing an automatic fallback that might save some bits :)
  * @return {boolean} True if the 3D transforms are supported by the browser
  */
 Sprite3D.isSupported = function() {
-	var d = document.createElement("div"), 
-			prefixes = ["", "webkit", "Moz", "o", "ms" ],
-			n = prefixes.length, i;
-
-	// check for 3D transforms
-	for( i = 0; i < n; i++ ) {
-		if ( ( prefixes[i] + "Perspective" ) in d.style ) {
-			Sprite3D.prototype._transformProperty = prefixes[i] + "Transform";
-			Sprite3D.prototype._isInit = true;
-			Sprite3D.prototype._browserPrefix = prefixes[i];
-			//console.log( "found support for 3D transforms using prefix: " + prefixes[i] );
-			return true;
-		}
-	}
-
-	// check for 2D transforms
-	for( i = 0; i < n; i++ ) {
-		if ( ( prefixes[i] + "Transform" ) in d.style ) {
-			Sprite3D.prototype._transformProperty = prefixes[i] + "Transform";
-			Sprite3D.prototype._isInit = true;
-			Sprite3D.prototype._browserPrefix = prefixes[i];
-			Sprite3D.prototype.update = Sprite3D.prototype.update2D;
-			//console.log( "found support for 2D transforms using prefix: " + prefixes[i] );
-			return false;
-		}
-	}
-	//console.log( "no support for CSS transforms.");
-	return false;
+    // TODO: should be extended when adding support for more browser engines
+    return 'webkitPerspective' in document.body.style;
 };

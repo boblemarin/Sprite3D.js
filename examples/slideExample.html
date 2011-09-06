@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--
+	Sprite3D.js example file
+	Visit the internets for documentation, updates and examples.
+	https://github.com/boblemarin/Sprite3D.js
+	http://minimal.be/lab/Sprite3D
+
+	Copyright (c) 2010 boblemarin http://www.minimal.be
+
+	Permission is hereby granted, free of charge, to any person
+	obtaining a copy of this software and associated documentation
+	files (the "Software"), to deal in the Software without
+	restriction, including without limitation the rights to use,
+	copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the
+	Software is furnished to do so, subject to the following
+	conditions:
+
+	The above copyright notice and this permission notice shall be
+	included in all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+	OTHER DEALINGS IN THE SOFTWARE.
+	-->
+<meta charset="utf-8" />
+
+<meta name='HandheldFriendly' content='True' />
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="img/country-cat.png"/>
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+
+<meta property="og:title" content="Taquin">
+<meta property="og:type" content="game">
+<meta property="og:image" content="http://www.minimal.be/lab/Sprite3D/examples/img/country-cat.png">
+<meta property="og:url" content="http://www.minimal.be/lab/Sprite3D/">
+<meta property="og:description" content="Sliding puzzle">
+
+
+<title>Sprite3D - Slide It ! Demo</title>
+
+
+		
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
+<style>
+		
+html, body { height: 100%; }
+
+body {
+	background: #000 url("img/pattern.png");
+	color: white;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+
+#debug {
+	color: #FFF;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	text-align: center;
+	font-family: courier;
+}
+
+.witness {
+	background: url("img/country-cat.png");
+	width: 500px;
+	height: 500px;
+	
+     -moz-border-radius: 5px; 
+  -webkit-border-radius: 5px; 
+          border-radius: 5px; 
+
+
+  -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; 
+
+     -moz-box-shadow: 0px 0px 12px #000; 
+  -webkit-box-shadow: 0px 0px 12px #000; 
+          box-shadow: 0px 0px 12px #000; 
+
+}
+
+.box {
+	background: url("img/country-cat.png");
+	width: 123px;
+	height: 123px;
+	cursor: pointer;
+	
+     -moz-border-radius: 5px; 
+  -webkit-border-radius: 5px; 
+          border-radius: 5px; 
+
+
+  -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; 
+
+     -moz-box-shadow: 0px 0px 6px #000; 
+  -webkit-box-shadow: 0px 0px 6px #000; 
+          box-shadow: 0px 0px 6px #000; 
+
+}
+			
+</style>
+
+<!-- =========================================================== -->		
+<!-- JAVASCRIPT SECTION ======================================== -->
+<!-- =========================================================== -->
+
+<!-- Paul Irish's cross-browser RequestAnimationFrame technique -->
+<script type="text/javascript" src="../js/RequestAnimationFrame.js"></script>
+
+<!-- Grant Skinner's TweenJS engine -->
+<script type="text/javascript" src="../js/Tween.js"></script>
+
+<!-- Robert Penner's easing equations -->
+<script type="text/javascript" src="../js/Easing.js"></script>
+
+<!-- boblemarin's Sprite3D utility class -->
+<script src="../js/Sprite3D.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+var debug,
+	zeroX,
+	zeroY,
+	step = 125,
+	hdivs = 4,
+	vdivs = 4,
+	numpieces,
+	tweening = false,
+	tweenTarget,
+	lastTime,
+	pieces;
+		
+function init() {
+	debug = document.getElementById("debug");
+	
+	// create a centered 3D stage
+	stage = Sprite3D.createCenteredContainer();
+	
+	// set up vars
+	numpieces = hdivs * vdivs - 1;
+	zeroX = hdivs / -2 * step + 200;
+	zeroY = vdivs / -2 * step;
+	pieces = [];
+	
+	var px, py, i;
+	
+	for( i = 0; i < numpieces; i++ )
+	{
+		px = ( i % hdivs ) * step;
+		py = ( i / hdivs >> 0 ) * step;
+		pieces.push( 
+			stage.addChild(
+				new Sprite3D()
+					.setClassName("box")
+					.setCSS( "backgroundPosition", "-"+px+"px -"+py+"px" )
+					.setProperty( "free", 0 )
+					.setPosition( zeroX + px, zeroY + py, 0 )
+					.addEventListener( "click", onPieceTouched )
+					.addEventListener( "touchstart", onPieceTouched )
+					.update()
+			)
+		);
+	}
+	
+	// add witness
+	stage.addChild( new Sprite3D()
+		.setClassName("witness")
+		.setPosition( -800, -250, -800 )
+		.setRotation( 0, 35, 0 )
+		.setRotateFirst(false)
+		.setOpacity( .8 )
+		.update()
+	);
+	
+	// add an empty slot in the array
+	++numpieces;
+	pieces.push(0);
+	
+	// then scramble
+	var r1, r2;
+	for( i = 0; i < numpieces>>1; i++ )
+	{
+		exchange( Math.random() * numpieces >> 0, Math.random() * numpieces >> 0 );
+	}
+	
+	// and display scrambled state
+	layout();
+	
+	// keep track of the time to tick the tween engine
+	lastTime = new Date().getTime();
+	
+	document.addEventListener( "touchstart", onDocumentTouched );
+	
+	animate();
+}	
+
+function onDocumentTouched( event ) {
+	event.preventDefault();
+}
+
+function onPieceTouched( event, target ) {
+	if ( !tweening )
+	{
+		var p;
+		switch( target.free )
+		{
+			case "left" :
+				p = pieces.indexOf( target );
+				exchange( p, p-1 );
+				move( target, -step, 0 );
+				break;
+
+			case "right" :
+				p = pieces.indexOf( target );
+				exchange( p, p+1 );
+				move( target, step, 0 );
+				break;
+
+			case "up" :
+				p = pieces.indexOf( target );
+				exchange( p, p-hdivs );
+				move( target, 0, -step );
+				break;
+
+			case "down" :
+				p = pieces.indexOf( target );
+				exchange( p, p+hdivs );
+				move( target, 0, step );
+				break;
+
+		}
+	}
+
+	event.preventDefault();
+}
+
+function move( target, px, py ) {
+	tweening = true;
+	tweenTarget = target;
+	Tween.get( target, false ).to({ 
+		x: target.x + px,
+		y: target.y + py,
+		z: -60
+	},70,Easing.Quadratic.EaseIn).to({
+		z: 0
+	},30,Easing.Quadratic.EaseOut).call(tweenDone);
+}
+
+function tweenDone() {
+	tweening = false;
+	tweenTarget = null;
+	layout();
+}
+
+function exchange( n, m ) {
+	var t = pieces[n];
+	pieces[n] = pieces[m];
+	pieces[m] = t;
+}
+
+function layout() {
+	var zx,zy;
+	for( var i = 0; i < numpieces; i++ )
+	{
+		if ( pieces[i] != 0 )
+		{
+			pieces[i]
+				.setPosition( zeroX + ( i % hdivs ) * step, zeroY + ( i / hdivs >> 0 ) * step, 0 )
+				.setProperty("free",0)
+				.update();
+		}
+		else
+		{
+			zx = i % hdivs;
+			zy = i / hdivs >> 0;
+		}
+	}
+	// mark free pieces
+	if ( zx > 0 ) pieces[ zy * hdivs + zx - 1 ].setProperty( "free", "right" ); // neighbour left
+	if ( zy > 0 ) pieces[ (zy-1) * hdivs + zx ].setProperty( "free", "down" ); // neighbour up 
+	if ( zx < hdivs-1 ) pieces[ zy * hdivs + zx + 1 ].setProperty( "free", "left" ); // neighbour right
+	if ( zy < vdivs-1 ) pieces[ (zy+1) * hdivs + zx ].setProperty( "free", "up" ); // neighbour down
+}
+
+function animate() {
+	var newTime = new Date().getTime();
+	Tween.tick( newTime - lastTime );
+	lastTime = newTime;
+
+	if ( tweenTarget ) tweenTarget.update();
+	
+	requestAnimationFrame( animate );
+}
+
+function msg( t )
+{
+	debug.innerHTML = t;
+}
+
+
+
+</script>
+</head>
+
+<!-- =========================================================== -->		
+<!-- HTML BODY ================================================= -->
+<!-- =========================================================== -->
+
+<body onload="init();">
+	
+	<div id="debug"></div>
+<!--
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-9528692-4");
+	pageTracker._trackPageview();
+	} catch(err) {}</script>
+
+	<a href="http://minimal.be/lab/Sprite3D/"><img src="img/banner.png" style="border:0;position:absolute;right:0;top:0" alt="built width Sprite3D.js" /></a>
+-->
+</body>
+</html>

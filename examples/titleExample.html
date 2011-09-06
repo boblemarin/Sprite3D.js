@@ -143,7 +143,12 @@ function init() {
 	}
 	
 	// create container for the stripes
-	stripeContainer = stage.addChild( new Sprite3D().setPosition( 0, 0, 350 ).update() );
+	stripeContainer = stage.addChild( 
+		new Sprite3D()
+			.setRotateFirst(false)
+			.setPosition( 0, 0, 350 )
+			.update() 
+	);
 	
 	// create stripes with extreme chaining syntax ;)
 	for ( i = 0; i < numStripes; i++ )

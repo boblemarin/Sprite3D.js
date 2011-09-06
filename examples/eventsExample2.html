@@ -162,14 +162,13 @@ function init() {
 	
 	for( i = 0; i < 4; i++ )
 	{
-		// i wanted to use a animated gif version of the cat,
-		// but it makes Mobile Safari crash when they are displayed at a big size. :(
 		img = document.createElement('img');
 		img.src = "img/jesus.png";
 		
 		stage.addChild( target = new Sprite3D(img)
 			.setPosition( Math.floor( Math.random() * divs - hdivs ) * stepH, Math.floor( Math.random() * divs - hdivs ) * stepV, 0 )
 			.setSize( stepH, stepV ) 
+			.setRotateFirst(false)
 			.addEventListener( "click", move, true )
 			.addEventListener( "touchstart", move, true )
 			.update()

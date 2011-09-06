@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--
+	Sprite3D.js example file
+	Visit the internets for documentation, updates and examples.
+	https://github.com/boblemarin/Sprite3D.js
+	http://minimal.be/lab/Sprite3D
+
+	Copyright (c) 2010 boblemarin http://www.minimal.be
+
+	Permission is hereby granted, free of charge, to any person
+	obtaining a copy of this software and associated documentation
+	files (the "Software"), to deal in the Software without
+	restriction, including without limitation the rights to use,
+	copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the
+	Software is furnished to do so, subject to the following
+	conditions:
+
+	The above copyright notice and this permission notice shall be
+	included in all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+	OTHER DEALINGS IN THE SOFTWARE.
+	-->
+<meta charset="utf-8" />
+
+<meta name='HandheldFriendly' content='True' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+
+<title>Sprite3D - gallery demo</title>
+
+		
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
+<style>
+		
+html, body { height: 100%; }
+
+body {
+	background: #dfebeb url("face/bg.jpg") no-repeat center;
+	color: white;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+span {
+	display: block;
+	opacity: 1;
+}
+
+.selected {
+	opacity: .8;
+}
+
+.selected2 {
+	opacity: .7;
+}
+
+#debug {
+	position: absolute;
+	left: 5px;
+	bottom: 5px;
+	color: white;
+	font-weight: bold;
+}
+			
+</style>
+
+<!-- =========================================================== -->		
+<!-- JAVASCRIPT SECTION ======================================== -->
+<!-- =========================================================== -->
+
+<script src="../js/Sprite3D.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+var debug,
+	stage,
+	EMPTY_TOUCH = -999,
+	z = 1,
+	debug,
+	numTargets = 6;
+		
+function init() {
+	debug = document.getElementById("debug");
+	//debug.innerHTML = "yeaaaaah";
+	
+	stage = Sprite3D.createTopLeftCenteredContainer();
+	// add targets to the stage
+	var target, 
+		step = Math.PI * 2.0 / numTargets;
+		
+	for( var i = 0; i < numTargets; i++ )
+	{
+		target = new Sprite3D( document.getElementById( "img" + (i+1) ) )
+			.setRegistrationPoint( 0, 0, 0 )
+			.setTransformOrigin( "0%", "0%"  )
+			.setPosition( 50, 50, 0 )
+			.setRotateFirst(false)
+			.addEventListener( "touchstart", onTouchStart )
+			.addEventListener( "touchmove", onTouchMove )
+			.addEventListener( "touchend", onTouchEnd )
+			.setProperty( 'numTouches', 0 )
+			.setProperty( 'touch1ID', EMPTY_TOUCH )
+			.setProperty( 'touch2ID', EMPTY_TOUCH )
+			.update();
+		stage.addChild( target );
+	}
+	
+	document.addEventListener( "touchstart", onDocumentTouchStart );
+}	
+
+function onDocumentTouchStart( event, target ) {
+	// prevent user from scrolling the page
+	event.preventDefault();
+}
+
+function onTouchStart( event, target ) {
+	var t;
+	
+	switch( target.numTouches ) {
+		
+		case 0:
+			target.setClassName( "selected" );
+			target.style.zIndex = z++;
+			t = event.changedTouches[0];
+			target.touch1X = t.pageX;
+			target.touch1Y = t.pageY;
+			target.touch1ID = t.identifier;
+			target.numTouches = 1;
+			break;
+			
+		case 1:
+			target.setClassName( "selected2" );
+			t = event.changedTouches[0];
+			target.touch2X = t.pageX;
+			target.touch2Y = t.pageY;
+			target.touch2ID = t.identifier;
+			target.numTouches = 2;
+			target.touchAngle = Math.atan2( target.touch2Y - target.touch1Y, target.touch2X - target.touch1X );
+			target.touchDistance = distance( target.touch2X - target.touch1X, target.touch2Y - target.touch1Y );
+
+			target.angle = Math.atan2( target.y - target.touch1Y, target.x - target.touch1X );
+			target.distance = distance( target.x - target.touch1X, target.y - target.touch1Y );
+			target.startRotation = target.rotationZ;
+			target.startScale = target.scaleX;
+			break;
+			
+	}
+	
+	//debug.innerHTML = "touchSTART -- " + target.getId() + " : " + t.identifier + " :: "+ target.numTouches;
+	
+	event.preventDefault();
+}
+
+function onTouchMove( event, target ) {
+	var ta, t, px, py;
+	
+	switch( target.numTouches )
+	{
+		case 1: 
+			ta = event.changedTouches;
+			n = ta.length;
+			while( n-- ) {
+				t = ta[n];
+				if ( t.identifier == target.touch1ID )
+				{
+					px = t.pageX;
+					py = t.pageY;
+					target.move( px - target.touch1X, py - target.touch1Y, 0 ).update();
+					target.touch1X = px;
+					target.touch1Y = py;
+					continue;
+				}
+			}
+			break;
+			
+		case 2:
+			// update touch positions
+			ta = event.changedTouches;
+			n = ta.length;
+			while( n-- ) {
+				if ( ta[n].identifier == target.touch1ID )
+				{
+					target.touch1X = ta[n].pageX;
+					target.touch1Y = ta[n].pageY;
+				}
+				else if ( ta[n].identifier == target.touch2ID )
+				{
+					target.touch2X = ta[n].pageX;
+					target.touch2Y = ta[n].pageY;
+				}
+			}
+			
+			// compute new position
+			var modAngle = Math.atan2( target.touch2Y - target.touch1Y, target.touch2X - target.touch1X ) - target.touchAngle,
+				modDistance = distance( target.touch2X - target.touch1X, target.touch2Y - target.touch1Y ) / target.touchDistance,
+				newCornerAngle, newCornerDistance, sin, cos;
+
+			newCornerAngle = target.angle + modAngle;
+			newCornerDistance = target.distance * modDistance;
+			target.x = target.touch1X + Math.cos( newCornerAngle ) * newCornerDistance;
+			target.y = target.touch1Y + Math.sin( newCornerAngle ) * newCornerDistance;
+			target.scaleY = target.scaleX = target.startScale * modDistance;
+			target.rotationZ = target.startRotation + ( modAngle / Math.PI * 180 );
+			target.update();
+			
+			break;
+	}
+	
+	event.preventDefault();
+}
+
+function onTouchEnd( event, target ) {
+	var t, ta = event.changedTouches;
+	n = ta.length;
+	while( n-- )
+	{
+		t = ta[n];
+		
+		if ( t.identifier == target.touch2ID )
+		{
+			//debug.innerHTML = "released touch2 id " + t.identifier;
+			target.touch2ID = EMPTY_TOUCH;
+			--target.numTouches;
+		}
+		else if ( t.identifier == target.touch1ID )
+		{
+			if ( target.touch2ID != EMPTY_TOUCH )
+			{
+				//debug.innerHTML = "released touch1 id " + t.identifier;
+				target.touch1X = target.touch2X;
+				target.touch1Y = target.touch2Y;
+				target.touch1ID = target.touch2ID;
+				target.touch2ID = EMPTY_TOUCH;
+				--target.numTouches;
+			}
+			else
+			{
+				//debug.innerHTML = "released touch1 id " + t.identifier;
+				target.touch1ID = EMPTY_TOUCH;
+				--target.numTouches;
+			}
+		}
+	} 
+	
+	switch( target.numTouches )
+	{
+		case 2:
+			target.setClassName( "selected2" );
+			break;
+		case 1:
+			target.setClassName( "selected1" );
+			break;
+		case 0:
+			target.setClassName( "" );
+			break;
+	}
+	
+	//debug.innerHTML = "touchEND -- " + target.getId() + " : " + target.numTouches;
+	
+	event.preventDefault();
+}
+
+function distance( dx, dy )
+{
+	return Math.sqrt( dx * dx + dy * dy );
+}
+
+</script>
+</head>
+
+<!-- =========================================================== -->		
+<!-- HTML BODY ================================================= -->
+<!-- =========================================================== -->
+
+<body onload="init();">
+	
+	<!--
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-9528692-4");
+	pageTracker._trackPageview();
+	} catch(err) {}</script>
+	-->
+	<!--
+	<span id="img1"><img src="face/nose1.png" /></span>
+	<span id="img2"><img src="face/nose2.png" /></span>
+	<span id="img3"><img src="face/mouth1.png" /></span>
+	<span id="img4"><img src="face/mouth2.png" /></span>
+	<span id="img5"><img src="face/eye1.png" /></span>
+	<span id="img6"><img src="face/eye2.png" /></span>
+	-->
+	<img src="face/_nose1.png" id="img1" />
+	<img src="face/_nose2.png" id="img2" />
+	<img src="face/_mouth1.png" id="img3" />
+	<img src="face/_mouth2.png" id="img4" />
+	<img src="face/_eye1.png" id="img5" />
+	<img src="face/_eye2.png" id="img6" />
+	
+	<a href="http://minimal.be/lab/Sprite3D/"><img src="img/banner.png" style="border:0;position:absolute;right:0;top:0;" alt="built width Sprite3D.js" /></a>
+	
+	<div id="debug"></div>
+</body>
+</html>

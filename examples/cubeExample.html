@@ -33,7 +33,7 @@
 		<meta charset="utf-8" />
 		<meta name='HandheldFriendly' content='True' />
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
-		<title>Sprite3D.js - Flower - More hierarchy and animation</title>
+		<title>Sprite3D.js - Basics - Simple Hierarchy and animation</title>
 
 
 <!-- =========================================================== -->		
@@ -45,175 +45,163 @@
 html, body { height: 100%; }
 
 body {
-	background-color: white;
+	background-color: #44CFFE;
 	color: black;
 	margin: 0px;
 	padding: 0px;
 	overflow: hidden;
 }
 
-.part0 {
-	width: 10px;
-	height: 20px;
-	background-color: #88FF88;
-}
-.part1 {
-	width: 10px;
-	height: 20px;
-	background-color: #FF8888;
-}
-.part2 {
-	width: 10px;
-	height: 20px;
-	opacity: .85;
-	background-color: #FF88FF;
+.cube_face {
+	width:  128px;
+	height:  128px;
+	background-size: 128px 128px;
+	background: url("img/boite-bonus.gif");
 }
 
-#debug {
-	color: #000;
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-	width: 100%;
-	text-align: center;
-	font-family: courier;
-}		
-
-q {
-	display: inline-block;
-	padding: 10px	;
+.cube_top {
+	background: url("img/boite-vide.gif");
 }
+
+			
 		</style>
 
 		<!-- =========================================================== -->		
 		<!-- JAVASCRIPT SECTION ======================================== -->
 		<!-- =========================================================== -->
-		<script type="text/javascript" src="../js/RequestAnimationFrame.js"></script>
-		<script type="text/javascript" src="../js/Stats.js"></script>
 		<script src="../js/Sprite3D.js" type="text/javascript"></script>
 		<script type="text/javascript">
 
 var stage,
-	debug,
 	container, 
-	stats,
-	n = 0,
+	cube,
+	sx = 0,
+	sy = 0,
 	t = 0;
 
 function init() {
-	debug = document.getElementById("debug");
 	
 	// 1. create the "stage" (root container)
 	stage = Sprite3D.createCenteredContainer();
 	
 	// 2. create the container that will be used to rotate its children, and add it to the stage
-	container = new Sprite3D().rotateX(180).setPosition(0, 100, 200 ).update();
-	//container = new Sprite3D().rotateX(-45).setPosition(0, 0, 200 ).update();
+	container = new Sprite3D().setZ(-100).update();
 	stage.addChild( container );
 	
-	// 3. call helper functions to create the flower ( 3 parts )
-	addRing( 
-		container, 
-		8 + Math.round( Math.random() * 10 ), 
-		4 + Math.round( Math.random() * 4 ), 
-		15 + Math.round( Math.random() * 9 ), 
-		22, 
-		"part0"
-	);
-	addRing( 
-		container, 
-		8 + Math.round( Math.random() * 10 ), 
-		5 + Math.round( Math.random() * 8 ), 
-		5 + Math.round( Math.random() * 12 ),
-		20, 
-		"part1" 
-	);
-	addRing( 
-		container, 
-		8 + Math.round( Math.random() * 10 ), 
-		5 + Math.round( Math.random() * 8 ), 
-		5 + Math.round( Math.random() * 12 ),
-		10, 
-		"part2" 
-	);
-	
-	/*
-	addRing( container, 12, 6, 20, 22, "part0" );
-	addRing( container, 16, 10, 8, 20, "part1" );
-	addRing( container, 20, 8, 5, 10, "part2" );
-	*/
-	msg( n + ' divs, <a href="flowerExample.htm">refresh</a>' )
-	
-	stats = new Stats();
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.top = '0px';
-	document.body.appendChild(stats.domElement);
-	
-	
-	animate();
+	t = 100;
+	while(t--){
+		cube = container.addChild( 
+			createCube()
+				.setPosition( Math.random() * 2000 - 1000, Math.random() * 2000 - 1000, Math.random() * 2000 - 1000 )
+			);
+	}
+	// 7. set up an interval for rotating the container
+	// (should be done using requestAnimationFrame, but this page tries to keep the code very simple)
+	setInterval( move, 1000 / 40 );
 	
 }	
 
-function addRing( container, divisions, iterations, angle, zOffset, className ) {
-	var c, step = 360 / divisions;
-	for( var i = 0; i < divisions; i++ ) {
-		c = container.addChild( 
-			new Sprite3D()
-				.setTransformOrigin( "5px", "0px" )
-				.setRotationY( i * step )
-				.setZ(zOffset)
-				.setRotateFirst(true)
-				.update()
-		);
-		addLine( c, iterations, angle, className );
-		++n;
-	}
+function createCube( ) {
+	var w = h = d = 128;
+	
+	var cube = new Sprite3D();
+	
+	// front
+	cube.addChild( new Sprite3D()
+		.setTransformString( "_rx _ry _rz _p _s" )
+		.setTransformOrigin( 0, 0 )
+		.setRegistrationPoint( w>>1, h>>1, 0 )
+		.setZ( d>>1 )
+		.setClassName( "cube_face" )
+		.update()
+	);
+
+	// back
+	cube.addChild( new Sprite3D()
+		.setTransformString( "_rx _ry _rz _p _s" )
+		.setTransformOrigin( 0, 0 )
+		.setRegistrationPoint( w>>1, h>>1, 0 )
+		.setRotationY( 180 )
+		.setZ( d>>1 )
+		.setClassName( "cube_face" )
+		.update()
+	);
+	
+	// left
+	cube.addChild( new Sprite3D()
+		.setTransformString( "_rx _ry _rz _p _s" )
+		.setTransformOrigin( 0, 0 )
+		.setRegistrationPoint( w>>1, h>>1, 0 )
+		.setRotationY( -90 )
+		.setZ( d>>1 )
+		.setClassName( "cube_face" )
+		.update()
+	);
+		
+	// right
+	cube.addChild( new Sprite3D()
+		.setTransformString( "_rx _ry _rz _p _s" )
+		.setTransformOrigin( 0, 0 )
+		.setRegistrationPoint( w>>1, h>>1, 0 )
+		.setRotationY( 90 )
+		.setZ( d>>1 )
+		.setClassName( "cube_face" )
+		.update()
+	);	
+	
+	// top
+	cube.addChild( new Sprite3D()
+		.setTransformString( "_rx _ry _rz _p _s" )
+		.setTransformOrigin( 0, 0 )
+		.setRegistrationPoint( w>>1, h>>1, 0 )
+		.setRotationX( 90 )
+		.setZ( d>>1 )
+		.setClassName( "cube_face cube_top" )
+		.update()
+	);
+	
+	// bottom
+	cube.addChild( new Sprite3D()
+		.setTransformString( "_rx _ry _rz _p _s" )
+		.setTransformOrigin( 0, 0 )
+		.setRegistrationPoint( w>>1, h>>1, 0 )
+		.setRotationX( -90 )
+		.setZ( d>>1 )
+		.setClassName( "cube_face cube_top" )
+		.update()
+	);
+	
+	cube.setRotateFirst( false );
+	cube.sx = 0;
+	cube.sy = 0;
+		
+	return cube;
 }
 
-function addLine( container, iterations, angle, className ) {
-	for( var i = 0; i < iterations; i++ )
-	{
-		container = container.addChild( 
-			new Sprite3D()
-				.setClassName(className)
-				.setTransformOrigin( "5px", "0px" )
-				.setPosition( 0, 20, 0 )
-				.rotateX( angle )
-				.setRotateFirst(false)
-				.update()
-		);
-		++n;
-	}
-}
-
-function animate() {
-	requestAnimationFrame( animate );
-	update();
-	stats.update();
-}
-
-function update() {
+function move() {
 	// increment the t value, used for angle calculation
-	t += .02;
+	t += .05;
 	
 	// rotate the container around the X and Y axis, then apply these transformations
-	container
-		.rotateY( -1.25 )
-		.setRotationX( Math.cos(t) * 23 + 155 )
-		.update();
+	var c;
+	for( i = 0; i < container.numChildren; i++ ) {
+		c = container.children[i];
+		c.sx *= .99;
+		c.sy *= .99;
+		if ( Math.random() > .95 ) {
+			c.sx += Math.random()*8-4;
+			c.sy += Math.random()*8-4;
+		} 
+		c.rotate( c.sx, c.sy, 0 ).update();
+	}
+	
+	container.rotate( .4, .3, 0 ).update();
+	
 }
-
-function msg( t )
-{
-	debug.innerHTML = t;
-}
-
-
 
 		</script>
 	</head>
 	<body onload="init();">
-		<div id="debug"></div>
 		<script type="text/javascript">
 		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -223,6 +211,6 @@ function msg( t )
 		var pageTracker = _gat._getTracker("UA-9528692-4");
 		pageTracker._trackPageview();
 		} catch(err) {}</script>
-		<a href="http://minimal.be/lab/Sprite3D/"><img src="img/banner.png" style="border:0;position:absolute;right:0;top:0" alt="built width Sprite3D.js" /></a>
+		<a href="http://minimal.be/lab/Sprite3D/"><img src="img/banner.png" style="border:0;position:absolute;right:0;top:0" alt="built width Sprite3D.js" /></a>	
 	</body>
 </html>

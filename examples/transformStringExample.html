@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!--
+		Sprite3D.js example file
+		Visit the internets for documentation, updates and examples.
+		https://github.com/boblemarin/Sprite3D.js
+		http://minimal.be/lab/Sprite3D
+
+		Copyright (c) 2010 boblemarin http://www.minimal.be
+
+		Permission is hereby granted, free of charge, to any person
+		obtaining a copy of this software and associated documentation
+		files (the "Software"), to deal in the Software without
+		restriction, including without limitation the rights to use,
+		copy, modify, merge, publish, distribute, sublicense, and/or sell
+		copies of the Software, and to permit persons to whom the
+		Software is furnished to do so, subject to the following
+		conditions:
+
+		The above copyright notice and this permission notice shall be
+		included in all copies or substantial portions of the Software.
+
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+		EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+		OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+		NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+		HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+		WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+		FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+		OTHER DEALINGS IN THE SOFTWARE.
+		-->
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<title>Sprite3D.js - Basics - Transform order example</title>
+
+
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
+		<style>
+		
+html, body { height: 100%; }
+
+body {
+	background-color: white;
+	color: black;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.image {
+	background-image: url('img/html5_logo.png');
+	background-size: 200px 250px;
+	width: 200px;
+	height: 250px;
+	font-weight: bold;
+	line-height: 250px;
+	text-align: center;
+}
+
+			
+		</style>
+
+		<!-- =========================================================== -->		
+		<!-- JAVASCRIPT SECTION ======================================== -->
+		<!-- =========================================================== -->
+		<script src="../js/Sprite3D.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+var container, p1, p2, out;
+
+function init() {
+
+	out = document.getElementById("out");
+
+	container = Sprite3D.createCenteredContainer();
+
+	p1 = container.addChild( 
+		new Sprite3D()
+			.setClassName("image")
+			.setRegistrationPoint( 100, 125, 0 )
+			.setPosition( -300, 0, 0 )
+			.setTransformString( "_p _rx _ry _rz" )
+			.setInnerHTML( "rotations: X - Y - Z")
+			.setRotation( 40, 0, 40 )
+			.update()
+	);
+			
+	p2 = container.addChild( 
+		new Sprite3D()
+			.setClassName("image")
+			.setRegistrationPoint( 100, 125, 0 )
+			.setPosition( 300, 0, 0 )
+			.setTransformString( "_p _rz _ry _rx" )
+			.setInnerHTML( "rotations: Z - Y - X")
+			.setRotation( 40, 0, 40 )
+			.update()
+	);
+	
+	document.addEventListener( "mousemove", onMouseMove );
+}	
+
+function onMouseMove( e ) {
+	var r = e.pageX / window.innerWidth * 360;
+	p1.setRotation( r, 0, r ).update();
+	p2.setRotation( r, 0, r ).update();
+	
+	out.innerHTML = "Rotation : " + Math.round(r*10)/10 + " degrees";
+}
+
+		</script>
+	</head>
+	<body onload="init();">
+	<div id="out"></div>
+	<!--
+		<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+		try {
+		var pageTracker = _gat._getTracker("UA-9528692-4");
+		pageTracker._trackPageview();
+		} catch(err) {}</script>
+		-->
+		<a href="http://minimal.be/lab/Sprite3D/"><img src="img/banner.png" style="border:0;position:absolute;right:0;top:0" alt="built width Sprite3D.js" /></a>
+	</body>
+</html>

@@ -203,7 +203,7 @@ mySprite.setTilePosition( 0, 3 );
 	<ul class="examples">
 		
 		<li>
-			<a href="examples/basicExample.htm">
+			<a href="examples/basicExample.html">
 				<img src="home/basic.png" />
 				<h3>Hello World</h3>
 			</a>
@@ -211,7 +211,7 @@ mySprite.setTilePosition( 0, 3 );
 		</li>
 		
 		<li>
-			<a href="examples/basicHierarchyExample.htm">
+			<a href="examples/basicHierarchyExample.html">
 				<img src="home/basic2.png" />
 				<h3>Hello World 3D</h3>
 			</a>
@@ -219,7 +219,7 @@ mySprite.setTilePosition( 0, 3 );
 		</li>
 		
 		<li>
-			<a href="examples/titleExample.htm">
+			<a href="examples/titleExample.html">
 				<img src="home/title.jpg" />
 				<h3>Particles (kind of)</h3>
 			</a>
@@ -227,7 +227,7 @@ mySprite.setTilePosition( 0, 3 );
 		</li>
 		
 		<li>
-			<a href="examples/tweenExample.htm">
+			<a href="examples/tweenExample.html">
 				<img src="home/tweens.png" />
 				<h3>Tweening example</h3>
 			</a>
@@ -235,15 +235,15 @@ mySprite.setTilePosition( 0, 3 );
 		</li>
 		
 		<li>
-			<a href="examples/eventsExample.htm">
+			<a href="examples/eventsExample.html">
 				<img src="home/nyantouch.jpg" />
 				<h3>Events example</h3>
 			</a>
-			<p>This might be the base for a simple point-and-touch game for the iPad.<br/><b class="jesus">For the Nyan-haters out there,  here's <a href="examples/eventsExample2.htm">a JESUS version</a>.</b></p>
+			<p>This might be the base for a simple point-and-touch game for the iPad.<br/>For the Nyan-haters out there,  here's <a href="examples/eventsExample2.html">a JESUS version</a>.</p>
 		</li>
-		<!--
+		<!-- BROKEN :(
 		<li>
-			<a href="examples/psycheExample.htm">
+			<a href="examples/psycheExample.html">
 				<img src="home/psyche.png" />
 				<h3>Round corners example</h3>
 			</a>
@@ -251,31 +251,23 @@ mySprite.setTilePosition( 0, 3 );
 		</li>
 		-->
 		<li>
-			<a href="examples/flowerExample.htm">
+			<a href="examples/hoverFlowerExample.html">
 				<img src="home/flower.png" />
 				<h3>Flower</h3>
 			</a>
-			<p>A bit of recursive hierarchy, CSS classes and a simple rotation. That's all it takes to build a flower. The flower parameters are slightly randomized.</p>
+			<p>A bit of recursive hierarchy, CSS classes and a simple rotation. That's all it takes to build a flower. The flower parameters are slightly randomized. It mutates randomly when hovered or touched.</p>
 		</li>	
 		
 		<li>
-			<a href="examples/hoverFlowerExample.htm">
-				<img src="home/flower.png" />
-				<h3>Hover-Flower</h3>
-			</a>
-			<p>Same as above, but it mutates randomly when hovered or touched.</p>
-		</li>		
-		
-		<li>
-			<a href="examples/galleryExample.htm">
+			<a href="examples/galleryExample.html">
 				<img src="home/gallery.jpg" />
 				<h3>3D image gallery</h3>
 			</a>
 			<p>A classic use of 3D positionning for a spatial image gallery.</p>
 		</li>
-		<!--
+		<!-- BROKEN IN CHROME :(
 		<li>
-			<a href="examples/skyBoxExample.htm">
+			<a href="examples/skyBoxExample.html">
 				<img src="home/skybox.jpg" />
 				<h3>Skybox demo</h3>
 			</a>
@@ -283,7 +275,7 @@ mySprite.setTilePosition( 0, 3 );
 		</li>
 		-->
 		<li>
-			<a href="examples/canvasExample.htm">
+			<a href="examples/canvasExample.html">
 				<img src="home/canvas.jpg" />
 				<h3>Canvas demo</h3>
 			</a>
@@ -299,11 +291,11 @@ mySprite.setTilePosition( 0, 3 );
 		</li>
 		
 		<li>
-			<a href="examples/slideExample.htm">
+			<a href="examples/slideExampleFixed.html">
 				<img src="home/slide.png" />
-				<h3>Sliding puzzle</h3>
+				<h3>Sliding 15 Puzzle</h3>
 			</a>
-			<p>Quick prototype for a classic game.</p>
+			<p>Quick prototype for a classic game. <br/><em title="Thanks Christian !" alt="Thanks Christian !">Update: now fully working, no more dead-ends.</em></p>
 		</li>
 		
 		<li>
@@ -314,25 +306,40 @@ mySprite.setTilePosition( 0, 3 );
 			<p>London-based studio <a href="http://www.sennep.com/">Sennep</a> created a full featured iOS game with HTML5 technologies and Sprite3D. The result is a free touch game that you can install on your device and that's just what Sprite3D was created for.</p>
 		</li>
 		
+		<li>
+			<a href="butterflies/">
+				<img src="home/butterflies.jpg" />
+				<h3>Butterflies</h3>
+			</a>
+			<p>Three div's, two png's, a bit of animation. Repeat ten times, add some touch control. <br/><a href="http://www.youtube.com/watch?v=BkNvCb5IJPI">Demo video here</a> if your browser can't take it.</p>
+		</li>
+		
 	</ul>
+	
+	<h2>Current dev status</h2>
+		<p>I'm currently busy with <span title="same old fucking flash projects">non-JS</span> client work. There's a nearly finished V2 version I've been hardly working on, but it still needs a bit of polishing and the documentation might not be fully complete.</p>
+		<p>Here are the main additions/updates of the latest version :</p>
+		<ul>
+			<li>code cleaned with the help of jsLint</li>
+			<li>removed all local vars for less garbage</li>
+			<li>added update2D method</li>
+			<li>added support for more browsers (waiting for Mozilla, Opera and Microsoft)</li>
+			<li>automatic fallback to 2D mode when CSS 3D transforms are not supported</li>
+			<li>added transformSring property to control the order of transformations</li>
+			<li>backward-compatible with first version</li>
+		</ul>
+		<p>Everything is on github, including some undocumented examples. Have fun !</p>
+
 	
 	<h2 id="download">Download</h2>
 	<p>Get <a href="https://github.com/boblemarin/Sprite3D.js">the full project source code on GitHub</a>.</p>
 	
 	<h2 id="documentation">Documentation</h2>
-	<p>The source code has been commented using the jsDoc syntax. Here is <a href="jsdoc/symbols/Sprite3D.html">the generated reference page</a>.</p>
-	
-	<h2>Future plans</h2>
-	<ul>
-		<li>Support for more browsers (at this time, Firefox only supports 2D transform, and I don't want to know about IE)</li>
-		<li>Improve support for animated sprites (automating animations playback or what ? Suggestions welcome...)</li>
-		<li>Implement a way to freely specify the order in which transformations are applied while keeping performance at its current level</li>
-		<li><strike>Providing a decent solution for event handling (right now, it requires iterating through the Sprite's list to find the Sprite associated to the DOM element)</strike> Stabilise the event handling system.</li>
-	</ul>
+	<p>The source code has been commented using the jsDoc syntax. Here is <a href="jsdoc/symbols/Sprite3D.html">the generated reference page</a> (which is also included in the github package).</p>
 
 	<h2 id="credits">Credits</h2>
 	<p>Sprite3D.js has been created by <a href="http://www.minimal.be/">boblemarin</a> (<a href="http://twitter.com/#!/boblemarin">@</a>)</p>
-	<p>Thanks to <a href="https://github.com/gskinner/TweenJS/">Grant Skinner's TweenJS</a>, <a href="https://github.com/mrdoob/stats.js">MrDoob's Stats utility</a>, <a href="http://paulirish.com/2011/requestanimationframe-for-smart-animating/">Paul Irish's requestAnimationFrame code</a>, <a href="https://github.com/veganstraightedge">Shane Becker</a> and <a href="https://github.com/drench">Daniel Rench</a> for the house cleaning on github.</p>
+	<p>Thanks to <a href="https://github.com/gskinner/TweenJS/">Grant Skinner's TweenJS</a>, <a href="https://github.com/mrdoob/stats.js">MrDoob's Stats utility</a>, <a href="http://paulirish.com/2011/requestanimationframe-for-smart-animating/">Paul Irish's requestAnimationFrame code</a>, <a href="https://github.com/veganstraightedge">Shane Becker</a> and <a href="https://github.com/drench">Daniel Rench</a> for the house cleaning on github, <a href="http://www.pixeline.be">Pixeline</a> and <a href="http://twitter.com/lekooka">Kooka</a> for their support, and Christian Delfosse for fixing the 15 Puzzle stuff. </p>
 	
 	
 	
