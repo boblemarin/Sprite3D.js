@@ -38,15 +38,7 @@
  */
 function Sprite3D(element) {
 
-	if ( !Sprite3D.prototype._isInit )
-	{
-		Sprite3D.isSupported();
-		/*
-		this._transformProperty = Sprite3D.prototype._transformProperty;
-		this._browserPrefix = Sprite3D.prototype._browserPrefix;
-		this.update = Sprite3D.prototype.update;
-		*/
-	}
+	if ( !Sprite3D.prototype._isInit ) Sprite3D.isSupported();
 
 	// private variables
 	var p = "", 
@@ -795,10 +787,14 @@ Sprite3D.prototype.removeEventListener = function(event, callback) {
 Sprite3D.createCenteredContainer = function() {
 	var c = document.createElement('div'),
 		s = c.style;
-	s.webkitPerspective = "800";
-	s.webkitPerspectiveOrigin = "0 0";
-	s.webkitTransformOrigin = "0 0";
-	s.webkitTransform = "translateZ(0px)";
+	
+	if ( !Sprite3D.prototype._isInit ) Sprite3D.isSupported();
+
+	s[Sprite3D.prototype._browserPrefix+"Perspective"] = "800" + (Sprite3D.prototype._browserPrefix=="Moz"?"px":"");
+	s[Sprite3D.prototype._browserPrefix+"PerspectiveOrigin"] = "0 0";
+	s[Sprite3D.prototype._browserPrefix+"TransformOrigin"] = "0 0";
+	s[Sprite3D.prototype._browserPrefix+"Transform"] = "translateZ(0px)";
+
 	s.position = "absolute";
 	s.top = "50%";
 	s.left = "50%";
@@ -817,10 +813,19 @@ Sprite3D.createCenteredContainer = function() {
 Sprite3D.createTopLeftCenteredContainer = function() {
     var c = document.createElement('div'),
 		s = c.style;
-		s.webkitPerspective = "800";
+		
+		if ( !Sprite3D.prototype._isInit ) Sprite3D.isSupported();
+
+		s[Sprite3D.prototype._browserPrefix+"Perspective"] = "800" + (Sprite3D.prototype._browserPrefix=="Moz"?"px":"");
+		//s[Sprite3D.prototype._browserPrefix+"PerspectiveOrigin"] = "0 0";
+		//s[Sprite3D.prototype._browserPrefix+"TransformOrigin"] = "0 0";
+		s[Sprite3D.prototype._browserPrefix+"Transform"] = "translateZ(0px)";
+		
+		
+		//s.webkitPerspective = "800";
 		//	s.webkitPerspectiveOrigin = "0 0";
 		//	s.webkitTransformOrigin = "0 0";
-		s.webkitTransform = "translateZ(0px)";
+		//s.webkitTransform = "translateZ(0px)";
 		s.position = "relative";
 		/*
 		s.position = "absolute";

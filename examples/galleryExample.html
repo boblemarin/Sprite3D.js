@@ -53,6 +53,7 @@ body {
 	padding: 0px;
 	overflow: hidden;
 	
+	background: #222222;
 	background: -webkit-gradient(radial, 50% 80%, 500, 50% 80%, 59, from(#111111), to(#444444))
 	
 }
@@ -192,7 +193,6 @@ function moveAgain() {
 function animate() {
 	requestAnimationFrame( animate );
 	update();
-	stats.update();
 }
 
 function update()
@@ -205,6 +205,8 @@ function update()
 
 	// update container's position
 	container.update();
+	
+	stats.update();
 }
 
 function msg( t )
