@@ -48,8 +48,10 @@ function Sprite3D(element) {
 		rz = "",
 		ts = "",
 		i,
-		alpha = 1,
-		listeners = {};
+		alpha = 1;
+//		listeners = {};
+		
+	this.listeners = {};
 
 	// create an empty <div> if no element is provided
 	if (element == null) { element = document.createElement("div"); }
@@ -743,6 +745,9 @@ Sprite3D.prototype.findFromDOMElement = function(element) {
 	return null;
 };
 
+
+Sprite3D.prototype.listeners = {};
+
 /**
  * Adds an event listener to the DOM element for the provided event id.
  * @param {String} event The name of the event to watch
@@ -750,32 +755,28 @@ Sprite3D.prototype.findFromDOMElement = function(element) {
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.addEventListener = function(event, callback) {
-	// old way, not so satisfying (does not bring the sprite's reference to the callback funcion)
-	//this.domElement.addEventListener( event, callback );
-	
-	// new version, allows to get the reference of the target Sprite3D,
-	// but requires a little bit more work on the removeEventListener method
-	var sprite = this;
-	this.domElement.addEventListener(event,
-		function(e) {
-			callback(e, sprite);
-		}
-	);
+	var fname = event + "_" + callback.name;
+	if ( this.listeners[fname] == null ) {
+		var sprite = this;
+		var fn = function(e) { callback(e, sprite); }
+		this.listeners[fname] = fn;
+		this.domElement.addEventListener(event, fn );
+	}
 	return this;
 };
 
 /**
- * Removes an event listener to the DOM element for the provided event id [CURRENTLY BROKEN].
+ * Removes an event listener to the DOM element for the provided event id.
  * @param {String} event The name of the event to watch
  * @param {Function} callback The callback function
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.removeEventListener = function(event, callback) {
-	// should find a way to keep references of the functions created above,
-	// but needs a solution to manage multiple listeners for same event... 
-	// tip: should use event classing like in jQuery -- yeah !
-	// todo: implement that way properly :)
-	this.domElement.removeEventListener(event, callback);
+	var fname = event + "_" + callback.name;
+	if ( this.listeners[fname] != null ) {
+		this.domElement.removeEventListener(event, this.listeners[fname] );
+		delete this.listeners[fname];
+	}
 	return this;
 };
 

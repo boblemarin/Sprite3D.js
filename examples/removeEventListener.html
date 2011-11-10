@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+
+<meta name='HandheldFriendly' content='True' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+
+
+<title>Sprite3D.js - removeEventListener Example</title>
+
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
+<style>
+		
+html, body { height: 100%; }
+
+body {
+	background-color: black;
+	color: white;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.test {
+	width: 100px;
+	height: 100px;
+	background-color: #555;
+	content: "YES";
+	line-height: 100px;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+	cursor: pointer;
+	-webkit-transition: all .5s ease-out;
+}
+
+</style>
+
+<!-- =========================================================== -->		
+<!-- JAVASCRIPT SECTION ======================================== -->
+<!-- =========================================================== -->
+
+<script src="../js/Sprite3D.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+var stage,
+	object;
+		
+function init() {
+	stage = Sprite3D.createCenteredContainer();
+	
+	for( var i = 0; i < 4; i++ ) {
+		object = stage.addChild( 
+			new Sprite3D()
+				.setClassName("test")
+				.setRegistrationPoint( 50, 50, 0 )
+				.setPosition( rnd(600), rnd(450), 0 )
+				.addEventListener( "click", onClick )
+				.addEventListener( "mouseover", onClick )
+				.update()
+		);
+	}
+}	
+
+function rnd( n ) {
+	return Math.random() * n - (n*.5);
+}
+
+function onClick( event, sprite ) {
+	sprite
+		.setPosition( rnd(600), rnd(450), 0 )
+		.setRotationZ( Math.random() * 180 - 90 )
+		.removeEventListener( event.type, onClick )
+		.update();
+}
+
+
+</script>
+</head>
+
+<!-- =========================================================== -->		
+<!-- HTML BODY ================================================= -->
+<!-- =========================================================== -->
+
+<body onload="init();">
+	
+</body>
+</html>
