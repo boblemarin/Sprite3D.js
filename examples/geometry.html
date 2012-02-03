@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<title>Sprite3D.js - Geometry</title>
+
+		<style>
+		
+html { height: 100%; }
+
+body {
+	background-color: black;
+	color: black;
+	margin: 0px;
+	padding: 0px;
+	overflow: auto;
+	height: 300%;
+}
+
+.container {
+	border: 1px solid red;
+}
+
+.sq {
+	width: 40px;
+	height: 10px;
+	background: white;
+	opacity: .5;
+}
+
+			
+		</style>
+
+		<script src="../js/Sprite3D.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+var stage,
+	container;
+
+function init() {
+	
+	stage = Sprite3D.createCenteredContainer();
+	stage.style.position = "fixed";
+	
+	container = stage.addChild(
+		new Sprite3D()
+			//.setClassName("container")
+			.setPosition( 0, 0, 0 )
+			.setScale( 3, 3, 3 )
+			.update()
+	);
+	
+	var i, s,
+		n = 200,
+		d = 400 / n,
+		hn = n >> 1,
+		a = 360 / (n/5);
+	
+	for( var i = 0; i < n; i++ ) {
+		s = (i-hn)/hn;
+		s *= s;
+		s = 1-s;
+		container.addChild(
+			new Sprite3D()
+				.setClassName( "sq" )
+				.setTransformString( "_rx _ry _rz _s _p" )
+				.setTransformOrigin( "0px", "0px" )
+				.setPosition( 40, 200-i*d, 40 )
+				.setRotation( 0, i*a, 0 )
+				.setScale( s, s, s )
+				.update()
+		);
+	}
+	
+	document.addEventListener("scroll", onScroll, false );
+	
+}	
+
+function onScroll(e){
+	var scrollPosition = document.body.scrollTop;
+	var windowHeight = window.innerHeight;
+	var bodyHeight = document.height;
+	var p = scrollPosition / (bodyHeight-windowHeight);
+	container.setRotationY( 720 * p ).update();
+	console.log("scroll " + p );
+}
+function update() {
+	container
+		.rotateY(2)
+		//.rotateX(1.4)
+		.update();
+}
+
+		</script>
+	</head>
+	<body onload="init();">
+
+	</body>
+</html>

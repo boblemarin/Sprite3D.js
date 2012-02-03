@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!--
+		Sprite3D.js example file
+		Visit the internets for documentation, updates and examples.
+		https://github.com/boblemarin/Sprite3D.js
+		http://minimal.be/lab/Sprite3D
+
+		Copyright (c) 2010 boblemarin http://www.minimal.be
+
+		Permission is hereby granted, free of charge, to any person
+		obtaining a copy of this software and associated documentation
+		files (the "Software"), to deal in the Software without
+		restriction, including without limitation the rights to use,
+		copy, modify, merge, publish, distribute, sublicense, and/or sell
+		copies of the Software, and to permit persons to whom the
+		Software is furnished to do so, subject to the following
+		conditions:
+
+		The above copyright notice and this permission notice shall be
+		included in all copies or substantial portions of the Software.
+
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+		EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+		OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+		NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+		HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+		WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+		FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+		OTHER DEALINGS IN THE SOFTWARE.
+		-->
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<title>Twister</title>
+
+
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
+		<style>
+		
+html, body { height: 100%; }
+
+body {
+	background-color: black;
+/*	background: -webkit-gradient(radial, 50% 50%, 500, 50% 50%, 59, from(#000000), to(#111111));*/
+	color: black;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.ring {
+	background-image: url('img/circle2.png');
+/*	background-color: rgba(255,255,255, .01);*/
+	/*background-size: 150px 150px;*/
+	width: 600px;
+	height: 600px;
+	/*
+	-webkit-border-radius: 300px;
+	border: 25px solid #FFFFFF;
+	opacity: .5;
+	*/
+}
+
+			
+		</style>
+
+		<!-- =========================================================== -->		
+		<!-- JAVASCRIPT SECTION ======================================== -->
+		<!-- =========================================================== -->
+		<script type="text/javascript" src="../js/Sprite3D.js"></script>
+		<script type="text/javascript" src="../js/RequestAnimationFrame.js"></script>
+		<script type="text/javascript">
+
+var stage,
+	numRings = 20,
+	lastTime,
+	ax = 0,
+	sx = 0,
+	ay = 0,
+	sy = 0,
+	sb = 1,
+	sr = .3,
+	mode = 0,
+	numModes = 5,
+	rings;
+
+function init() {
+	
+	stage = Sprite3D.createCenteredContainer();
+	
+	// scale for smaller screens
+	var ms = Math.max( window.innerHeight, window.innerWidth ) / 1000;
+	stage.setScale( ms, ms, 1 ).update();
+	
+	rings = [];
+	
+	var i, r;
+	for( i = 0; i < numRings; i++ ) {
+		r = new Sprite3D()
+			.setClassName("ring")
+			.setRegistrationPoint( 300, 300, 0 )
+			//.setTransformString( "_rx _ry _rz _p" )
+			.setZ( i * -50 )
+			.update();
+		rings.push(r);
+		stage.addChild(r);
+	}
+	
+	lastTime = new Date().getTime();
+	animate();
+	
+	//document.addEventListener("mousemove", onMouseMove );
+	document.addEventListener( "mousedown", onInput );
+	document.addEventListener( "touchstart", onInput );
+	document.addEventListener( "keydown", onInput );
+}	
+
+function onInput(e) {
+	//mode = ++mode % numModes;
+	mode = Math.floor( Math.random() * numModes );
+	//mode = 4;
+	ax = Math.random() * 4;
+	ay = Math.random() * 4;
+	sx = Math.random() * 2.6;
+	sy = Math.random() * 2.6;
+	sb = .7 + Math.random() * .3;
+	sr = Math.random() * .4;
+	var i, 
+		s = Math.round(600 / Math.max( 1, Math.ceil( Math.random() * 12 - 8 )))+"px";
+		s = s + " " + s;
+//	if ( Math.random()>.97) s = Math.round(Math.random()*600)+"px " + Math.round(Math.random()*600)+"px";
+	for( i = 0; i < numRings; i++ ) {
+		rings[i]
+			.setCSS( "backgroundSize", s )
+			.setScale(1,1,1)
+			.setX(0)
+			.setY(0)
+	}
+	/*
+	var i, 
+		s = "0px 0px";
+	if ( Math.random()>.97) s = Math.round(Math.random()*600)+"px " + Math.round(Math.random()*600)+"px";
+	for( i = 0; i < numRings; i++ ) {
+		rings[i].setCSS( "backgroundPosition", s );
+	}
+	*/
+	/*
+	var i, 
+		s = "25px solid #"+Math.round( Math.random()*0xFFFFFF).toString(16),
+		b = (Math.random()>.5)?"300px":"0px";
+	for( i = 0; i < numRings; i++ ) {
+		rings[i].setCSS( "border", s ).setCSS( "webkitBorderRadius", b );
+	} 
+	*/
+	e.preventDefault();
+}
+
+function onMouseMove( e ) {
+	var px = (e.pageX - (window.innerWidth >> 1 ))/numRings,
+		py = (e.pageY - (window.innerHeight >> 1 ))/numRings,
+		i, s = .3;
+	for( i = 0; i < numRings; i++ ) {
+		rings[i].setRotation( px * i, py * i, 0 ).update();
+	}
+}
+
+function animate() {
+	
+	requestAnimationFrame( animate );
+	update();
+}
+
+function update()
+{
+	var newTime = new Date().getTime(),
+		delta = (newTime - lastTime)/1000;
+		
+	lastTime = newTime;
+	
+	ax += sx * delta;
+	ay += sy * delta;
+	
+	var s = 180,
+		vx = Math.sin(ax),
+		vy = Math.sin(ay),
+		rx = vx * s / numRings,
+		ry = vy * s / numRings,
+		i;
+		
+	switch(mode) {
+		case 0:
+			for( i = 0; i < numRings; i++ ) {
+				rings[i].setRotation( rx * i, ry * i, 0 )
+				.setScale( vy*sr+sb, vy*sr+sb, 1 )
+				.update();
+			}
+			break;
+		case 2:
+			for( i = 0; i < numRings; i++ ) {
+				rings[i].setRotation( rx * (numRings-i), ry * (numRings-i), 0 )
+				.setScale( vy*sr+sb, vy*sr+sb, 1 )
+				.update();
+			}
+			break;
+		case 1:
+			for( i = 0; i < numRings; i++ ) {
+				rings[i].setRotation( rx * (numRings+i), ry * (numRings+i), 0 )
+				.setScale( vy*sr+sb, vy*sr+sb, 1 )
+				.update();
+			}
+			break;
+		case 3:
+			for( i = 0; i < numRings; i++ ) {
+				rings[i]
+					.setRotation( rx * (numRings-i), ry * (numRings+i), 0 )
+					.setScale( vy*(sr/numRings*i)+sb, vy*(sr/numRings*i)+sb, 1 )
+					.setX( vx * (300/numRings*i) )
+					.update();
+			}
+			break;
+		case 4:
+			rx *= numRings*.2;
+			ry *= numRings*.2;
+			for( i = 0; i < numRings; i++ ) {
+				rings[i]
+					.setRotation( rx, ry, 0 )
+					.setScale( vy*(sr/1*i)+sb, vy*(sr/1*i)+sb, 1 )
+					.setX( vx * (300/numRings*i) )
+					.setY( vy * (120/numRings*(numRings-i) ) )
+					.update();
+			}
+			break;
+		case 5:
+			for( i = 0; i < numRings; i++ ) {
+				rings[i]
+					.setRotation( rx * (numRings-i), ry * (numRings+i), 0 )
+					.setScale( vy*(sr/numRings*i)+sb, vy*(sr/numRings*i)+sb, 1 )
+					.setX( vx * (300/numRings*i) )
+					.setY( vy * (120/numRings*(numRings-i) ) )
+					.update();
+			}
+			break;
+	}
+}
+
+		</script>
+	</head>
+	<body onload="init();">
+
+	</body>
+</html>

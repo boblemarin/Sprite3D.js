@@ -46,7 +46,7 @@
 html, body { height: 100%; }
 
 body {
-	background-color: #44CFFE;
+	background-color: black;
 	color: black;
 	margin: 0px;
 	padding: 0px;
@@ -93,13 +93,13 @@ function init() {
 	
 	// 2. create the container that will be used to rotate its children, and add it to the stage
 	container = new Sprite3D()
-		.setZ(-1000)
+		.setZ(50)
 		.setRotateFirst(false)
 		.update();
 	stage.addChild( container );
 	
 	
-	t = 60;
+	t = 1;
 	while(t--){
 		cube = container.addChild( 
 			createCube()
@@ -227,7 +227,7 @@ function move() {
 		if ( Math.random() > .99 ) {
 		var s = Math.random() * 3;
 			container.children[i]
-				.setPosition( Math.random() * 2000 - 1000, Math.random() * 2000 - 1000, Math.random() * 2000 - 1000 )
+				//.setPosition( Math.random() * 2000 - 1000, Math.random() * 2000 - 1000, Math.random() * 2000 - 1000 )
 				.setRotation( Math.random() * 360, Math.random() * 360, Math.random() * 360 )
 				//.setScale( s, s, s )
 				.update();
@@ -240,15 +240,7 @@ function move() {
 		</script>
 	</head>
 	<body onload="init();">
-		<script type="text/javascript">
-		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-		<script type="text/javascript">
-		try {
-		var pageTracker = _gat._getTracker("UA-9528692-4");
-		pageTracker._trackPageview();
-		} catch(err) {}</script>
-		<a href="http://minimal.be/lab/Sprite3D/"><img src="img/banner.png" style="border:0;position:absolute;right:0;top:0" alt="built width Sprite3D.js" /></a>	
+
+	
 	</body>
 </html>

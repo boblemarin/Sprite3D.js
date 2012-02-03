@@ -827,7 +827,7 @@ Sprite3D.createTopLeftCenteredContainer = function() {
 		//	s.webkitPerspectiveOrigin = "0 0";
 		//	s.webkitTransformOrigin = "0 0";
 		//s.webkitTransform = "translateZ(0px)";
-		s.position = "relative";
+		s.position = "absolute";
 		/*
 		s.position = "absolute";
 		s.top = "0px";
