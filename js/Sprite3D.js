@@ -56,6 +56,9 @@ function Sprite3D(element) {
 	// create an empty <div> if no element is provided
 	if (element == null) { element = document.createElement("div"); }
 
+	// add whitespace in content for Firefox to render the div
+	if ( element.innerHTML == "" ) element.innerHTML = "&nbsp;";
+
 	// prepare for 3D positionning
 	element.style[ this._browserPrefix + "TransformStyle" ] = "preserve-3d";
 	element.style.margin = "0px";
@@ -357,16 +360,22 @@ Sprite3D.prototype.setScaleZ = function( sz ) {
 };
 
 /**
- * Sets the scaling of the Sprite3D object on the 3 axis.
+ * Sets the scaling of the Sprite3D object on the 3 axis. To set the same values to the three scale axis, pass only one value to this function (ex: setScale(2) )
  * @param {Number} sx The value of the scaling on the X-axis
  * @param {Number} sy The value of the scaling on the Y-axis
  * @param {Number} sz The value of the scaling on the Z-axis
  * @return {Sprite3D} The reference to this Sprite3D object
  */
 Sprite3D.prototype.setScale = function( sx, sy, sz ) {
-	this.scaleX = sx;
-	this.scaleY = sy;
-	this.scaleZ = sz;
+	if ( arguments.length == 1 ) {
+		this.scaleX = sx;
+		this.scaleY = sx;
+		this.scaleZ = sx;		
+	} else {
+		this.scaleX = sx;
+		this.scaleY = sy;
+		this.scaleZ = sz;
+	}
 	return this;
 };
 
@@ -760,7 +769,7 @@ Sprite3D.prototype.addEventListener = function(event, callback) {
 		var sprite = this;
 		var fn = function(e) { callback(e, sprite); }
 		this.listeners[fname] = fn;
-		this.domElement.addEventListener(event, fn );
+		this.domElement.addEventListener(event, fn, false );
 	}
 	return this;
 };
@@ -774,7 +783,7 @@ Sprite3D.prototype.addEventListener = function(event, callback) {
 Sprite3D.prototype.removeEventListener = function(event, callback) {
 	var fname = event + "_" + callback.name;
 	if ( this.listeners[fname] != null ) {
-		this.domElement.removeEventListener(event, this.listeners[fname] );
+		this.domElement.removeEventListener(event, this.listeners[fname], false );
 		delete this.listeners[fname];
 	}
 	return this;

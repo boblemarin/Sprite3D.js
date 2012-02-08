@@ -1,398 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name='HandheldFriendly' content='True' />
-<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+	<head>
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<title>Sprite3D.js</title>
 
-<title>Sprite3D.js, a javascript library for 3D positionning in WebKit</title>
 
-<style>
+		<style>
 		
-html, body { /*height: 100%;*/ }
 
 body {
 	background-color: white;
 	color: black;
-	margin: 0px auto;
-	max-width: 850px;
+	margin: 100px 60px;
 	padding: 0px;
-	padding-bottom: 50px;
-	font-family: "Lucida Grande", Geneva, Verdana, Arial, sans-serif;
-	line-height: 1.6em;
+	font-family: "Helvetica";
+/*	text-align: center;*/
 }
 
-h1, h2 {
-	text-shadow: 0px 2px 0px #DDDDDD;
-	filter: dropshadow(color=#ffffff, offx=0, offy=2);
-}
 
-h1 {
-	text-align: center;
-	font-size: 4em;
-	padding: .5em;
-	margin: 0px;
-	margin-bottom: 40px;
-	color: #DD3333;
-	
-}
-
-h2 {
-	padding: 10px 0px;
-	margin: 40px 0px 20px 0px;
-	width: 100%;
-	text-indent: 20px;
-	color: #DD3333;
-	border-bottom: 1px solid #DD3333;
-	clear: both;
-}
-
-p.baseline {
-	margin: 0px;
-	margin-top: -40px;
-	padding: 0px;
-	text-align: center;
-	/*background: #555;*/
-}
-
-ul, p {
-	margin: 1em auto;
-}
-
-p { padding: 0px 20px; }
-
-ul.features li {
-	margin-bottom: 45px;
-}
-
-ul.examples {
-	list-style-type:none;
-	padding: 0px;
-}
-
-ul.examples li {
-	clear: both;
-	margin: 40px 20px;
-	border-top: 1px solid #FFF;
-}
-
-ul.examples li a {
-	color: #333;
-}
-
-ul.examples li a h3 {
-	color: #000;
-	text-decoration: none;
-}
-
-ul.examples li img {
-	float: left;
-	margin: 20px 20px 20px 0px;
-}
-
-a img {
-     -moz-border-radius: 12px; 
-  -webkit-border-radius: 12px; 
-          border-radius: 12px; 
-  -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
-}
-
-ul.menu {
-	list-style-type: none;
-	text-align: center;
-}
-
-ul.menu li {
-	display: inline-block;
-	margin: 20px;
-}
-
-.jesus {
-	color: #DD3333;
-}
-
-#warning {
-	display: none;
+#titleContainer {
+	font-size: 120px;
 	font-weight: bold;
-	color: #DD3333;
-	border: 2px solid #D33;
-}
-
-.yt {
 	margin: auto;
-	text-align: center;
-	margin: 1em;
 	padding: 0px;
+	text-align: center;
+	/*
+	overflow: hidden;
+	border: 10px solid white;
+	-webkit-box-shadow: 3px 3px 8px 0px rgba(0, 0, 0, .5);
+	-moz-box-shadow: 3px 3px 8px 0px rgba(0, 0, 0, .5);
+	box-shadow: 3px 3px 8px 0px rgba(0, 0, 0, .5);
+	*/
 }
-	
-</style>
-
-</head>
-
-<body>
-	
-	<h1>Sprite3D.js</h1>
-	<p class="baseline">A simple javascript library <br/>to help making things move in 3D space<br/>in webkit browsers using CSS transforms.</p>
-	<div class="yt"><object width="480" height="360"><param name="movie" value="http://www.youtube.com/v/xmP5FF_-tf0?version=3&amp;hl=fr_FR"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/xmP5FF_-tf0?version=3&amp;hl=fr_FR" type="application/x-shockwave-flash" width="480" height="360" allowscriptaccess="always" allowfullscreen="true"></embed></object></div>
-	<ul class="menu">
-		<li><a href="#overview">Overview</a></li>
-		<li><a href="#features">Features</a></li>
-		<li><a href="#examples">Examples</a></li>
-		<li><a href="#download">Download</a></li>
-		<li><a href="#documentation">Documentation</a></li>
-	</ul>
-	
-	<h2 id="overview">Overview</h2>
-	<div class="overview">
-	<p>Sprite3D wraps HTML elements with the necessary behaviours to easily control their <b>3D-position using a simple Javascript syntax</b>. To create a Sprite object, you can either supply an existing DOM object or let the library create an empty <code>&lt;div&gt;</code> (you can apply a CSS class to the DOM element after its creation).</p>
-	
-	<p>As you manipulate "real" HTML elements, you don't need a <code>&lt;canvas&gt;</code> object (and its performance problems), nor a WebGL-enabled browser. And, as 3D transforms are hardware-accelerated, you can get a very decent framerate, even on (Apple's) mobile devices.</p>
-	
-	<p>At this stage of development, 3D positionning is achieved via WebKit's CSS 3D transforms, restricting the library usage to <b>Chrome and Safari</b> browsers, as well as <b>iOS's Mobile Safari</b>. However, due to its wrapping, non-intrusive nature, it allows for building semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
-	
-	<p>Sprite3D.js has <b>no dependencies</b>, so it can easily be integrated with other JS libs. <br/>It is provided under the <b>MIT Licence</b>. </p>
-	
-	</div>
-	
-	<h2 id="features">Main Features</h2>
-	
-	<ul class="features">
-		
-		<li>AS3-style <b>properties</b> : 
-<pre>	x, y, z
-	rotationX, rotationY, rotationZ
-	scaleX, scaleY, scaleZ
-	width, height
-	alpha</pre></li>
-	
-		<li>Lots of accessor <b>methods</b> : 
-<pre>	setPosition(x,y,z) setX(x) setY(y) setZ(z) 
-	move(x,y,z) moveX(x) moveY(y) moveZ(z) 
-	setRotation(x,y,z) setRotationX(x) setRotationY(y) setRotationZ(z)
-	rotate(x,y,z) rotateX(x) rotateY(y) rotateZ(z)
-	setScale(x,y,z) setScaleX(x) setScaleY(y) setScaleZ(z)</pre></li>
-	
-	
-		<li>AS3-style <b>scenography</b> via the <code>addChild()</code> and <code>removeChild()</code> method, children inheriting of their parent's transformations</li>
-			
-		<li>JS-style method <b>chaining</b> :
-			<pre>new Sprite3D()
-	.setPosition(x,y,z)
-	.setRotation(rx,ry,rz)
-	.setClassName('class')
-	.update();</pre></li>
-	
-		<li>Basic support for <b>sprite sheets</b>. At this point, all the tiles must have the same size (for one Sprite).
-<pre>/* CSS : */
-.spriteClass {
-	background: url("img/sheet.png");
-	width: 32px;
-	height: 64px;
+h2 {
+	padding: 0px;
+	margin: 1em 0px;
+	line-height: 1.4em;
+	text-align: center;
 }
 
-/* JS : */
-// one-time set-up :
-mySprite.setClassName("spriteClass").setTileSize( 32, 64 );
-// then, later :
-mySprite.setTilePosition( 0, 3 );
-</pre>
-			</li>
+.title_letter {
+	opacity: .8;
+	border: 1px solid #AAA;
+	background: #DDD;
+}
 			
-		<li>Easily manipulate the <b>underlying DOM elements</b> with the <code>domElement</code> and <code>style</code> properties. There's also a bunch of helper methods like <code>setClassName, getClassName, addClassName, removeClassName, setId, getId, setCSS, getCSS</code> and <code>setInnerHTML</code> that let you keep your <b>CSS workflow</b></li>
-		
-		<li>Check for browser support using the <code>Sprite3D.isSupported()</code> method</li>
-	</ul>
+		</style>
+
+		<script src="js/Sprite3D2.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+var stage,
+	source = "Sprite3D.js",
+	letters = [],
+	numLetters;
+
+function init() {
 	
-	<h2 id="examples">Examples</h2>
+	var l,i,
+		c = Sprite3D.stage(document.getElementById("titleContainer"));
+		
+	source = c.html();
+	//console.log(source);
+	c.html("");
 	
-	<p id="warning">I'm so sorry !<br/>It seems that your browser does not support CSS 3D transforms. <br/>Please try to view those examples with a recent webkit-based browser, like <a href="http://www.google.com/chrome/">Chrome</a> or <a href="http://www.apple.com/safari/">Safari</a>, or you might get strange results...</p>
+	numLetters = source.length;
+	for(i=0;i<numLetters;i++){
+		c.addChild(
+			l = new Sprite3D()
+				.className("title_letter")
+				.html(source.charAt(i))
+				.css("display","inline-block")
+				.css("position", "static")
+				.transformString("_rx _ry _rz _p _s")
+				//.setRotation( Math.random()*10-5, Math.random()*10-5, Math.random()*10-5 )
+				.update()
+		);
+		letters.push(l);
+	}
+
+	c.addEventListener("mouseover", onMouseOverTitle, false );
+	c.addEventListener("mouseout", onMouseOutTitle, false );
+	c.addEventListener("touchstart", onTouchStartTitle, false );
+	document.addEventListener("touchend", onTouchEndTitle, false );
 	
-	<ul class="examples">
-		
-		<li>
-			<a href="examples/basicExample.html">
-				<img src="home/basic.png" />
-				<h3>Hello World</h3>
-			</a>
-			<p>Basic example, showing how to create a root container, add a single Sprite3D object, apply a CSS class and x-axis rotation.</p>
-		</li>
-		
-		<li>
-			<a href="examples/basicHierarchyExample.html">
-				<img src="home/basic2.png" />
-				<h3>Hello World 3D</h3>
-			</a>
-			<p>A more advanced version of the first example. A simple 3D object is create using four faces, then animated using its container's 3D rotation methods.</p>
-		</li>
-		
-		<li>
-			<a href="examples/titleExample.html">
-				<img src="home/title.jpg" />
-				<h3>Particles (kind of)</h3>
-			</a>
-			<p>Two containers, some png's, some more pure CSS divs, and rotations all the way.</p>
-		</li>
-		
-		<li>
-			<a href="examples/tweenExample.html">
-				<img src="home/tweens.png" />
-				<h3>Tweening example</h3>
-			</a>
-			<p>Showing how to tween positions and rotations using <a href="https://github.com/gskinner/TweenJS">TweenJS</a>.</p>
-		</li>
-		
-		<li>
-			<a href="examples/eventsExample.html">
-				<img src="home/nyantouch.jpg" />
-				<h3>Events example</h3>
-			</a>
-			<p>This might be the base for a simple point-and-touch game for the iPad.<br/>For the Nyan-haters out there,  here's <a href="examples/eventsExample2.html">a JESUS version</a>.</p>
-		</li>
-		<!-- BROKEN :(
-		<li>
-			<a href="examples/psycheExample.html">
-				<img src="home/psyche.png" />
-				<h3>Round corners example</h3>
-			</a>
-			<p>This example is inspired by <a href="http://paperjs.org/examples/rounded-rectangles/">this one from paperjs</a>. It offers a good comparison between canvas- and DOM-based animation framerates.</p>
-		</li>
-		-->
-		<li>
-			<a href="examples/hoverFlowerExample.html">
-				<img src="home/flower.png" />
-				<h3>Flower</h3>
-			</a>
-			<p>A bit of recursive hierarchy, CSS classes and a simple rotation. That's all it takes to build a flower. The flower parameters are slightly randomized. It mutates randomly when hovered or touched.</p>
-		</li>	
-		
-		<li>
-			<a href="examples/galleryExample.html">
-				<img src="home/gallery.jpg" />
-				<h3>3D image gallery</h3>
-			</a>
-			<p>A classic use of 3D positionning for a spatial image gallery.</p>
-		</li>
-		<!-- BROKEN IN CHROME :(
-		<li>
-			<a href="examples/skyBoxExample.html">
-				<img src="home/skybox.jpg" />
-				<h3>Skybox demo</h3>
-			</a>
-			<p>Use a panoramic image to build a skybox cube.</p>
-		</li>
-		-->
-		<li>
-			<a href="examples/canvasExample.html">
-				<img src="home/canvas.jpg" />
-				<h3>Canvas demo</h3>
-			</a>
-			<p>Combine the ease of 3D positionning with Sprite3D.js and the pleasure of generating graphics using HTML's canvas for even more fun !</p>
-		</li>
-		
-		<li>
-			<a href="../spriteHarrier/">
-				<img src="home/harrier.jpg" />
-				<h3>Sprite Harrier</h3>
-			</a>
-			<p>Porting your favorites old school games to HTML 5 is just a no-brainer with Sprite3D.js (just kidding). <em>Chrome has some rendering problems with this one, but [Mobile] Safari doesn't care.</em></p>
-		</li>
-		
-		<li>
-			<a href="examples/slideExampleFixed.html">
-				<img src="home/slide.png" />
-				<h3>Sliding 15 Puzzle</h3>
-			</a>
-			<p>Quick prototype for a classic game. <br/><em title="Thanks Christian !" alt="Thanks Christian !">Update: now fully working, no more dead-ends.</em></p>
-		</li>
-		
-		<li>
-			<a href="http://www.ologame.com/">
-				<img src="home/olo.jpg" />
-				<h3>OLO Game</h3>
-			</a>
-			<p>London-based studio <a href="http://www.sennep.com/">Sennep</a> created a full featured iOS game with HTML5 technologies and Sprite3D. The result is a free touch game that you can install on your device and that's just what Sprite3D was created for.</p>
-		</li>
-		
-		<li>
-			<a href="butterflies/">
-				<img src="home/butterflies.jpg" />
-				<h3>Butterflies</h3>
-			</a>
-			<p>Three div's, two png's, a bit of animation. Repeat ten times, add some touch control. <br/><a href="http://www.youtube.com/watch?v=BkNvCb5IJPI">Demo video here</a> if your browser can't take it.</p>
-		</li>
-		
-	</ul>
-	
-	<h2 id="status">Current dev status</h2>
-		<p>I'm currently busy with <span title="same old fucking flash projects">non-JS</span> client work. There's a nearly finished V2 version I've been hardly working on, but it still needs a bit of polishing and the documentation might not be fully complete.</p>
-		<p>Here are the main additions/updates of the latest version :</p>
+}	
+
+function scramble() {
+	var n = numLetters, l;
+	while(n--) {
+		letters[n]
+			.css("-webkit-transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)")
+			.css("-moz-transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)")
+			.rotation( Math.random()*60-30, Math.random()*60-30, 0 )
+			.z( Math.random() * 300 - 150 )
+			.update();
+	}
+}
+function restore() {
+	var n = numLetters, l;
+	while(n--) {
+		letters[n]
+			.css("-webkit-transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)")
+			.css("-moz-transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)")
+			.rotation( 0, 0, 0 )
+			.z( 0 )
+			.update();
+	}
+}
+
+function onMouseOverTitle(event) {
+	scramble();
+}
+
+function onMouseOutTitle(event) {
+	restore();
+}
+
+function onTouchStartTitle(event) {
+	scramble();
+	event.preventDefault();
+}
+
+function onTouchEndTitle(event) {
+	restore();
+}
+		</script>
+	</head>
+	<body onload="init();">
+		<h1 id="titleContainer">Sprite3D.js</h1>
+		<h2>CSS 3D transforms made easy</h2>
+		<h2>A lightweight Javascript library <br>to simplify 3D positionning <br>through CSS 3D transforms</h2>
+		<p>Sprite3D.js makes it easy to manipulate HTML elements through CSS 3D transforms using a ActionScript-like syntax and hierarchy, and a bunch of chainable accessor methods.</p> <p>A Sprite3D object is a simple wrapper around a DOM element providing helper functions and properties. You can conveniently use CSS styling to determine the aspect of you element, and CSS transitions to animate your stuff. In many cases, 3D transforms are GPU-accelerated, giving you an incredible performance boost.</p>
+		<p>The semantic aspect of the page can be respected, and the browsers that do not support CSS 3D transforms will display your content in a regular way.</p>
+		<h2>Browser support (Feb.2012)</h2>
+		<p>Desktop browsers : </p>
 		<ul>
-			<li>code cleaned with the help of jsLint</li>
-			<li>removed all local vars for less garbage</li>
-			<li>added update2D method</li>
-			<li>added support for more browsers (waiting for Mozilla, Opera and Microsoft)</li>
-			<li>automatic fallback to 2D mode when CSS 3D transforms are not supported</li>
-			<li>added transformSring property to control the order of transformations</li>
-			<li>backward-compatible with first version</li>
+			<li>Safari, Chrome are OK
+			<li>Firefox 10+ has support, quality is improving with time
+			<li>IE 10 has been announced with great support, needs testing
+			<li>Opera has people working on 3D transforms (no release date)
 		</ul>
-		<p>Everything is on github, including some undocumented examples. Have fun !</p>
-
-	
-	<h2 id="download">Download</h2>
-	<p>Get <a href="https://github.com/boblemarin/Sprite3D.js">the full project source code on GitHub</a>.</p>
-	
-	<h2 id="documentation">Documentation</h2>
-	<p>The source code has been commented using the jsDoc syntax. Here is <a href="jsdoc/symbols/Sprite3D.html">the generated reference page</a> (which is also included in the github package).</p>
-
-	<h2 id="credits">Credits</h2>
-	<p>Sprite3D.js has been created by <a href="http://www.minimal.be/">boblemarin</a> (<a href="http://twitter.com/#!/boblemarin">@</a>)</p>
-	<p>Thanks to <a href="https://github.com/gskinner/TweenJS/">Grant Skinner's TweenJS</a>, <a href="https://github.com/mrdoob/stats.js">MrDoob's Stats utility</a>, <a href="http://paulirish.com/2011/requestanimationframe-for-smart-animating/">Paul Irish's requestAnimationFrame code</a>, <a href="https://github.com/veganstraightedge">Shane Becker</a> and <a href="https://github.com/drench">Daniel Rench</a> for the house cleaning on github, <a href="http://www.pixeline.be">Pixeline</a> and <a href="http://twitter.com/lekooka">Kooka</a> for their support, and Christian Delfosse for fixing the 15 Puzzle stuff. </p>
-	
-	
-	
-	<script type="text/javascript" src="js/Sprite3D.js"></script>
-	<script>
-	
-		if ( !Sprite3D.isSupported() )
-		{
-			document.getElementById("warning").style.display = "block";
-		}
-	
-	</script>
-	
-	<h2 id="social">Social stuff</h2>
-	
-	<p><script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
-	<g:plusone></g:plusone>
-	<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="boblemarin">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-		<iframe src="http://www.facebook.com/plugins/like.php?app_id=221981371170477&amp;href=http%3A%2F%2Fminimal.be%2Flab%2FSprite3D%2F&amp;send=false&amp;layout=button_count&amp;width=200&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:200px; height:21px;" allowTransparency="true"></iframe>
-
-</p>
-	<br/><br/><br/>
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'minimalbe';
-	    var disqus_identifier = 'sprite3d';
-	    var disqus_url = 'http://minimal.be/lab/Sprite3D/';
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-	<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-	
-	
-	<script type="text/javascript">
-	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script type="text/javascript">
-	try {
-	var pageTracker = _gat._getTracker("UA-9528692-4");
-	pageTracker._trackPageview();
-	} catch(err) {}</script>
-	
-</body>
+		<p>Mobile :</p>
+		<ul>
+			<li>iOS' Mobile Safari : OK
+			<li>BlackBerry Tablet OS : OK (major performance progress with the 2.0 beta)
+			<li>Android 3+ : OK (Android 4 brings support to all devices)
+		</ul>
+		<h2>Position !</h2>
+		
+		<h2>Animate !</h2>
+		<p>Use CSS transitions like a robust tween engine</p>
+		<h2>Interact !</h2>
+		<p>addEventListener</p>
+	</body>
 </html>
