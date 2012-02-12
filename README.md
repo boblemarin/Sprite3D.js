@@ -2,11 +2,6 @@
 
 A lightweight Javascript library for generating and manipulating CSS 3D transforms
 
-* Created by : [boblemarin](http://github.com/boblemarin)
-* Project's homepage : [minimal.be/lab/Sprite3D](http://minimal.be/lab/Sprite3D "Sprite3D.js, a javascript library for 3D positionning in WebKit")
-* Feedback, suggestions, requests and more : [emeric@minimal.be](mailto:emeric@minimal.be)
-
-
 ## Overview
 
 Sprite3D.js makes it easy to manipulate HTML elements through CSS 3D transforms using a ActionScript-like syntax and hierarchy, and a bunch of chainable accessor methods.
@@ -14,6 +9,41 @@ Sprite3D.js makes it easy to manipulate HTML elements through CSS 3D transforms 
 A Sprite3D object is a simple wrapper around a DOM element providing helper functions and properties. You can conveniently use CSS styling to determine the aspect of you element, and CSS transitions to animate your stuff.
 
 In many cases, 3D transforms are GPU-accelerated, giving you an incredible performance boost.
+
+## Usage
+
+###1 - Settle
+Begin by creating a Stage, which will be the root container of all your 3D stuff.
+
+`var stage = Sprite3D.stage(); //create a blank div centered in the page
+
+or
+
+`var stage = Sprite3D.stage( document.getElementById("myContainer") );
+
+###2 - Populate
+Create and position your sprites. Every time you finish altering an element's position, you should call the update() method. It applies the new transform informations in the page.
+
+The manual update process was chosen for performance reasons, as it does not fire un-needed updates to the DOM tree.
+
+`var sprite = new Sprite3D(); // you can provide an existing element if you don't want a blank div
+	sprite
+		.className("kitten")
+		.position( -200, 10, -300 )
+		.rotation( 80, 0, 5 )
+		.addEventListener( "mousedown", onMouseDown )
+		.update()
+		
+###3 - Interact
+When listening for events, the handler function receives two arguments : the regular DOM event, and a reference to the target Sprite3D object.
+
+	function onMouseDown( event, sprite ):void
+	{
+		sprite.z(1000).update();
+		event.preventDefault();
+	}
+
+Don't forget to use CSS transitions to animate the changes, so you don't need to set an interval to animate everything :)
 
 ## Syntax update
 
@@ -50,17 +80,24 @@ I changed to getter/setter functions "à la" jQuery. All getters are chainable.
 - getter: `var p = mySprite.x()`
 - chaining: `mySprite.x(200).rotationY(50).update()`
 
+
+
 ##Browser support (Feb.2012)
 
-Desktop browsers :
+###Desktop browsers :
 
 - Safari, Chrome are OK
 - Firefox 10+ has support, quality is improving with time
 - IE 10 has been announced with great support, needs testing
 - Opera has people working on 3D transforms (no release date)
 
-Mobile browsers:
+###Mobile browsers:
 
 - iOS' Mobile Safari : OK
 - BlackBerry Tablet OS : OK (major performance progress with the 2.0 beta)
 - Android 4 : OK (Android 3 for tablets has a poor but existent support)
+
+
+* Created by : [boblemarin](http://github.com/boblemarin)
+* Project's homepage : [minimal.be/lab/Sprite3D](http://minimal.be/lab/Sprite3D "Sprite3D.js, a javascript library for 3D positionning in WebKit")
+* Feedback, suggestions, requests and more : [emeric@minimal.be](mailto:emeric@minimal.be)
