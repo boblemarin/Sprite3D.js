@@ -17,47 +17,50 @@ In many cases, 3D transforms are GPU-accelerated, giving you an incredible perfo
 
 ## Syntax update
 
-v1: Sprite3D.createCenteredContainer()
-v2: Sprite3D.stage()
+v1: `Sprite3D.createCenteredContainer()`
+v2: `Sprite3D.stage()`
 
-var s = new Sprite3D();
-var scale = 2;
+`var s = new Sprite3D();
+var scale = 2;`
 
-v1: s.setPosition( px, py, pz )
-v2: s.position( px, py, pz )
+v1: `s.setPosition( px, py, pz )`
+v2: `s.position( px, py, pz )`
 
-v1: s.setScale( scale, scale, scale )
-v2: s.scale( scale ) // or s.scale( 2, 2, 1 ) if different values are needed
+v1: `s.setScale( scale, scale, scale )`
+v2: `s.scale( scale ) // or s.scale( 2, 2, 1 ) if different values are needed`
 
-v1: s.setRegistrationPoint( 23, 54, 0 )
-v2: s.origin( 23, 54 ) // third parameter can be omitted
+v1: `s.setRegistrationPoint( 23, 54, 0 )`
+v2: `s.origin( 23, 54 ) // third parameter can be omitted`
 
-v1: s.setTransformOrigin( "50", "100" ) // you had to provide value as Strings
-v2: s.transformOrigin( 50, 100 ) // or s.transformOrigin( "50%", "100%" )
+v1: `s.setTransformOrigin( "50", "100" ) // you had to provide value as Strings`
+v2: `s.transformOrigin( 50, 100 ) // or s.transformOrigin( "50%", "100%" )`
 
 
 I dropped the "set" prefix everywhere I could
 
-- setClassName > className
-- setRotation > rotation
-- setX > x
-- setY > y
-- setID > id
+- `setClassName > className`
+- `setRotation > rotation`
+- `setX > x`
+- `setY > y`
+- `setID > id`
 
-I changed to getter/setter functions "à la" jQuery. All getters are chainable
-- setter: mySprite.x(200)
-- getter: p = mySprite.x()
-- chaining = mySprite.x(200).rotationY(50).update()
+I changed to getter/setter functions "à la" jQuery. All getters are chainable.
+
+- setter: `mySprite.x(200)`
+- getter: `var p = mySprite.x()`
+- chaining: `mySprite.x(200).rotationY(50).update()`
 
 ##Browser support (Feb.2012)
 
 Desktop browsers :
+
 - Safari, Chrome are OK
 - Firefox 10+ has support, quality is improving with time
 - IE 10 has been announced with great support, needs testing
 - Opera has people working on 3D transforms (no release date)
 
 Mobile browsers:
+
 - iOS' Mobile Safari : OK
 - BlackBerry Tablet OS : OK (major performance progress with the 2.0 beta)
 - Android 4 : OK (Android 3 for tablets has a poor but existent support)
