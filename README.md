@@ -24,7 +24,7 @@ or
 ###2 - Populate
 Create and position your sprites. Every time you finish altering an element's position, you should call the update() method. It applies the new transform informations in the page.
 
-The manual update process was chosen for performance reasons, as it does not fire un-needed updates to the DOM tree.
+The manual update process was chosen for performance reasons, as it does not fire un-needed redraws of the DOM tree.
 
 	var sprite = new Sprite3D(); // you can provide an existing element if you don't want a blank div
 		.className("kitten")
@@ -32,6 +32,7 @@ The manual update process was chosen for performance reasons, as it does not fir
 		.rotation( 80, 0, 5 )
 		.addEventListener( "mousedown", onMouseDown )
 		.update()
+	stage.addChild( sprite );
 		
 ###3 - Interact
 When listening for events, the handler function receives two arguments : the regular DOM event, and a reference to the target Sprite3D object.
