@@ -34,7 +34,6 @@ h1 {
 	margin: 0px;
 	margin-bottom: 40px;
 	color: #DD3333;
-	
 }
 
 h2 {
@@ -124,7 +123,34 @@ ul.menu li {
 	margin: 1em;
 	padding: 0px;
 }
+
+.deprecated {
+	text-decoration:line-through;
+}
 	
+#notice {
+	margin: 50px;
+	background: #822;
+	color: white;
+	padding-bottom: 1em;
+}
+
+#notice h2 {
+	color: #FFF;
+	text-shadow: 0px 2px 0px #D33;
+	filter: dropshadow(color=#dddddd, offx=0, offy=2);
+	border-bottom: 2px solid #FFF;
+	text-align: center;
+}
+
+#notice a {
+	color: #DDD;
+}
+
+#notice a:visited {
+	color: #D88;
+}
+
 </style>
 
 </head>
@@ -132,8 +158,20 @@ ul.menu li {
 <body>
 	
 	<h1>Sprite3D.js</h1>
-	<p class="baseline">A simple javascript library <br/>to help making things move in 3D space<br/>in webkit browsers using CSS transforms.</p>
+	<p class="baseline">A simple javascript library <br/>to help making things move in 3D space<br/>in <span class="deprecated">webkit</span> many browsers using CSS transforms.</p>
 	<div class="yt"><object width="480" height="360"><param name="movie" value="http://www.youtube.com/v/xmP5FF_-tf0?version=3&amp;hl=fr_FR"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/xmP5FF_-tf0?version=3&amp;hl=fr_FR" type="application/x-shockwave-flash" width="480" height="360" allowscriptaccess="always" allowfullscreen="true"></embed></object></div>
+	
+	<div id="notice">
+		<h2>NOTICE:</h2>
+		<p>This page is slowly getting outdated. In my spare time, I've been working on a major syntax revision, Firefox compatibility issues and a new version of this page.</p>
+		<p>Until I get the time to finish all of this, here's a list of the most up to date resources :</p>
+		<ul>
+			<li><a href="https://github.com/boblemarin/Sprite3D.js/tree/v2">"v2" branch on github</a> (featuring <a href="http://sprite3d.minimal.be/SyntaxDemo/step01.html">a simplified syntax</a>)</li>
+			<li>A more recent <a href="http://sprite3d.minimal.be/">list of examples</a></li>
+			<li>Follow <a href="http://twitter.com/boblemarin">me on Twitter</a> for update notices.</li>
+		</ul>
+	</div>
+	
 	<ul class="menu">
 		<li><a href="#overview">Overview</a></li>
 		<li><a href="#features">Features</a></li>
@@ -146,9 +184,10 @@ ul.menu li {
 	<div class="overview">
 	<p>Sprite3D wraps HTML elements with the necessary behaviours to easily control their <b>3D-position using a simple Javascript syntax</b>. To create a Sprite object, you can either supply an existing DOM object or let the library create an empty <code>&lt;div&gt;</code> (you can apply a CSS class to the DOM element after its creation).</p>
 	
-	<p>As you manipulate "real" HTML elements, you don't need a <code>&lt;canvas&gt;</code> object (and its performance problems), nor a WebGL-enabled browser. And, as 3D transforms are hardware-accelerated, you can get a very decent framerate, even on (Apple's) mobile devices.</p>
+	<p>As you manipulate "real" HTML elements, you don't need a <code>&lt;canvas&gt;</code> object (and its performance problems), nor a WebGL-enabled browser. And, as 3D transforms are <b>hardware-accelerated</b>, you can get a very decent framerate, even on mobile devices.</p>
 	
-	<p>At this stage of development, 3D positionning is achieved via WebKit's CSS 3D transforms, restricting the library usage to <b>Chrome and Safari</b> browsers, as well as <b>iOS's Mobile Safari</b>. However, due to its wrapping, non-intrusive nature, it allows for building semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
+	<p>3D positionning is achieved via CSS3 3D transforms, which are currently supported by <b>WebKit</b> (Chrome, Safari, iOS, Android 4, BlackBerry) and <b>Firefox 10</b>. Internet Explorer 10 will ship with 3D support, too.</p> 
+	<p>However, due to its wrapping, non-intrusive nature, Sprite3D.js allows for building semantically valid HTML pages, adding the animation layer afterwards, achieving a valuable progressive enhancement effect.</p>
 	
 	<p>Sprite3D.js has <b>no dependencies</b>, so it can easily be integrated with other JS libs. <br/>It is provided under the <b>MIT Licence</b>. </p>
 	
@@ -324,22 +363,12 @@ mySprite.setTilePosition( 0, 3 );
 	</ul>
 	
 	<h2 id="status">Current dev status</h2>
-		<p>I'm currently busy with <span title="same old fucking flash projects">non-JS</span> client work. There's a nearly finished V2 version I've been hardly working on, but it still needs a bit of polishing and the documentation might not be fully complete.</p>
-		<p>Here are the main additions/updates of the latest version :</p>
-		<ul>
-			<li>code cleaned with the help of jsLint</li>
-			<li>removed all local vars for less garbage</li>
-			<li>added update2D method</li>
-			<li>added support for more browsers (waiting for Mozilla, Opera and Microsoft)</li>
-			<li>automatic fallback to 2D mode when CSS 3D transforms are not supported</li>
-			<li>added transformSring property to control the order of transformations</li>
-			<li>backward-compatible with first version</li>
-		</ul>
-		<p>Everything is on github, including some undocumented examples. Have fun !</p>
+		<p>See <a href="#notice">the above notice</a>.</p>
 
 	
 	<h2 id="download">Download</h2>
 	<p>Get <a href="https://github.com/boblemarin/Sprite3D.js">the full project source code on GitHub</a>.</p>
+	<p>Don't forget to check <a href="https://github.com/boblemarin/Sprite3D.js/tree/v2">the "v2" branch with its revamped syntax</a>.</p>
 	
 	<h2 id="documentation">Documentation</h2>
 	<p>The source code has been commented using the jsDoc syntax. Here is <a href="jsdoc/symbols/Sprite3D.html">the generated reference page</a> (which is also included in the github package).</p>
