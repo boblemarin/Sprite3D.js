@@ -1,4 +1,4 @@
-# Sprite3D.js
+# Sprite3D.js [v2]
 
 A lightweight Javascript library for generating and manipulating CSS 3D transforms
 
