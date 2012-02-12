@@ -15,19 +15,18 @@ In many cases, 3D transforms are GPU-accelerated, giving you an incredible perfo
 ###1 - Settle
 Begin by creating a Stage, which will be the root container of all your 3D stuff.
 
-`var stage = Sprite3D.stage(); //create a blank div centered in the page
+	var stage = Sprite3D.stage(); //create a blank div centered in the page
 
 or
 
-`var stage = Sprite3D.stage( document.getElementById("myContainer") );
+	var stage = Sprite3D.stage( document.getElementById("myContainer") );
 
 ###2 - Populate
 Create and position your sprites. Every time you finish altering an element's position, you should call the update() method. It applies the new transform informations in the page.
 
 The manual update process was chosen for performance reasons, as it does not fire un-needed updates to the DOM tree.
 
-`var sprite = new Sprite3D(); // you can provide an existing element if you don't want a blank div
-	sprite
+	var sprite = new Sprite3D(); // you can provide an existing element if you don't want a blank div
 		.className("kitten")
 		.position( -200, 10, -300 )
 		.rotation( 80, 0, 5 )
@@ -97,7 +96,7 @@ I changed to getter/setter functions "à la" jQuery. All getters are chainable.
 - BlackBerry Tablet OS : OK (major performance progress with the 2.0 beta)
 - Android 4 : OK (Android 3 for tablets has a poor but existent support)
 
-
+##Credits
 * Created by : [boblemarin](http://github.com/boblemarin)
 * Project's homepage : [minimal.be/lab/Sprite3D](http://minimal.be/lab/Sprite3D "Sprite3D.js, a javascript library for 3D positionning in WebKit")
 * Feedback, suggestions, requests and more : [emeric@minimal.be](mailto:emeric@minimal.be)
