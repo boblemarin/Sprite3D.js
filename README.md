@@ -99,5 +99,6 @@ I changed to getter/setter functions "à la" jQuery. All getters are chainable.
 
 ##Credits
 * Created by : [boblemarin](http://github.com/boblemarin)
+* Recent examples: http://sprite3d.minimal.be/
 * Project's homepage : [minimal.be/lab/Sprite3D](http://minimal.be/lab/Sprite3D "Sprite3D.js, a javascript library for 3D positionning in WebKit")
 * Feedback, suggestions, requests and more : [emeric@minimal.be](mailto:emeric@minimal.be)
