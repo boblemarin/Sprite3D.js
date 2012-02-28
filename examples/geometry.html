@@ -81,11 +81,12 @@ function init() {
 function onScroll(e){
 	var scrollPosition = document.body.scrollTop;
 	var windowHeight = window.innerHeight;
-	var bodyHeight = document.height;
+	var bodyHeight = document.body.clientHeight;
 	var p = scrollPosition / (bodyHeight-windowHeight);
 	container.setRotationY( 720 * p ).update();
-	console.log("scroll " + p );
+	console.log("scroll " + bodyHeight );
 }
+
 function update() {
 	container
 		.rotateY(2)
