@@ -1,12 +1,8 @@
 /*
-* Sprite3D.js - v2 (1)
+* Sprite3D.js - v2
 * Visit the internets for documentation, updates and examples.
 * https://github.com/boblemarin/Sprite3D.js
 * http://minimal.be/lab/Sprite3D
-*
-* (1) this is a working version of Sprite3D 2.0,
-*     it is not yet finished. Please go to the githu 
-*     repo to get the most up-to-date file.
 *
 * Copyright (c) 2010 boblemarin emeric@minimal.be http://www.minimal.be
 * 
@@ -47,7 +43,7 @@ function Sprite3D(element) {
 	}
 	
 	// Firefox 10 empty div fix
-	//if ( element.localName == "DIV" && element.innerHTML == "" ) element.innerHTML = "&nbsp;";
+	if ( element.innerHTML == "" ) element.innerHTML = "&nbsp;";
 	
 	// prepare for 3D positionning
 	element.style[ this._browserPrefix + "TransformStyle" ] = "preserve-3d";
@@ -141,7 +137,7 @@ Sprite3D.prototype.position = function(px,py,pz) {
 Sprite3D.prototype.move = function(px,py,pz) {
 	this._px += px;
 	this._py += py;
-	if ( arguments.length == 3 ) this._pz += pz;
+	this._pz += pz;
 	return this;
 };
 
@@ -247,8 +243,7 @@ Sprite3D.prototype.origin = function(ox,oy,oz) {
 	this._ox = ox;
 	this._oy = oy;
 	this._oz = (arguments.length==3)?oz:0;
-	return this;
-};
+}
 
 /********** Transform Origin ***********/
 Sprite3D.prototype.transformOrigin = function(tx,ty) {
@@ -316,12 +311,12 @@ Sprite3D.prototype.set = function(name, value) {
 };
 
 /********** SpriteSheet system ***********/
-Sprite3D.prototype.tileSize = function(width, height) {
+Sprite3D.prototype.setTileSize = function(width, height) {
 	this.tileWidth = width;
 	this.tileHeight = height;
 	return this;
 };
-Sprite3D.prototype.tilePosition = function(tilePosX, tilePosY) {
+Sprite3D.prototype.setTilePosition = function(tilePosX, tilePosY) {
 	this._style.backgroundPosition = "-" + (tilePosX * this.tileWidth) + "px -" + (tilePosY * this.tileHeight) + "px";
 	return this;
 };
@@ -334,7 +329,7 @@ Sprite3D.prototype.tilePosition = function(tilePosX, tilePosY) {
  * @param {boolean} rf true to rotate first, false to translate first
  * @return {Sprite3D} The reference to this Sprite3D object
  */
-Sprite3D.prototype.rotateFirst = function(rf) {
+Sprite3D.prototype.setRotateFirst = function(rf) {
 	this.rotateFirst = rf;
 	if ( rf ) {	
 		this._transformString = "_rx _ry _rz _p _s";
