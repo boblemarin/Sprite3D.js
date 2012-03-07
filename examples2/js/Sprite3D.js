@@ -5,7 +5,7 @@
 * http://minimal.be/lab/Sprite3D
 *
 * (1) this is a working version of Sprite3D 2.0,
-*     it is not yet finished. Please go to the githu 
+*     it is not yet finished. Please go to the github
 *     repo to get the most up-to-date file.
 *
 * Copyright (c) 2010 boblemarin emeric@minimal.be http://www.minimal.be
@@ -102,8 +102,13 @@ Sprite3D.prototype.numChildren = 0;
 
 
 Sprite3D.prototype.transformString = function(ts) {
-	this._transformString = ts;
-	return this;
+	if ( arguments.length ) {
+		this._transformString = ts;
+		return this;
+	} else {
+		return this._transformString;
+	}
+	
 };
 
 /********** Position / absolute ***********/
