@@ -70,6 +70,25 @@ var Sprite3D = Sprite3D || {
 		return this.create(c);
 	},
 	
+	/********* [PUBLIC STATIC] cube() ***********/
+	box: function(width,height,depth) {
+		// init if needed
+		if ( !this._isInit ) this._init();
+		
+		// create container element
+		var box = this.create();
+		
+		// add faces
+		box.addChild( Sprite3D.create().set("className","front").position( -80, -80, 80).update() );
+		box.addChild( Sprite3D.create().set("className","back").position( -80, -80, -80).rotationY(180).update() );
+		box.addChild( Sprite3D.create().set("className","left").position( -160, -80, 0).rotationY(-90).update() );
+		box.addChild( Sprite3D.create().set("className","right").position( 0, -80, 0).rotationY(90).update() );
+		box.addChild( Sprite3D.create().set("className","top").position( -80, 0, 0).rotationX(90).update() );
+		box.addChild( Sprite3D.create().set("className","bottom").position( -80, -160, 0).rotationX(-90).update() );
+		
+		return box;
+	},
+	
 	/********* [PUBLIC STATIC] create() ***********/
 	create: function(element){
 		// init Sprite3D if needed
