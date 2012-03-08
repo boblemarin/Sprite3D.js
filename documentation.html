@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="apple-touch-icon-precomposed" href="icon.jpg" />
+		<title>Sprite3D.js - Documentation</title>
+
+
+		<style>
+		
+* { box-sizing: border-box; }
+
+body {
+	background-color: white;
+	color: black;
+	margin: 0px 0px;
+	padding: 0px;
+	font-family: "Helvetica";
+	overflow: hidden;
+}
+
+h1 {
+	background: #cedce7; /* Old browsers */
+background: -moz-linear-gradient(top,  #cedce7 0%, #596a72 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cedce7), color-stop(100%,#596a72)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #cedce7 0%,#596a72 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #cedce7 0%,#596a72 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #cedce7 0%,#596a72 100%); /* IE10+ */
+background: linear-gradient(top,  #cedce7 0%,#596a72 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 ); /* IE6-9 */
+
+text-shadow: 0px 1px 0px #ffffff;
+filter: dropshadow(color=#ffffff, offx=0, offy=1);
+
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	height: 45px;
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	color: #444;
+	font-size: 20px;
+	line-height: 45px;
+}
+
+ul.nav {
+	position: absolute;
+	top: 45px;
+	left: 0px;
+	bottom: 0px;
+	width: 160px;
+	margin: 0px;
+	padding: 0px;
+	border-right: 1px solid black;
+	overflow: auto;
+}
+
+ul.nav li {
+	margin: 0px;
+	padding: 0px;
+}
+
+ul.nav li a {
+	display: block;
+	text-decoration: none;
+	color: black;
+	margin: 0px;
+	padding: 20px;
+	background: #EEE;
+	font-weight: bold;
+	-webkit-transition:  all 1s ease-out;
+}
+
+ul.nav li a:hover, ul.nav li a:active {
+	-webkit-transition:  all 0.3s ease-out;
+	background: #7d7e7d; /* Old browsers */
+	background: -moz-linear-gradient(top, #7d7e7d 0%, #0e0e0e 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7d7e7d), color-stop(100%,#0e0e0e)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #7d7e7d 0%,#0e0e0e 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #7d7e7d 0%,#0e0e0e 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #7d7e7d 0%,#0e0e0e 100%); /* IE10+ */
+	background: linear-gradient(top, #7d7e7d 0%,#0e0e0e 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=0 ); /* IE6-9 */
+	color: #FFF;
+}
+
+div.container {
+	position: absolute;
+	margin: 0px;
+	padding: 0px;
+	top: 45px;
+	left: 160px;
+	right: 0px;
+	bottom: 0px;
+	overflow: auto;
+}
+
+div.page {
+	position: absolute;
+	width: 10%;
+	margin: 0px;
+	padding: 10px;
+	opacity: 0;
+	display: none;
+	-webkit-transition:  all 0.3s ease-out;
+}
+
+div.page:target {
+width: 100%;
+	opacity: 1;
+	display: block;
+	-webkit-transition:  all 0.3s ease-out;
+}
+
+
+h2 {
+	background: #DDD;
+	padding: 10px;
+	margin: 0px;
+	text-align: center;
+}
+
+h3 {
+	
+}
+
+table {
+	/*border-spacing: 10px 10px;*/
+	border-spacing: 0px;
+	width: 100%;
+}
+
+th {
+	padding: 10px;
+	text-align: left;
+	color: #888;
+	background: #FFF;
+	font-weight: normal;
+}
+
+td {
+	vertical-align: top;
+	padding: 15px;
+}
+
+td:first-child {
+/*	width: 15em;*/
+	font-weight: bold;
+}
+
+tr:nth-child(odd) {
+	background: #EEE;
+}
+			
+		</style>
+
+	</head>
+	<body>
+		
+		<h1 id="titleContainer">Sprite3D.js - Documentation</h1>
+
+		<ul class="nav">
+			<li><a href="#overview">Overview</a></li>
+			<li><a href="#static">Static methods</a></li>
+			<li><a href="#position">Position</a></li>
+			<li><a href="#rotation">Rotation</a></li>
+			<li><a href="#scale">Scale</a></li>
+			<li><a href="#update">Update </a></li>
+			<li><a href="#helpers">Helper functions</a></li>
+		</ul>
+	
+		<div class="container">
+				<div class="page" id="static">
+					<h2>Static methods</h2>
+					<table>
+						<tr>
+							<th>Usage</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td>Sprite3D.isSupported()</td>
+							<td>Returns a boolean value indicating if the library has found support for CSS 3D transforms in current browser.</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.stage()</td>
+							<td>Creates and returns a DIV element absolutely positionned in the center of the page with the needed CSS properties set to act as a root container for all your 3D content.<br>
+								Use this method if you want to create full page 3D content with centered origin.
+							</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.stage( DOMElement )</td>
+							<td>Receives an DOM element and transforms it into a valid container for 3D transformed content. The only CSS properties that will be altered are perspective, transform and transform-style. If the element's position is static, it will be changed to relative.<br>
+								Use this method to get a rectangular viewport if your 3D content is not covering the whole page. The origin will be the top-left corner of the element.
+								</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.cube( width, height, depth )</td>
+							<td>Creates the required elements to display a cube with the given dimensions. The faces of the cube will have class names reflecting their respective position (front,back,left,right,top,bottom)
+								</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.isSupported()</td>
+							<td>Returns a boolean value indicating if the library has found support for CSS 3D transforms in current browser.</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.stage()</td>
+							<td>Creates and returns a DIV element absolutely positionned in the center of the page with the needed CSS properties set to act as a root container for all your 3D content.<br>
+								Use this method if you want to create full page 3D content with centered origin.
+							</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.stage( DOMElement )</td>
+							<td>Receives an DOM element and transforms it into a valid container for 3D transformed content. The only CSS properties that will be altered are perspective, transform and transform-style. If the element's position is static, it will be changed to relative.<br>
+								Use this method to get a rectangular viewport if your 3D content is not covering the whole page. The origin will be the top-left corner of the element.
+								</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.cube( width, height, depth )</td>
+							<td>Creates the required elements to display a cube with the given dimensions. The faces of the cube will have class names reflecting their respective position (front,back,left,right,top,bottom)
+								</td>
+						</tr>
+					</table>			
+				</div>
+
+				<div class="page" id="position">
+				<h2>Position</h2>
+				<table>
+					<tr>
+						<th>Usage</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>x()</td>
+						<td>returns the coordinates of the sprite on the X axis</td>
+					</tr>
+					<tr>
+						<td>x(v)</td>
+						<td>sets the coordinates of the sprite on the X axis</td>
+					</tr>
+					<tr>
+						<td>y()</td>
+						<td>returns the coordinates of the sprite on the Y axis</td>
+					</tr>
+					<tr>
+						<td>y(v)</td>
+						<td>sets the coordinates of the sprite on the Y axis</td>
+					</tr>
+					<tr>
+						<td>z()</td>
+						<td>sets the coordinates of the sprite on the Z axis</td>
+					</tr>
+					<tr>
+						<td>z(v)</td>
+						<td>sets the coordinates of the sprite on the Z axis</td>
+					</tr>
+					<tr>
+						<td>position(x,y,z)</td>
+						<td>sets the coordinates of the sprite on all three axis</td>
+					</tr>
+					<tr>
+						<td>move(x,y,z)</td>
+						<td>adds the supplied values to the current coordinates of the sprite on all 3 axis</td>
+					</tr>
+					<tr>
+						<td>move(x,y)</td>
+						<td>adds the supplied values to the current coordinates of the sprite on the X and Y axis</td>
+					</tr>
+					<tr>
+						<td>origin(x,y,z)</td>
+						<td>Defines the registration point of the 3D object. If you have a div that is 50x50px and want it to be positionned by it center, use sprite.origin( 25, 25, 0 ). You can also drop the third argument and use sprite.origin( 25, 25 )</td>
+					</tr>
+				</table>
+				</div>
+
+				<div class="page" id="rotation">
+				<h2>Rotation</h2>
+				<table>
+					<tr>
+						<th>Usage</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>rotationX()</td>
+						<td>returns the current rotation of the sprite around the X axis</td>
+					</tr>
+					<tr>
+						<td>x(v)</td>
+						<td>sets the coordinates of the sprite on the X axis</td>
+					</tr>
+					<tr>
+						<td>y()</td>
+						<td>returns the current rotation of the sprite around the Y axis</td>
+					</tr>
+					<tr>
+						<td>y(v)</td>
+						<td>sets the coordinates of the sprite on the Y axis</td>
+					</tr>
+					<tr>
+						<td>z()</td>
+						<td>returns the current rotation of the sprite around the Z axis</td>
+					</tr>
+					<tr>
+						<td>z(v)</td>
+						<td>sets the coordinates of the sprite on the Z axis</td>
+					</tr>
+					<tr>
+						<td>position(x,y,z)</td>
+						<td>sets the coordinates of the sprite on all three axis</td>
+					</tr>
+					<tr>
+						<td>move(x,y,z)</td>
+						<td>adds the supplied values to the current coordinates of the sprite on all 3 axis</td>
+					</tr>
+					<tr>
+						<td>move(x,y)</td>
+						<td>adds the supplied values to the current coordinates of the sprite on the X and Y axis</td>
+					</tr>
+					<tr>
+						<td>origin(x,y,z)</td>
+						<td>Defines the registration point of the 3D object. If you have a div that is 50x50px and want it to be positionned by it center, use sprite.origin( 25, 25, 0 ). You can also drop the third argument and use sprite.origin( 25, 25 )</td>
+					</tr>
+				</table>
+				</div>
+
+				<div class="page" id="scale">
+				<h2>Scale</h2>
+				<table>
+					<tr>
+						<th>Usage</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>scaleX()</td>
+						<td>returns the X scale factor of the object</td>
+					</tr>
+					<tr>
+						<td>scale()</td>
+						<td>returns the X scale factor of the object</td>
+					</tr>
+					<tr>
+						<td>scale( s )</td>
+						<td>uniformly scale the sprite on all three axis<br>returns the sprite object</td>
+					</tr>
+					<tr>
+						<td>scale( sx, sy )</td>
+						<td>sets the scale values for the X and Y axis. Z axis remains unchanged.<br>returns the sprite object</td>
+					</tr>
+					<tr>
+						<td>scale( sx, sy, sz )</td>
+						<td>sets the scale values for the X, Y and Z axis<br>returns the sprite object</td>
+					</tr>
+				</table>
+				</div>
+
+				<div class="page" id="update">
+					<h2>Updating</h2>
+				</div>
+
+				<div class="page" id="helpers">
+					<h2>Helper functions</h2>
+
+				</div>
+		</div>
+		
+	
+
+	</body>
+</html>
