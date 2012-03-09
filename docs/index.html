@@ -8,165 +8,19 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link rel="apple-touch-icon-precomposed" href="icon.jpg" />
 		<title>Sprite3D.js - Documentation</title>
-
-
-		<style>
 		
-* { box-sizing: border-box; }
+		<link rel="stylesheet" href="assets/tablet.css" type="text/css" media="screen and (min-width: 750px)" charset="utf-8">
 
-body {
-	background-color: white;
-	color: black;
-	margin: 0px 0px;
-	padding: 0px;
-	font-family: "Helvetica";
-	overflow: hidden;
-}
-
-h1 {
-	background: #cedce7; /* Old browsers */
-background: -moz-linear-gradient(top,  #cedce7 0%, #596a72 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cedce7), color-stop(100%,#596a72)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  #cedce7 0%,#596a72 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  #cedce7 0%,#596a72 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  #cedce7 0%,#596a72 100%); /* IE10+ */
-background: linear-gradient(top,  #cedce7 0%,#596a72 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 ); /* IE6-9 */
-
-text-shadow: 0px 1px 0px #ffffff;
-filter: dropshadow(color=#ffffff, offx=0, offy=1);
-
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	right: 0px;
-	height: 45px;
-	margin: 0px;
-	padding: 0px;
-	text-align: center;
-	color: #444;
-	font-size: 20px;
-	line-height: 45px;
-}
-
-ul.nav {
-	position: absolute;
-	top: 45px;
-	left: 0px;
-	bottom: 0px;
-	width: 160px;
-	margin: 0px;
-	padding: 0px;
-	border-right: 1px solid black;
-	overflow: auto;
-}
-
-ul.nav li {
-	margin: 0px;
-	padding: 0px;
-}
-
-ul.nav li a {
-	display: block;
-	text-decoration: none;
-	color: black;
-	margin: 0px;
-	padding: 20px;
-	background: #EEE;
-	font-weight: bold;
-	-webkit-transition:  all 1s ease-out;
-}
-
-ul.nav li a:hover, ul.nav li a:active {
-	-webkit-transition:  all 0.3s ease-out;
-	background: #7d7e7d; /* Old browsers */
-	background: -moz-linear-gradient(top, #7d7e7d 0%, #0e0e0e 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7d7e7d), color-stop(100%,#0e0e0e)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #7d7e7d 0%,#0e0e0e 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #7d7e7d 0%,#0e0e0e 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #7d7e7d 0%,#0e0e0e 100%); /* IE10+ */
-	background: linear-gradient(top, #7d7e7d 0%,#0e0e0e 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=0 ); /* IE6-9 */
-	color: #FFF;
-}
-
-div.container {
-	position: absolute;
-	margin: 0px;
-	padding: 0px;
-	top: 45px;
-	left: 160px;
-	right: 0px;
-	bottom: 0px;
-	overflow: auto;
-}
-
-div.page {
-	position: absolute;
-	width: 10%;
-	margin: 0px;
-	padding: 10px;
-	opacity: 0;
-	display: none;
-	-webkit-transition:  all 0.3s ease-out;
-}
-
-div.page:target {
-width: 100%;
-	opacity: 1;
-	display: block;
-	-webkit-transition:  all 0.3s ease-out;
-}
-
-
-h2 {
-	background: #DDD;
-	padding: 10px;
-	margin: 0px;
-	text-align: center;
-}
-
-h3 {
-	
-}
-
-table {
-	/*border-spacing: 10px 10px;*/
-	border-spacing: 0px;
-	width: 100%;
-}
-
-th {
-	padding: 10px;
-	text-align: left;
-	color: #888;
-	background: #FFF;
-	font-weight: normal;
-}
-
-td {
-	vertical-align: top;
-	padding: 15px;
-}
-
-td:first-child {
-/*	width: 15em;*/
-	font-weight: bold;
-}
-
-tr:nth-child(odd) {
-	background: #EEE;
-}
-			
-		</style>
 
 	</head>
 	<body>
 		
 		<h1 id="titleContainer">Sprite3D.js - Documentation</h1>
 
+		<a href="javascript:window.history.back();" id="back">back</a>
+
 		<ul class="nav">
-			<li><a href="#overview">Overview</a></li>
+			<li><a href="#">Getting started</a></li>
 			<li><a href="#static">Static methods</a></li>
 			<li><a href="#position">Position</a></li>
 			<li><a href="#rotation">Rotation</a></li>
@@ -176,6 +30,30 @@ tr:nth-child(odd) {
 		</ul>
 	
 		<div class="container">
+			<div class="page default"> 
+			<h2>Getting started</h2>
+			
+			<h3>1. Prepare</h3>
+			<p>Link to the source in html code</p>
+			<code>
+				&lt;script src=&quot;js/Sprite3D.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+			</code>
+			<p>You can check if 3D transforms are supported by the current browser :</p>
+<code><pre>if ( Sprite3D.isSupported() ) {
+  // display 3D content
+} else {
+  // display warning or alternative content
+}</pre></code>
+			<h3>2. Set up a root container</h3>
+			<p>
+			When working with Sprite3D, you have to set up a root container for your 3D elements. There are two methods for doing that.</p>
+			<p>a. Create a new DIV element centered in the page. Use this when you want to create full page 3D content.</p>
+			<code>var stage = Sprite3D.stage();</code>
+			<p>b. Transform a existing element into a 3D container. It's existing CSS properties will remain unchanged, exept its position that will be set to relative if static.</p>
+			<code>var stage = Sprite3D.stage( document.getElementById("rootContainer") );</code>
+			</div>
+			
+			
 				<div class="page" id="static">
 					<h2>Static methods</h2>
 					<table>
