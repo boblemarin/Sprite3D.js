@@ -131,8 +131,11 @@ function init() {
 	);
 	
 	// wait for click or touch
-	container.addEventListener( "mousedown", startRotation );
-	container.addEventListener( "touchstart", startRotation );
+	//container.addEventListener( "mousedown", startRotation );
+	//container.addEventListener( "touchstart", startRotation );
+	
+	
+	setInterval( move, 1000 / 40 );
 }	
 
 function startRotation(e,s) {
