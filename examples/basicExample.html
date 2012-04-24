@@ -35,11 +35,6 @@
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
 		<title>Sprite3D.js - Basics - Sprite creation</title>
 
-
-<!-- =========================================================== -->		
-<!-- CSS SECTION =============================================== -->
-<!-- =========================================================== -->
-
 		<style>
 		
 html, body { height: 100%; }
@@ -60,69 +55,59 @@ body {
 
 			
 		</style>
-
-		<!-- =========================================================== -->		
-		<!-- JAVASCRIPT SECTION ======================================== -->
-		<!-- =========================================================== -->
-		<script src="../js/Sprite3D.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<script src="js/Sprite3D.js" type="text/javascript"></script>
 		<script type="text/javascript">
 
-function init() {
+(function() {
 	
-	if ( false )
+	var iWantTheShortVersion = true;
+
+
+	if ( iWantTheShortVersion )
 	{
-		// short version
-		Sprite3D.createCenteredContainer().addChild( 
-			new Sprite3D()
-				.setClassName("image")
-				.setRegistrationPoint( 200, 250, 0 )
-				.rotateX( -20 )
+		// you can chain the methods to get a consice syntax like this...
+		
+		Sprite3D.stage().appendChild( 
+			Sprite3D.create(".image")
+				.origin(200, 250 )
+				.rotationX(-20)
 				.update()
 		);
 	}
 	else
 	{
 
-		// long and commented version
+		// ... or do one thing at a time and be verbose
 
 		// 1. first, let's create the root container for our sprites
-		var stage = Sprite3D.createCenteredContainer();
+		var stage = Sprite3D.stage();
 
-		// 2. then, let's create one object
-		var image = new Sprite3D();
+		// 2. then, let's create a Sprite object
+		var image = Sprite3D.create();
 
 		// 3. set its class so that it displays the image chosen in the CSS
-		image.setClassName("image");
+		image.className("image");
 
 		// 4. set its registration point to the center of the image, so that it will appear centered
-		// note: this function takes 3 arguments, because the reg point is expressed in 3D space
-		image.setRegistrationPoint( 200, 250, 0 );
+		// note: this function takes 3 arguments, because the reg point is expressed in 3D space,
+		// but you can omit the third argument if you don't use it
+		image.origin( 200, 250, 0 );
 
 		// 5. rotate the sprite around the X axis
-		image.rotateX( -20 );
+		image.rotationX( -20 );
 
 		// 6. update the image css properties to apply the above changes 
 		// this step is required for the result to be visible
 		image.update();
 
 		// 7. add the sprite to the stage, so that it appears on the screen
-		stage.addChild( image );
+		stage.appendChild( image );
 	}
-	
-}	
+
+})();	
 
 		</script>
-	</head>
-	<body onload="init();">
-		<script type="text/javascript">
-		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-		<script type="text/javascript">
-		try {
-		var pageTracker = _gat._getTracker("UA-9528692-4");
-		pageTracker._trackPageview();
-		} catch(err) {}</script>
-		<a href="http://minimal.be/lab/Sprite3D/"><img src="img/banner.png" style="border:0;position:absolute;right:0;top:0" alt="built width Sprite3D.js" /></a>
 	</body>
 </html>

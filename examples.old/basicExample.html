@@ -35,6 +35,11 @@
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
 		<title>Sprite3D.js - Basics - Sprite creation</title>
 
+
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
 		<style>
 		
 html, body { height: 100%; }
@@ -56,19 +61,22 @@ body {
 			
 		</style>
 
-		<script src="js/Sprite3D3.js" type="text/javascript"></script>
+		<!-- =========================================================== -->		
+		<!-- JAVASCRIPT SECTION ======================================== -->
+		<!-- =========================================================== -->
+		<script src="../js/Sprite3D.js" type="text/javascript"></script>
 		<script type="text/javascript">
 
 function init() {
 	
-	if ( true )
+	if ( false )
 	{
 		// short version
-		Sprite3D.stage().appendChild( 
-			Sprite3D.create()
-				.set("className","image")
-				.origin( 200, 250, 0 )
-				.rotationX( -20 )
+		Sprite3D.createCenteredContainer().addChild( 
+			new Sprite3D()
+				.setClassName("image")
+				.setRegistrationPoint( 200, 250, 0 )
+				.rotateX( -20 )
 				.update()
 		);
 	}
@@ -78,20 +86,20 @@ function init() {
 		// long and commented version
 
 		// 1. first, let's create the root container for our sprites
-		var stage = Sprite3D.stage();
+		var stage = Sprite3D.createCenteredContainer();
 
 		// 2. then, let's create one object
 		var image = new Sprite3D();
 
 		// 3. set its class so that it displays the image chosen in the CSS
-		image.className("image");
+		image.setClassName("image");
 
 		// 4. set its registration point to the center of the image, so that it will appear centered
 		// note: this function takes 3 arguments, because the reg point is expressed in 3D space
-		image.origin( 200, 250, 0 );
+		image.setRegistrationPoint( 200, 250, 0 );
 
 		// 5. rotate the sprite around the X axis
-		image.rotationX( -20 );
+		image.rotateX( -20 );
 
 		// 6. update the image css properties to apply the above changes 
 		// this step is required for the result to be visible
@@ -106,6 +114,15 @@ function init() {
 		</script>
 	</head>
 	<body onload="init();">
-
+		<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+		try {
+		var pageTracker = _gat._getTracker("UA-9528692-4");
+		pageTracker._trackPageview();
+		} catch(err) {}</script>
+		<a href="http://minimal.be/lab/Sprite3D/"><img src="img/banner.png" style="border:0;position:absolute;right:0;top:0" alt="built width Sprite3D.js" /></a>
 	</body>
 </html>

@@ -33,7 +33,7 @@ body {
 			
 		</style>
 
-		<script src="js/Sprite3D.js" type="text/javascript"></script>
+		<script src="../js/Sprite3D.js" type="text/javascript"></script>
 		<script type="text/javascript">
 
 var stage,
@@ -41,14 +41,14 @@ var stage,
 
 function init() {
 	
-	stage = Sprite3D.stage();
-	stage.css().position = "fixed";
+	stage = Sprite3D.createCenteredContainer();
+	stage.style.position = "fixed";
 	
 	container = stage.addChild(
 		new Sprite3D()
 			//.setClassName("container")
-			.position( 0, 0, 0 )
-			.scale( 3, 3, 3 )
+			.setPosition( 0, 0, 0 )
+			.setScale( 3, 3, 3 )
 			.update()
 	);
 	
@@ -64,12 +64,12 @@ function init() {
 		s = 1-s;
 		container.addChild(
 			new Sprite3D()
-				.className( "sq" )
-				.transformString( "_rx _ry _rz _s _p" )
-				.transformOrigin( "0px", "0px" )
-				.position( 40, 200-i*d, 40 )
-				.rotation( 0, i*a, 0 )
-				.scale( s, s, s )
+				.setClassName( "sq" )
+				.setTransformString( "_rx _ry _rz _s _p" )
+				.setTransformOrigin( "0px", "0px" )
+				.setPosition( 40, 200-i*d, 40 )
+				.setRotation( 0, i*a, 0 )
+				.setScale( s, s, s )
 				.update()
 		);
 	}
@@ -83,8 +83,8 @@ function onScroll(e){
 	var windowHeight = window.innerHeight;
 	var bodyHeight = document.body.clientHeight;
 	var p = scrollPosition / (bodyHeight-windowHeight);
-	container.rotationY( 720 * p ).update();
-//	console.log("scroll " + bodyHeight );
+	container.setRotationY( 720 * p ).update();
+	console.log("scroll " + bodyHeight );
 }
 
 function update() {

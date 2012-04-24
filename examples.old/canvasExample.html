@@ -37,6 +37,10 @@
 
 <title>Sprite3D - canvas demo</title>
 
+<!-- =========================================================== -->		
+<!-- CSS SECTION =============================================== -->
+<!-- =========================================================== -->
+
 <style>
 		
 html, body { height: 100%; }
@@ -75,6 +79,11 @@ body {
 }
 			
 </style>
+
+<!-- =========================================================== -->		
+<!-- JAVASCRIPT SECTION ======================================== -->
+<!-- =========================================================== -->
+
 <!-- Paul Irish's cross-browser RequestAnimationFrame technique -->
 <script type="text/javascript" src="../js/RequestAnimationFrame.js"></script>
 
@@ -88,7 +97,7 @@ body {
 <script type="text/javascript" src="../js/Stats.js"></script>
 
 <!-- boblemarin's Sprite3D utility class -->
-<script src="js/Sprite3D.js" type="text/javascript"></script>
+<script src="../js/Sprite3D.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
@@ -115,8 +124,8 @@ function init() {
 	debug = document.getElementById("debug");
 	
 	// create a centered 3D stage and a container
-	stage = Sprite3D.stage();
-	container = stage.addChild( new Sprite3D() ).z( 500 ).rotateFirst(false).update();
+	stage = Sprite3D.createCenteredContainer();
+	container = stage.addChild( new Sprite3D() ).setZ( 500 ).setRotateFirst(false).update();
 	
 	path = [];
 	for( i = 0; i < np; i++ ) path.push( sliceHeight >> 1 );
@@ -127,10 +136,10 @@ function init() {
 	for( i = 0; i < 25; i++ )
 	{
 		starContainer.addChild( new Sprite3D()
-			.className("star")
-			.rotateFirst(true)
-			.rotation( Math.random() * 360, Math.random() * 360, Math.random() * 360 )
-			.position( 0, 0, 800 )
+			.setClassName("star")
+			.setRotateFirst(true)
+			.setRotation( Math.random() * 360, Math.random() * 360, Math.random() * 360 )
+			.setPosition( 0, 0, 800 )
 			.update()
 		);
 	}
@@ -145,11 +154,11 @@ function init() {
 		canvas.height = sliceHeight;
 		container.addChild(
 			new Sprite3D(canvas)
-				.className("box")
-				.origin(sliceWidth>>1, sliceHeight>>1, 0)
-				.position( 0, 0, i * -zStep )
-				.set( 'context', canvas.getContext('2d') )
-				.rotateFirst( false )
+				.setClassName("box")
+				.setRegistrationPoint(sliceWidth>>1, sliceHeight>>1, 0)
+				.setPosition( 0, 0, i * -zStep )
+				.setProperty( 'context', canvas.getContext('2d') )
+				.setRotateFirst( false )
 				.update()
 		);
 	}
@@ -196,8 +205,8 @@ function onTouchStart( event ) {
 	var t = event.changedTouches[0];
 	var dx = ( t.pageX / window.innerWidth - .5 );
 	var dy = ( t.pageY / window.innerHeight - .5 );
-	container.x(dx * 1600);
-	container.y(dy  * 1000);
+	container.x = dx * 1600;
+	container.y = dy  * 1000;
 	//starContainer.rotationZ = container.rotationZ = dx * 120;
 	event.preventDefault();
 }

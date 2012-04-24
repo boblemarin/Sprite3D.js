@@ -48,52 +48,28 @@ body {
 	overflow: hidden;
 }
 
-.box1 {
-	-webkit-transition: all .4s ease-in-out;
+.image {
+	background-image: url('img/html5_logo.png');
+	width: 400px;
+	height: 500px;
 }
-
-.box1 .front { background: rgba(255,0,0,0.55); }
-.box1 .back { background: rgba(0,255,0,0.55); }
-.box1 .left { background: rgba(0,0,255,0.55); }
-.box1 .right { background: rgba(255,255,0,0.55); }
-.box1 .bottom { background: rgba(255,0,255,0.55); }
-.box1 .top { background: rgba(0,255,255,0.55); }
 
 </style>
 
 	</head>
 	<body>
-		<script src="js/Sprite3D3.js" type="text/javascript"></script>
+		<script src="js/Sprite3D.js" type="text/javascript"></script>
 		<script type="text/javascript">
 		(function() {
 			
 			// create the main container
 			var stage = Sprite3D.stage();
 			
-			// "verbose" version
-			var box = Sprite3D.box( 200, 200, 200, ".box1" );
-//			box.className = "box1";
-			box.rotation( -15, 15, 0	)
-			box.update();
-			stage.appendChild(box);
-
-			// compact version
-			// var box = stage.appendChild( Sprite3D.box(200).set("className","box1").rotation(-15,15,0).update() );
+			var sprite = Sprite3D.create( ".image" );
 			
+			sprite.move( 100, 50, 10 ).rotate( 2, 5, 7 ).update();
 			
-			
-			// add some basic interaction (move on click)
-			box.addEventListener( "click", onBoxClick, false );
-			
-			function onBoxClick(e){
-				// NOTE : 
-				// In this listener function, "this" holds the reference to the box object,
-				// and "e.target" points to the cube's face that was clicked
-				
-				// let's add some *relative* rotation, and it will result 
-				// in a nice animation thanks to the CSS transition defined above
-				this.rotate( Math.random()*40-20, Math.random()*40-20, 0 ).update();
-			}
+			sprite.transformString("rotateX rotateY rotateZ scale translate");
 		})();
 		</script>
 		
