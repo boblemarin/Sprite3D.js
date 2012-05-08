@@ -83,6 +83,8 @@ body {
 
 	// let's use the "transitionEnd" event to drive our animation
 	box.addEventListener( Sprite3D.prefix("TransitionEnd"), moveTheBox, false );
+	//box.addEventListener( Sprite3D.prefix("transitionend"), moveTheBox, false );
+	box.addEventListener( "transitionend", moveTheBox, false );
 	
 	function moveTheBox(moveTheBox) {
 		box.css(
@@ -90,8 +92,8 @@ body {
 			"all "+(.2+Math.random())+"s ease-in-out",
 			true // add a third argument and Sprite3D will add the current browser prefix to the property :)
 		).rotate(
-			rx+=Math.random()*7-3.5, 
-			ry+=Math.random()*7-3.5, 
+			rx+=Math.random()*27-13.5, 
+			ry+=Math.random()*27-13.5, 
 			0
 		).scale(
 			0.25+Math.random()*4,
@@ -100,7 +102,7 @@ body {
 		).update();
 	}
 
-	// animation interval
+	// start the animation after the page has been rendered
 	setTimeout( moveTheBox, 500 );
 })();
 

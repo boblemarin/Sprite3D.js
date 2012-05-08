@@ -32,7 +32,26 @@
 		<div class="container">
 			<div class="page default"> 
 			<h2>Getting started</h2>
-			
+			<p>How does it work ?
+
+			Sprite3D.js simply adds some methods and properties to your HTML elements making their 3D transformations a bit more elegant and easier.
+
+			Normally, you should write (at least) this :
+
+			var d = document.createElement("div");
+			d.id = "my3dElement";
+			d.style.[insertBrowserPrefixHere]TransformStyle = "preserve-3d";
+			d.style.[insertBrowserPrefixHere]Transform = "translate3d(200px, 0px, -300px) rotateX(12deg) rotateY(5deg) scale3d(2,2,2)";
+
+			but, with Sprite3D, you get this :
+
+			var d = Sprite3D
+						.create("my3dElement")
+						.position(200,0,300)
+						.rotation(12,5,0)
+						.scale(2);
+
+			</p>
 			<h3>1. Prepare</h3>
 			<p>Link to the source in html code</p>
 			<code>
@@ -78,7 +97,13 @@
 								</td>
 						</tr>
 						<tr>
-							<td>Sprite3D.cube( width, height, depth )</td>
+							<td>Sprite3D.create( DOMElement )</td>
+							<td>Receives an DOM element and transforms it into a valid container for 3D transformed content. The only CSS properties that will be altered are perspective, transform and transform-style. If the element's position is static, it will be changed to relative.<br>
+								Use this method to get a rectangular viewport if your 3D content is not covering the whole page. The origin will be the top-left corner of the element.
+								</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.box( width, height, depth )</td>
 							<td>Creates the required elements to display a cube with the given dimensions. The faces of the cube will have class names reflecting their respective position (front,back,left,right,top,bottom)
 								</td>
 						</tr>
@@ -103,7 +128,9 @@
 							<td>Creates the required elements to display a cube with the given dimensions. The faces of the cube will have class names reflecting their respective position (front,back,left,right,top,bottom)
 								</td>
 						</tr>
-					</table>			
+					</table>	
+					
+							
 				</div>
 
 				<div class="page" id="position">

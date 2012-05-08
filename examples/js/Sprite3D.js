@@ -367,9 +367,9 @@ var Sprite3D = Sprite3D || {
 		 /////////////////  Origin  //////////////////
 		/////////////////////////////////////////////
 		origin : function(ox,oy,oz) {
-			/*
 			// failed attempt at auto-centering the registration point of the object
 			if ( typeof(ox) === "string" ) {
+				/*
 				switch(ox){
 					case "center":
 						this._string[this._positions[0]] = -this.offsetWidth>>1;
@@ -378,8 +378,11 @@ var Sprite3D = Sprite3D || {
 						console.log("centering");
 						break;
 				}
+				*/
+				var cs = window.getComputedStyle(this,null);
+				console.log(cs);
+				console.log("w:"+ cs.getPropertyValue("width") + " || h: " + cs.height );
 			} else {
-			*/
 				if (arguments.length<3) oz = 0;
 				this._string[this._positions[0]] += this._ox - ox;
 				this._string[this._positions[1]] += this._oy - oy;
@@ -387,7 +390,7 @@ var Sprite3D = Sprite3D || {
 				this._ox = ox;
 				this._oy = oy;
 				this._oz = oz;
-			//}
+			}
 			return this;
 		},
 
@@ -403,7 +406,7 @@ var Sprite3D = Sprite3D || {
 		 ////////////  Transform String  /////////////
 		/////////////////////////////////////////////
 		transformString : function(s) {
-			var parts = s.split(" "),
+			var parts = s.toLowerCase().split(" "),
 				numParts = parts.length,
 				i = 0,
 				strings = [],
@@ -412,28 +415,34 @@ var Sprite3D = Sprite3D || {
 				
 			for(i;i<numParts;i++){
 				switch( parts[i] ){
+					case "p":
 					case "position":
 					case "translate":
+					// todo: use rx ry rz (regPoint) when re-defining transform order
 						n = strings.push( "translate3d(", this._string[this._positions[0]], "px,", this._string[this._positions[1]], "px,", this._string[this._positions[2]], "px) " );
 						positions[0] = n-6;	
 						positions[1] = n-4;
 						positions[2] = n-2;
 						break;
-					case "rotateX":
-					case "rotationX":
+					case "rx":
+					case "rotatex":
+					case "rotationx":
 						n = strings.push( "rotateX(", this._string[this._positions[3]], "deg) " );
 						positions[3] = n-2;
 						break;
-					case "rotateY":
-					case "rotationY":
+					case "ry" :
+					case "rotatey":
+					case "rotationy":
 						n = strings.push( "rotateY(", this._string[this._positions[4]], "deg) " );
 						positions[4] = n-2;
 						break;
-					case "rotateZ":
-					case "rotationZ":
+					case "rz":
+					case "rotatez":
+					case "rotationz":
 						n = strings.push( "rotateZ(", this._string[this._positions[5]], "deg) " );
 						positions[5] = n-2;
 						break;
+					case "s":
 					case "scale":
 						n = strings.push( "scale3d(", this._string[this._positions[6]], ",", this._string[this._positions[7]], ",", this._string[this._positions[8]], ") " );
 						positions[6] = n-6;	

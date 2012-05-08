@@ -86,7 +86,7 @@ tr:nth-child(odd) {
 			
 		</style>
 
-		<script src="js/Sprite3D2.js" type="text/javascript"></script>
+		<script src="examples/js/Sprite3D.js" type="text/javascript"></script>
 		<script type="text/javascript">
 
 var stage,
@@ -105,14 +105,13 @@ function init() {
 	
 	numLetters = source.length;
 	for(i=0;i<numLetters;i++){
-		c.addChild(
-			l = new Sprite3D()
-				.className("title_letter")
+		c.appendChild(
+			l = Sprite3D.create(".title_letter")
 				.html(source.charAt(i))
 				.css("display","inline-block")
 				.css("position", "static")
-				.transformString("_rx _ry _rz _p _s")
-				//.setRotation( Math.random()*10-5, Math.random()*10-5, Math.random()*10-5 )
+				.transformString("rotationX rotationY rotationZ position scale")
+				.rotation( Math.random()*10-5, Math.random()*10-5, Math.random()*10-5 )
 				.update()
 		);
 		letters.push(l);
@@ -129,8 +128,9 @@ function scramble() {
 	var n = numLetters, l;
 	while(n--) {
 		letters[n]
-			.css("-webkit-transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)")
-			.css("-moz-transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)")
+			//.css("-webkit-transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)")
+			.css("Transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)", true )
+			//.css("-moz-transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)")
 			.rotation( Math.random()*60-30, Math.random()*60-30, 0 )
 			.z( Math.random() * 300 - 150 )
 			.update();
@@ -140,8 +140,9 @@ function restore() {
 	var n = numLetters, l;
 	while(n--) {
 		letters[n]
-			.css("-webkit-transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)")
-			.css("-moz-transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)")
+			//.css("-webkit-transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)")
+			//.css("-moz-transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)")
+			.css("Transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)", true )
 			.rotation( 0, 0, 0 )
 			.z( 0 )
 			.update();
@@ -178,7 +179,7 @@ function onTouchEndTitle(event) {
 		<p>Sprite3D.js extends your DOM elements with helper functions allowing you to control their position, rotation and scale. Use the document structure like a display object scenography, listen to native DOM events and keep your content intact for a better SEO.</p>
 		<p>You can conveniently use CSS styling to control the aspect of your elements, and CSS transitions to animate your stuff. In many cases, 3D transforms are GPU-accelerated, giving you an incredible performance boost.</p>
 		<p>The semantic aspect of the page can be respected, and the browsers that do not support CSS 3D transforms will display your content in a regular way.</p>
-		<p>The library has no dependencies, is cross-browser compatible using automatic prefix detection and provides information about its support.</p>
+		<p>Sprite3D.js has no dependencies, is cross-browser compatible using automatic prefix detection and provides information about its support.</p>
 		
 		
 		<h2>Browser support (Feb.2012)</h2>

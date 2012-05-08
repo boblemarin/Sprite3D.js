@@ -1,175 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<!--
-		Sprite3D.js example file
-		Visit the internets for documentation, updates and examples.
-		https://github.com/boblemarin/Sprite3D.js
-		http://minimal.be/lab/Sprite3D
-
-		Copyright (c) 2010 boblemarin http://www.minimal.be
-
-		Permission is hereby granted, free of charge, to any person
-		obtaining a copy of this software and associated documentation
-		files (the "Software"), to deal in the Software without
-		restriction, including without limitation the rights to use,
-		copy, modify, merge, publish, distribute, sublicense, and/or sell
-		copies of the Software, and to permit persons to whom the
-		Software is furnished to do so, subject to the following
-		conditions:
-
-		The above copyright notice and this permission notice shall be
-		included in all copies or substantial portions of the Software.
-
-		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-		EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-		OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-		NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-		HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-		WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-		FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-		OTHER DEALINGS IN THE SOFTWARE.
-		-->
 		<meta charset="utf-8" />
 		<meta name='HandheldFriendly' content='True' />
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
 		<title>Sprite3D.js - Basics - Simple Hierarchy and animation</title>
 
-
-<!-- =========================================================== -->		
-<!-- CSS SECTION =============================================== -->
-<!-- =========================================================== -->
-
 		<style>
 		
-html, body { height: 100%; }
+			html, body { height: 100%; }
 
-body {
-	background-color: white;
-	color: black;
-	margin: 0px;
-	padding: 0px;
-	overflow: hidden;
-}
+			body {
+				background-color: white;
+				margin: 0px;
+				padding: 0px;
+				overflow: hidden;
+			}
 
-.imageLeft {
-	background: url('img/html5_logo.png') 0px 0px;
-	width: 200px;
-	height: 500px;
-}
+			#cube .left,
+			#cube .right {
+				background: url('img/html5_logo.png') 0px 0px;
+				width: 200px;
+				height: 500px;
+			}
 
-.imageRight {
-	background: url('img/html5_logo.png') -200px 0px;
-	width: 200px;
-	height: 500px;
-}
+			#cube .front,
+			#cube .back {
+				background: url('img/html5_logo.png') -200px 0px;
+				width: 200px;
+				height: 500px;
+			}
 
-			
 		</style>
 
-		<!-- =========================================================== -->		
-		<!-- JAVASCRIPT SECTION ======================================== -->
-		<!-- =========================================================== -->
-		<script src="../js/Sprite3D2.js" type="text/javascript"></script>
-		<script type="text/javascript">
-
-var stage,
-	container, 
-	t = 0;
-
-function init() {
-	
-	// 1. create the "stage" (root container)
-	stage = Sprite3D.stage();
-	
-	// 2. create the container that will be used to rotate its children, and add it to the stage
-	container = new Sprite3D().z(-100).rotationX(-20).update();
-	stage.addChild( container );
-	
-	// 3. create front left face
-	container.addChild( 
-		new Sprite3D()
-			.className("imageLeft")
-			.transformOrigin( 0, 0 )
-			.transformString("_rx _ry _rz _p _s")
-			.position( -100, -250, 100 )
-			.rotationY( -45 )
-			.update()
-	);
-	
-	// 4. create front right face
-	container.addChild( 
-		new Sprite3D()
-			.className("imageRight")
-			.transformOrigin( 0, 0 )
-			.transformString("_ry _p")
-			.position( -100, -250, 100 )
-			.rotationY( 45 )
-			.update()
-	);
-	
-	// 5. create back left face
-	container.addChild( 
-		new Sprite3D()
-			.className("imageLeft")
-			.transformOrigin( 0, 0 )
-			.transformString("_ry _p")
-			.position( -100, -250, 100 )
-			.rotationY( 135 )
-			.update()
-	);
-	
-	// 6. create back right face
-	container.addChild( 
-		new Sprite3D()
-			.className("imageRight")
-			.transformOrigin( 0, 0 )
-			.transformString("_ry _p")
-			.position( -100, -250, 100 )
-			.rotationY( -135 )
-			.update()
-	);
-	
-	// wait for click or touch
-	//container.addEventListener( "mousedown", startRotation );
-	//container.addEventListener( "touchstart", startRotation );
-	
-	
-	setInterval( move, 1000 / 40 );
-}	
-
-function startRotation(e,s) {
-	container.removeEventListener( "mousedown", startRotation );
-	container.removeEventListener( "touchstart", startRotation );
-		
-	// 7. set up an interval for rotating the container
-	// (should be done using requestAnimationFrame, but this page tries to keep the code very simple)
-	setInterval( move, 1000 / 40 );
-}
-
-function move() {
-	// increment the t value, used for angle calculation
-	t += .05;
-	
-	// rotate the container around the X and Y axis, then apply these transformations
-	container
-		.rotation( Math.cos(t*2) * 15 - 20, container.rotationY()-3,0 )
-		.scale( Math.sin(t) * .5 + 1 )
-		.update();
-}
-
-		</script>
 	</head>
-	<body onload="init();">
+	<body>
+		<script src="js/Sprite3D.js" type="text/javascript"></script>
 		<script type="text/javascript">
-		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+			(function(){
+				var t = 0,
+					container = Sprite3D.stage().appendChild(
+						Sprite3D.box( 200, 500, 200, "cube" ).z(-100).rotationX(-20).update()
+					);
+				setInterval( function() {
+					t += .05;
+					container
+						.rotation( Math.cos(t*2) * 15 - 20, container.rotationY()-3,0 )
+						.scale( Math.sin(t) * .5 + 1 )
+						.update();
+				}, 1000 / 40 );			
+			})();
 		</script>
-		<script type="text/javascript">
-		try {
-		var pageTracker = _gat._getTracker("UA-9528692-4");
-		pageTracker._trackPageview();
-		} catch(err) {}</script>
-		<a href="http://minimal.be/lab/Sprite3D/"><img src="img/banner.png" style="border:0;position:absolute;right:0;top:0" alt="built width Sprite3D.js" /></a>	
 	</body>
 </html>
