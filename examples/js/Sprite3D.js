@@ -1,12 +1,8 @@
 /*
-* Sprite3D.js - v2 (1)
+* Sprite3D.js - v2.0.1
 * Visit the internets for documentation, updates and examples.
 * https://github.com/boblemarin/Sprite3D.js
 * http://minimal.be/lab/Sprite3D
-*
-* (1) this is a working version of Sprite3D 2.0,
-*     it is not yet finished. Please go to the github
-*     repo to get the most up-to-date file.
 *
 * Copyright (c) 2010 boblemarin emeric@minimal.be http://www.minimal.be
 * 
@@ -94,10 +90,6 @@ var Sprite3D = Sprite3D || {
 		element.style[ this._browserPrefix + "TransformStyle" ] = "preserve-3d";
 		element.style[ this._transformProperty ] = "translateZ(0px)";
 
-		//FF10 empty DIV fix
-		//if ( element.localName == "div" && element.innerHTML == "" ) element.innerHTML = "&nbsp;";
-		//else console.log("not adding content, localname == " + element.localName );
-
 		// extend element with 3D methods
 		for(prop in this._props) {
 			if (this._props.hasOwnProperty(prop)){
@@ -160,7 +152,7 @@ var Sprite3D = Sprite3D || {
 		return box;
 	},
 	
-	/********* [PUBLIC STATIC] box() ***********/
+	/********* [PUBLIC STATIC] prefix() ***********/
 	prefix: function(cssPropertyName) {
 		return Sprite3D._browserPrefix + cssPropertyName;
 	},
@@ -185,25 +177,13 @@ var Sprite3D = Sprite3D || {
 				Sprite3D._isSupported = true;
 				Sprite3D._browserPrefix = prefixes[i];
 				if ( i==2 ) Sprite3D._props.update = Sprite3D._props.updateJoin;
-				console.log( "Sprite3D found support for 3D transforms using prefix: " + prefixes[i] );
+				//console.log( "Sprite3D found support for 3D transforms using prefix: " + prefixes[i] );
 				return true;
 			}
 		}
-		/*
-		// check for 2D transforms -- DROP 2D SUPPORT ???
-		for( i = 0; i < n; i++ ) {
-			if ( ( prefixes[i] + "Transform" ) in d.style ) {
-				Sprite3D._transformProperty = prefixes[i] + "Transform";
-				Sprite3D._isSupported = true;
-				Sprite3D._browserPrefix = prefixes[i];
-				//Sprite3D._props.update = Sprite3D._update2D;
-				console.log( "Sprite3D found support for 2D transforms using prefix: " + prefixes[i] );
-				return false;
-			}
-		}
-		*/
+
 		// no transform support
-		console.log( "Sprite3D found no support for 3D CSS transforms.");
+		alert("Sorry, but your browser does not support CSS 3D transfroms.");
 		return false;
 	},
 	
@@ -510,7 +490,15 @@ var Sprite3D = Sprite3D || {
 			this.style.height = Number(height)?height+"px":height;
 			return this;
 		},
-
+		
+		//////////// BIND helper function ////////////
+		bind: function(events){
+			for( var i in events ){
+				this.addEventListener( i, events[i], false );
+			}
+			return this;
+		},
+		
 		//////////// Spritesheet helper functions ////////////
 		tileWidth: 0,
 		tileHeight: 0,
