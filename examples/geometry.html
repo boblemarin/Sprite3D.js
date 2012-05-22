@@ -74,7 +74,7 @@ function init() {
 }	
 
 function onScroll(e){
-	var scrollPosition = document.body.scrollTop;
+	var scrollPosition = window.pageYOffset;
 	var windowHeight = window.innerHeight;
 	var bodyHeight = document.body.clientHeight;
 	var p = scrollPosition / (bodyHeight-windowHeight);

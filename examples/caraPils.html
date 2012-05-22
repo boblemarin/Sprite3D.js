@@ -51,7 +51,7 @@ div#white {
 
 <body>
 
-<script src="js/Sprite3D3.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/Sprite3D.js" type="text/javascript" charset="utf-8"></script>
 <script>
 
 (function(){
@@ -68,8 +68,7 @@ div#white {
 	for(i;i<n;i++){
 		beers.push( 
 			stage.appendChild(
-				Sprite3D.create()
-				.set("className", "cara")
+				Sprite3D.create(".cara")
 				.origin( 157, 143, 0 )
 				.transformOrigin( "50%", "100%" )
 				.update()

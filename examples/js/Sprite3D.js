@@ -457,6 +457,18 @@ var Sprite3D = Sprite3D || {
 		 ////////////  Helper Functions //////////////
 		/////////////////////////////////////////////
 	
+		//////////// Perspective helper function ////////////
+		perspective : function(value) {
+			switch(arguments.length) {
+				case 0:
+					return this.style[Sprite3D._browserPrefix + "Perspective"];
+		
+				case 1:
+					this.style[Sprite3D._browserPrefix + "Perspective"] = (typeof(value)==="string")?value:value+"px";
+					return this;
+			}
+		},
+	
 		//////////// CSS helper function ////////////
 		css : function(name, value) {
 			switch(arguments.length) {
