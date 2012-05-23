@@ -505,12 +505,28 @@ var Sprite3D = Sprite3D || {
 		
 		//////////// BIND helper function ////////////
 		bind: function(events){
-			for( var i in events ){
-				this.addEventListener( i, events[i], false );
+			if(typeof(events)==="object"){
+				for( var i in events ){
+					this.addEventListener( i, events[i], false );
+				}
+			} else if(arguments.length===2) {
+				this.addEventListener( arguments[0], arguments[1], false );
 			}
 			return this;
 		},
 		
+		//////////// UNBIND helper function ////////////
+		unbind: function(events){
+			if(typeof(events)==="object"){
+				for( var i in events ){
+					this.removeEventListener( i, events[i], false );
+				}
+			} else if(arguments.length===2) {
+				this.removeEventListener( arguments[0], arguments[1], false );
+			}
+			return this;
+		},
+				
 		//////////// Spritesheet helper functions ////////////
 		tileWidth: 0,
 		tileHeight: 0,
