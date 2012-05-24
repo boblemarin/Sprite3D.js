@@ -86,87 +86,6 @@ tr:nth-child(odd) {
 			
 		</style>
 
-		<script src="examples/js/Sprite3D.js" type="text/javascript"></script>
-		<script type="text/javascript">
-
-var stage,
-	source = "Sprite3D.js",
-	letters = [],
-	numLetters;
-
-function init() {
-	
-	var l,i,
-		c = Sprite3D.stage(document.getElementById("titleContainer"));
-		
-	source = c.html();
-	//console.log(source);
-	c.html("");
-	
-	numLetters = source.length;
-	for(i=0;i<numLetters;i++){
-		c.appendChild(
-			l = Sprite3D.create(".title_letter")
-				.html(source.charAt(i))
-				.css("display","inline-block")
-				.css("position", "static")
-				.transformString("rotationX rotationY rotationZ position scale")
-				.rotation( Math.random()*10-5, Math.random()*10-5, Math.random()*10-5 )
-				.update()
-		);
-		letters.push(l);
-	}
-
-	c.addEventListener("mouseover", onMouseOverTitle, false );
-	c.addEventListener("mouseout", onMouseOutTitle, false );
-	c.addEventListener("touchstart", onTouchStartTitle, false );
-	document.addEventListener("touchend", onTouchEndTitle, false );
-	
-}	
-
-function scramble() {
-	var n = numLetters, l;
-	while(n--) {
-		letters[n]
-			//.css("-webkit-transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)")
-			.css("Transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)", true )
-			//.css("-moz-transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)")
-			.rotation( Math.random()*60-30, Math.random()*60-30, 0 )
-			.z( Math.random() * 300 - 150 )
-			.update();
-	}
-}
-function restore() {
-	var n = numLetters, l;
-	while(n--) {
-		letters[n]
-			//.css("-webkit-transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)")
-			//.css("-moz-transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)")
-			.css("Transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)", true )
-			.rotation( 0, 0, 0 )
-			.z( 0 )
-			.update();
-	}
-}
-
-function onMouseOverTitle(event) {
-	scramble();
-}
-
-function onMouseOutTitle(event) {
-	restore();
-}
-
-function onTouchStartTitle(event) {
-	scramble();
-	event.preventDefault();
-}
-
-function onTouchEndTitle(event) {
-	restore();
-}
-		</script>
-		
 	</head>
 	<body onload="init();">
 		
@@ -200,6 +119,84 @@ function onTouchEndTitle(event) {
 		<h2>Documentation</h2>
 		
 		See <a href="documentation/index.html">the dedicated doc page.</a>
+
+		<script src="Sprite3D.js" type="text/javascript"></script>
+		<script type="text/javascript">
+(function(){
+	var stage,
+		letters = [],
+		l,
+		i = 0,
+		c = Sprite3D.stage(document.getElementById("titleContainer")),
+		source  = c.html(),
+		numLetters = source.length;
+			
+	c.html("");
+	
+	for(i;i<numLetters;i++){
+		c.appendChild(
+			l = Sprite3D.create(".title_letter")
+				.html(source.charAt(i))
+				.css("display","inline-block")
+				.css("position", "static")
+				.transformString("rotationX rotationY rotationZ position scale")
+				.rotation( Math.random()*10-5, Math.random()*10-5, Math.random()*10-5 )
+				.update()
+		);
+		letters.push(l);
+	}
+
+	c.addEventListener("mouseover", onMouseOverTitle, false );
+	c.addEventListener("mouseout", onMouseOutTitle, false );
+	c.addEventListener("touchstart", onTouchStartTitle, false );
+	document.addEventListener("touchend", onTouchEndTitle, false );
+	
+
+	function scramble() {
+		var n = numLetters, l;
+		while(n--) {
+			letters[n]
+				//.css("-webkit-transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)")
+				.css("Transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)", true )
+				//.css("-moz-transition", "all " + (.3+Math.random()*.3)+"s cubic-bezier(0.745, 1.650, 0.480, 0.660)")
+				.rotation( Math.random()*60-30, Math.random()*60-30, 0 )
+				.z( Math.random() * 300 - 150 )
+				.update();
+		}
+	}
+	function restore() {
+		var n = numLetters, l;
+		while(n--) {
+			letters[n]
+				//.css("-webkit-transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)")
+				//.css("-moz-transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)")
+				.css("Transition", "all " + (.15+Math.random()*.15)+"s cubic-bezier(0.225, 0.915, 0.580, 1.000)", true )
+				.rotation( 0, 0, 0 )
+				.z( 0 )
+				.update();
+		}
+	}
+
+	function onMouseOverTitle(event) {
+		scramble();
+	}
+
+	function onMouseOutTitle(event) {
+		restore();
+	}
+
+	function onTouchStartTitle(event) {
+		scramble();
+		event.preventDefault();
+	}
+
+	function onTouchEndTitle(event) {
+		restore();
+	}
+}());
+
+		</script>
+		
 
 	</body>
 </html>
