@@ -1,8 +1,6 @@
 /*
 * Sprite3D.js - v2.0.1
-* Visit the internets for documentation, updates and examples.
 * https://github.com/boblemarin/Sprite3D.js
-* http://minimal.be/lab/Sprite3D
 *
 * Copyright (c) 2010 boblemarin emeric@minimal.be http://www.minimal.be
 * 
@@ -142,12 +140,12 @@ var Sprite3D = Sprite3D || {
 			hheight = height*.5,
 			hdepth = depth*.5;
 			
-		box.appendChild( Sprite3D.create().set("className","front").position( -hwidth, -hheight, hdepth).size(width,height).update() );
-		box.appendChild( Sprite3D.create().set("className","back").position( -hwidth, -hheight, -hdepth).size(width,height).rotationY(180).update() );
-		box.appendChild( Sprite3D.create().set("className","left").position( -hwidth-hdepth, -hheight, 0).size(depth,height).rotationY(-90).update() );
-		box.appendChild( Sprite3D.create().set("className","right").position( hwidth-hdepth, -hheight, 0).size(depth,height).rotationY(90).update() );
-		box.appendChild( Sprite3D.create().set("className","bottom").position( -hwidth, hheight-hdepth, 0).size(width,depth).rotationX(-90).update() );
-		box.appendChild( Sprite3D.create().set("className","top").position( -hwidth, -hheight-hdepth, 0).size(width,depth).rotationX(90).update() );
+		box.appendChild( Sprite3D.create(".front").position( -hwidth, -hheight, hdepth).size(width,height).update() );
+		box.appendChild( Sprite3D.create(".back").position( -hwidth, -hheight, -hdepth).size(width,height).rotationY(180).update() );
+		box.appendChild( Sprite3D.create(".left").position( -hwidth-hdepth, -hheight, 0).size(depth,height).rotationY(-90).update() );
+		box.appendChild( Sprite3D.create(".right").position( hwidth-hdepth, -hheight, 0).size(depth,height).rotationY(90).update() );
+		box.appendChild( Sprite3D.create(".bottom").position( -hwidth, hheight-hdepth, 0).size(width,depth).rotationX(-90).update() );
+		box.appendChild( Sprite3D.create(".top").position( -hwidth, -hheight-hdepth, 0).size(width,depth).rotationX(90).update() );
 		
 		return box;
 	},
