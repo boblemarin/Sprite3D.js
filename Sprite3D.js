@@ -60,8 +60,12 @@ var Sprite3D = Sprite3D || {
 		}
 		s[this._browserPrefix+"Perspective"] = "800px";
 		s[this._browserPrefix+"Transform"] = "translateZ(0px)";
-		s[this._browserPrefix+"TransformStyle"] = "preserve-3d";
-		return this.create(c);
+		c = this.create(c);
+		// fix for the glitch problems under Safari6 / Mountain Lion
+		// (root container must NOT have its transform-style property set to "preserve-3d")
+		s[this._browserPrefix+"TransformStyle"] = "flat";
+		// end fix
+		return c;
 	},
 	
 	/********* [PUBLIC STATIC] create() ***********/
