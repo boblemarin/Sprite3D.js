@@ -804,7 +804,11 @@ Sprite3D.createCenteredContainer = function() {
 	//s.border = "1px solid red"; // <- this one is for debug
 	document.body.appendChild(c);
 
-	return new Sprite3D(c);
+	// fix for Safari 6 / Mountain Lion
+	c = new Sprite3D(c);
+	s[Sprite3D.prototype._browserPrefix+"TransformStyle"] = "flat";
+
+	return c;
 };
 
 /**
@@ -815,33 +819,37 @@ Sprite3D.createTopLeftCenteredContainer = function() {
     var c = document.createElement('div'),
 		s = c.style;
 		
-		if ( !Sprite3D.prototype._isInit ) Sprite3D.isSupported();
+	if ( !Sprite3D.prototype._isInit ) Sprite3D.isSupported();
 
-		s[Sprite3D.prototype._browserPrefix+"Perspective"] = "800" + (Sprite3D.prototype._browserPrefix=="Moz"?"px":"");
-		//s[Sprite3D.prototype._browserPrefix+"PerspectiveOrigin"] = "0 0";
-		//s[Sprite3D.prototype._browserPrefix+"TransformOrigin"] = "0 0";
-		s[Sprite3D.prototype._browserPrefix+"Transform"] = "translateZ(0px)";
-		
-		
-		//s.webkitPerspective = "800";
-		//	s.webkitPerspectiveOrigin = "0 0";
-		//	s.webkitTransformOrigin = "0 0";
-		//s.webkitTransform = "translateZ(0px)";
-		s.position = "absolute";
-		/*
-		s.position = "absolute";
-		s.top = "0px";
-		s.left = "0px";
-		s.right = "0px"
-		s.bottom = "0px"
-		s.margin = "0px";
-		s.padding = "0px";
-		s.border = "1px solid red";
-		*/
-		/* i left all those comments above because they might be useful in some use cases */
-		document.body.appendChild(c);
+	s[Sprite3D.prototype._browserPrefix+"Perspective"] = "800" + (Sprite3D.prototype._browserPrefix=="Moz"?"px":"");
+	//s[Sprite3D.prototype._browserPrefix+"PerspectiveOrigin"] = "0 0";
+	//s[Sprite3D.prototype._browserPrefix+"TransformOrigin"] = "0 0";
+	s[Sprite3D.prototype._browserPrefix+"Transform"] = "translateZ(0px)";
+	
+	
+	//s.webkitPerspective = "800";
+	//	s.webkitPerspectiveOrigin = "0 0";
+	//	s.webkitTransformOrigin = "0 0";
+	//s.webkitTransform = "translateZ(0px)";
+	s.position = "absolute";
+	/*
+	s.position = "absolute";
+	s.top = "0px";
+	s.left = "0px";
+	s.right = "0px"
+	s.bottom = "0px"
+	s.margin = "0px";
+	s.padding = "0px";
+	s.border = "1px solid red";
+	*/
+	/* i left all those comments above because they might be useful in some use cases */
+	document.body.appendChild(c);
+	
+	// fix for Safari 6 / Mountain Lion
+	c = new Sprite3D(c);
+	s[Sprite3D.prototype._browserPrefix+"TransformStyle"] = "flat";
 
-		return new Sprite3D(c);
+	return c;
 };
 
 
