@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<title>Sprite3D.js - Basics - Box</title>
+
+		<style>
+		
+html, body { height: 100%; }
+
+body {
+	background-color: black;
+	color: black;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	-webkit-transition: all .3s ease-in-out;
+}
+.box1 div {
+	/*background: rgba(255,0,0,.2);*/
+	border: 1px solid rgba(255,255,255,.5);
+}
+body.fill {
+	background-color: #200;
+}
+body.fill .box1 div {
+	border: 0px;
+	background: rgba(255,0,0,.2);
+	/*border: 1px solid rgba(255,255,255,.5);*/
+}
+body.fill .front { display: none; }
+/*
+.box1 .front { background: rgba(255,0,0,1); }
+.box1 .back { background: rgba(0,255,0,1); }
+.box1 .left { background: rgba(0,0,255,1); }
+.box1 .right { background: rgba(255,255,0,1); }
+.box1 .bottom { background: rgba(255,0,255,1); }
+.box1 .top { background: rgba(0,255,255,1); }
+*/
+</style>
+
+	</head>
+	<body>
+		<script src="../Sprite3D.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+(function(){
+	// populate scene
+	var stage = Sprite3D.stage(),
+		scale = 100,
+		slices = [],
+		numSlices = 9,
+		addSlice = function( offset, start, length, start2, length2 ){
+			var slice = stage.appendChild( 
+				Sprite3D.create(".slice").x((slices.length-5 + offset)*scale).z(-500).update()
+			);
+
+			slice.appendChild(
+				Sprite3D.box( scale, length * scale, scale, ".box1" ).y( scale * ( start - 1 + (length>1?(length-1)/2:0) ) ).update()
+			);
+
+			if ( arguments.length === 5 ) {
+				slice.appendChild(
+					Sprite3D.box( scale, length2 * scale, scale, ".box1" ).y( scale * ( start2 - 1 ) ).update()
+				);
+			}
+
+			slices.push( slice );
+		},
+		ax = 0,
+		ay = 0,
+		sx = 0,
+		sy = 0,
+		dx = 0,
+		dy = 0,
+		ox = -300,
+		ix = .97,
+		iy = .98,
+		rx = 4,
+		ry = 2,
+		i,r,
+		last = new Date().getTime(),
+		move = function(){
+			var delta = (new Date().getTime()-last)/1000;
+
+			//console.log(delta);
+
+			ax += sx * delta;
+			ay += sy * delta;
+
+			for(i=0;i<numSlices;i++){
+				r = (ay / Math.PI * 180 + 90) % 180 
+				slices[i]
+					.z( ox + Math.sin(ax+i*sx/rx) * dx )
+					.y( Math.cos(ay+i*sy/ry ) * dy )
+					//.rotationX( r )
+					.update();
+			}
+
+			//sx *= ix;
+			//sy *= iy;
+
+			//if ( sx <= .1 || sy <= .1 ) {
+			if ( Math.random() > .93 ) {
+				sx = Math.random()*3+1;
+				sy = Math.random()*3+1;
+				dx = Math.random()*100; // 200
+				ox = -dx-300;
+				dy = Math.random()*50; //100
+				ix = .83+Math.random()*.05;
+				iy = .83+Math.random()*.05;
+				rx = 1 + Math.random()*5;
+				ry = 1 + Math.random()*5;
+
+				document.body.classList.toggle("fill");
+			}
+
+			last += delta*1000;
+		};
+
+	addSlice( 0, 0, 2 );
+	addSlice( 0, 1, 1 );
+	addSlice( 0, 0, 3 );
+
+	addSlice( 1, 0, 3 );
+	addSlice( 1, 0, 1, 2, 1 );
+	addSlice( 1, 0, 3 );
+
+	addSlice( 2, 0, 2 );
+	addSlice( 2, 1, 1 );
+	addSlice( 2, 0, 3 );
+
+	setInterval( move, 40 );
+	/*
+		rx=0,
+		ry=0,
+		rz=0,
+		box = stage.appendChild( 
+			Sprite3D
+				.box( 100, ".box1" )
+				.rotate( rx+=Math.random()*7-3.5, ry+=Math.random()*7-3.5, 0 )
+				.update()
+		);
+
+	// let's use the "transitionEnd" event to drive our animation
+	box.addEventListener( Sprite3D.prefix("TransitionEnd"), moveTheBox, false );
+	//box.addEventListener( Sprite3D.prefix("transitionend"), moveTheBox, false );
+	box.addEventListener( "transitionend", moveTheBox, false );
+	
+	function moveTheBox(moveTheBox) {
+		box.css(
+			"Transition",
+			"all "+(.2+Math.random())+"s ease-in-out",
+			true // add a third argument and Sprite3D will add the current browser prefix to the property :)
+		).rotate(
+			rx+=Math.random()*27-13.5, 
+			ry+=Math.random()*27-13.5, 
+			0
+		).scale(
+			0.25+Math.random()*4,
+			0.25+Math.random()*4,
+			0.25+Math.random()*4
+		).update();
+	}
+
+	// start the animation after the page has been rendered
+	setTimeout( moveTheBox, 500 );
+	*/
+})();
+
+		</script>
+	</body>
+</html>

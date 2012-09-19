@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<title>Sprite3D.js - Basics - Simple Hierarchy and animation</title>
+
+		<style>
+		
+			html, body { height: 100%; }
+
+			body {
+				background-color: white;
+				margin: 0px;
+				padding: 0px;
+				overflow: hidden;
+			}
+
+			#cube .left,
+			#cube .right,
+			#cube .front,
+			#cube .back
+			{
+				background: url('img2/cube_face.png');
+				width: 200px;
+				height: 200px;
+			}
+
+			
+		</style>
+
+	</head>
+	<body>
+		<script src="../Sprite3D.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			(function(){
+				var stage = Sprite3D.stage(),
+					container = stage.appendChild( Sprite3D.create().position(0,500,-400).rotationX(-25).update() ),
+					tentacles = [],
+					numTentacles = 6,
+					numParts = 8,
+					shrink = .95,
+					i = 0;
+
+				for(i;i<numTentacles;i++)
+					container.appendChild( tentacle() );
+
+				function tentacle() {
+					var t = Sprite3D.create(),
+						i = 0,
+						l = t,
+						c,
+						r = Math.random()*5,
+						s = 1;
+					t.parts = [];
+					for(i;i<numParts;i++){
+						t.parts.push( 
+							l.appendChild( 
+								 c = Sprite3D.box( 200, 200, 200, "cube" ).y(-130).rotationZ(r).scale(s).update() 
+							)
+						)
+						l = c;
+						s *= shrink;
+					}
+
+					t
+						.position( Math.random()*2400-1200, 0, Math.random()*-1600-400 )
+						.rotationY(Math.random()*360)
+						.update();
+
+					return t;
+				}
+/*
+				var t = 0,
+					stage = Sprite3D.stage(),
+					cube,
+					cubes = [],
+					numCubes = 8,
+					tentacle = stage.appendChild( Sprite3D.create().position(0,300,-300).rotationX(-25).update() ),
+					last = tentacle,
+					scale = 1,
+					i=0;
+				for(i;i<numCubes;i++){
+					last.appendChild( 
+						cube = Sprite3D.box( 200, 200, 200, "cube" ).y(-100).rotationZ(3).scale(scale).update() 
+					);
+					cubes.push(cube);
+					last = cube;
+					scale *= .95;
+				}
+				*/
+
+				
+				/*
+				setInterval( function() {
+					t += .05;
+					container
+						.rotation( Math.cos(t*2) * 15 - 20, container.rotationY()-3,0 )
+						.scale( Math.sin(t) * .5 + 1 )
+						.update();
+				}, 1000 / 40 );			
+*/
+			})();
+		</script>
+	</body>
+</html>

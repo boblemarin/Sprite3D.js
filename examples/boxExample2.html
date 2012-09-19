@@ -33,7 +33,7 @@
 		<meta charset="utf-8" />
 		<meta name='HandheldFriendly' content='True' />
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
-		<title>Sprite3D.js - Basics - Sprite creation</title>
+		<title>Sprite3D.js - Basics - Box</title>
 
 		<style>
 		
@@ -47,66 +47,64 @@ body {
 	overflow: hidden;
 }
 
-.image {
-	background-image: url('img/html5_logo.png');
-	width: 400px;
-	height: 500px;
+.box1 {
+	line-height: 160px;
+	text-align: center;
+	font-size: 40px;
+	font-family: Futura;
 }
 
-			
-		</style>
+.box1 .front { background: rgba(255,0,0,0.55); }
+.box1 .back { background: rgba(0,255,0,0.55); }
+.box1 .left { background: rgba(0,0,255,0.55); }
+.box1 .right { background: rgba(255,255,0,0.55); }
+.box1 .bottom { background: rgba(255,0,255,0.55); }
+.box1 .top { background: rgba(0,255,255,0.55); }
+
+</style>
+
 	</head>
 	<body>
 		<script src="../Sprite3D.js" type="text/javascript"></script>
 		<script type="text/javascript">
 
-(function() {
-	
-	var iWantTheShortVersion = true;
-
-
-	if ( iWantTheShortVersion )
-	{
-		// you can chain the methods to get a consice syntax like this...
-		
-		Sprite3D.stage().appendChild( 
-			Sprite3D.create(".image")
-				.origin(200, 250 )
-				.rotationX(-20)
+(function(){
+	// populate scene
+	var stage = Sprite3D.stage(),
+		rx=0,
+		ry=0,
+		rz=0,
+		box = stage.appendChild( 
+			Sprite3D
+				.box( 100, ".box1" )
+				.rotate( rx+=Math.random()*7-3.5, ry+=Math.random()*7-3.5, 0 )
 				.update()
 		);
-	}
-	else
-	{
 
-		// ... or do one thing at a time and be verbose
-
-		// 1. first, let's create the root container for our sprites
-		var stage = Sprite3D.stage();
-
-		// 2. then, let's create a Sprite object
-		var image = Sprite3D.create();
-
-		// 3. set its class so that it displays the image chosen in the CSS
-		image.className("image");
-
-		// 4. set its registration point to the center of the image, so that it will appear centered
-		// note: this function takes 3 arguments, because the reg point is expressed in 3D space,
-		// but you can omit the third argument if you don't use it
-		image.origin( 200, 250, 0 );
-
-		// 5. rotate the sprite around the X axis
-		image.rotationX( -20 );
-
-		// 6. update the image css properties to apply the above changes 
-		// this step is required for the result to be visible
-		image.update();
-
-		// 7. add the sprite to the stage, so that it appears on the screen
-		stage.appendChild( image );
+	// let's use the "transitionEnd" event to drive our animation
+	box.addEventListener( Sprite3D.prefix("TransitionEnd"), moveTheBox, false );
+	//box.addEventListener( Sprite3D.prefix("transitionend"), moveTheBox, false );
+	box.addEventListener( "transitionend", moveTheBox, false );
+	
+	function moveTheBox(moveTheBox) {
+		box.css(
+			"Transition",
+			"all "+(.2+Math.random())+"s ease-in-out",
+			true // add a third argument and Sprite3D will add the current browser prefix to the property :)
+		).rotate(
+			rx+=Math.random()*27-13.5, 
+			ry+=Math.random()*27-13.5, 
+			0
+		).scale(
+			0.25+Math.random()*4,
+			0.25+Math.random()*4,
+			0.25+Math.random()*4
+		).update();
 	}
 
-})();	
+	// start the animation after the page has been rendered
+	setTimeout( moveTheBox, 500 );
+})();
 
 		</script>
 	</body>

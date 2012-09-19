@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="apple-touch-icon-precomposed" href="icon.jpg" />
+		<title>Sprite3D.js - Documentation</title>
+		
+		<link rel="stylesheet" href="assets/tablet.css" type="text/css" media="screen and (min-width: 750px)" charset="utf-8">
+
+
+	</head>
+	<body>
+		
+		<h1 id="titleContainer">Sprite3D.js - Documentation</h1>
+
+		<a href="javascript:window.history.back();" id="back">back</a>
+
+		<ul class="nav">
+			<li><a href="#">Getting started</a></li>
+			<li><a href="#static">Static methods</a></li>
+			<li><a href="#position">Position</a></li>
+			<li><a href="#rotation">Rotation</a></li>
+			<li><a href="#scale">Scale</a></li>
+			<li><a href="#update">Update </a></li>
+			<li><a href="#helpers">Helper functions</a></li>
+		</ul>
+	
+		<div class="container">
+			<div class="page default"> 
+			<h2>Getting started</h2>
+			<p>How does it work ?
+
+			Sprite3D.js simply adds some methods and properties to your HTML elements making their 3D transformations a bit more elegant and easier.
+
+			Normally, you should write (at least) this :
+
+			var d = document.createElement("div");
+			d.id = "my3dElement";
+			d.style.[insertBrowserPrefixHere]TransformStyle = "preserve-3d";
+			d.style.[insertBrowserPrefixHere]Transform = "translate3d(200px, 0px, -300px) rotateX(12deg) rotateY(5deg) scale3d(2,2,2)";
+
+			but, with Sprite3D, you get this :
+
+			var d = Sprite3D
+						.create("my3dElement")
+						.position(200,0,300)
+						.rotation(12,5,0)
+						.scale(2);
+
+			</p>
+			<h3>1. Prepare</h3>
+			<p>Link to the source in html code</p>
+			<code>
+				&lt;script src=&quot;js/Sprite3D.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+			</code>
+			<p>You can check if 3D transforms are supported by the current browser :</p>
+<code><pre>if ( Sprite3D.isSupported() ) {
+  // display 3D content
+} else {
+  // display warning or alternative content
+}</pre></code>
+			<h3>2. Set up a root container</h3>
+			<p>
+			When working with Sprite3D, you have to set up a root container for your 3D elements. There are two methods for doing that.</p>
+			<p>a. Create a new DIV element centered in the page. Use this when you want to create full page 3D content.</p>
+			<code>var stage = Sprite3D.stage();</code>
+			<p>b. Transform a existing element into a 3D container. It's existing CSS properties will remain unchanged, exept its position that will be set to relative if static.</p>
+			<code>var stage = Sprite3D.stage( document.getElementById("rootContainer") );</code>
+			</div>
+			
+			
+				<div class="page" id="static">
+					<h2>Static methods</h2>
+					<table>
+						<tr>
+							<th>Usage</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td>Sprite3D.isSupported()</td>
+							<td>Returns a boolean value indicating if the library has found support for CSS 3D transforms in current browser.</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.stage()</td>
+							<td>Creates and returns a DIV element absolutely positionned in the center of the page with the needed CSS properties set to act as a root container for all your 3D content.<br>
+								Use this method if you want to create full page 3D content with centered origin.
+							</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.stage( DOMElement )</td>
+							<td>Receives an DOM element and transforms it into a valid container for 3D transformed content. The only CSS properties that will be altered are perspective, transform and transform-style. If the element's position is static, it will be changed to relative.<br>
+								Use this method to get a rectangular viewport if your 3D content is not covering the whole page. The origin will be the top-left corner of the element.
+								</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.create( DOMElement )</td>
+							<td>Receives an DOM element and transforms it into a valid container for 3D transformed content. The only CSS properties that will be altered are perspective, transform and transform-style. If the element's position is static, it will be changed to relative.<br>
+								Use this method to get a rectangular viewport if your 3D content is not covering the whole page. The origin will be the top-left corner of the element.
+								</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.box( width, height, depth )</td>
+							<td>Creates the required elements to display a cube with the given dimensions. The faces of the cube will have class names reflecting their respective position (front,back,left,right,top,bottom)
+								</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.isSupported()</td>
+							<td>Returns a boolean value indicating if the library has found support for CSS 3D transforms in current browser.</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.stage()</td>
+							<td>Creates and returns a DIV element absolutely positionned in the center of the page with the needed CSS properties set to act as a root container for all your 3D content.<br>
+								Use this method if you want to create full page 3D content with centered origin.
+							</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.stage( DOMElement )</td>
+							<td>Receives an DOM element and transforms it into a valid container for 3D transformed content. The only CSS properties that will be altered are perspective, transform and transform-style. If the element's position is static, it will be changed to relative.<br>
+								Use this method to get a rectangular viewport if your 3D content is not covering the whole page. The origin will be the top-left corner of the element.
+								</td>
+						</tr>
+						<tr>
+							<td>Sprite3D.cube( width, height, depth )</td>
+							<td>Creates the required elements to display a cube with the given dimensions. The faces of the cube will have class names reflecting their respective position (front,back,left,right,top,bottom)
+								</td>
+						</tr>
+					</table>	
+					
+							
+				</div>
+
+				<div class="page" id="position">
+				<h2>Position</h2>
+				<table>
+					<tr>
+						<th>Usage</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>x()</td>
+						<td>returns the coordinates of the sprite on the X axis</td>
+					</tr>
+					<tr>
+						<td>x(v)</td>
+						<td>sets the coordinates of the sprite on the X axis</td>
+					</tr>
+					<tr>
+						<td>y()</td>
+						<td>returns the coordinates of the sprite on the Y axis</td>
+					</tr>
+					<tr>
+						<td>y(v)</td>
+						<td>sets the coordinates of the sprite on the Y axis</td>
+					</tr>
+					<tr>
+						<td>z()</td>
+						<td>sets the coordinates of the sprite on the Z axis</td>
+					</tr>
+					<tr>
+						<td>z(v)</td>
+						<td>sets the coordinates of the sprite on the Z axis</td>
+					</tr>
+					<tr>
+						<td>position(x,y,z)</td>
+						<td>sets the coordinates of the sprite on all three axis</td>
+					</tr>
+					<tr>
+						<td>move(x,y,z)</td>
+						<td>adds the supplied values to the current coordinates of the sprite on all 3 axis</td>
+					</tr>
+					<tr>
+						<td>move(x,y)</td>
+						<td>adds the supplied values to the current coordinates of the sprite on the X and Y axis</td>
+					</tr>
+					<tr>
+						<td>origin(x,y,z)</td>
+						<td>Defines the registration point of the 3D object. If you have a div that is 50x50px and want it to be positionned by it center, use sprite.origin( 25, 25, 0 ). You can also drop the third argument and use sprite.origin( 25, 25 )</td>
+					</tr>
+				</table>
+				</div>
+
+				<div class="page" id="rotation">
+				<h2>Rotation</h2>
+				<table>
+					<tr>
+						<th>Usage</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>rotationX()</td>
+						<td>returns the current rotation of the sprite around the X axis</td>
+					</tr>
+					<tr>
+						<td>x(v)</td>
+						<td>sets the coordinates of the sprite on the X axis</td>
+					</tr>
+					<tr>
+						<td>y()</td>
+						<td>returns the current rotation of the sprite around the Y axis</td>
+					</tr>
+					<tr>
+						<td>y(v)</td>
+						<td>sets the coordinates of the sprite on the Y axis</td>
+					</tr>
+					<tr>
+						<td>z()</td>
+						<td>returns the current rotation of the sprite around the Z axis</td>
+					</tr>
+					<tr>
+						<td>z(v)</td>
+						<td>sets the coordinates of the sprite on the Z axis</td>
+					</tr>
+					<tr>
+						<td>position(x,y,z)</td>
+						<td>sets the coordinates of the sprite on all three axis</td>
+					</tr>
+					<tr>
+						<td>move(x,y,z)</td>
+						<td>adds the supplied values to the current coordinates of the sprite on all 3 axis</td>
+					</tr>
+					<tr>
+						<td>move(x,y)</td>
+						<td>adds the supplied values to the current coordinates of the sprite on the X and Y axis</td>
+					</tr>
+					<tr>
+						<td>origin(x,y,z)</td>
+						<td>Defines the registration point of the 3D object. If you have a div that is 50x50px and want it to be positionned by it center, use sprite.origin( 25, 25, 0 ). You can also drop the third argument and use sprite.origin( 25, 25 )</td>
+					</tr>
+				</table>
+				</div>
+
+				<div class="page" id="scale">
+				<h2>Scale</h2>
+				<table>
+					<tr>
+						<th>Usage</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>scaleX()</td>
+						<td>returns the X scale factor of the object</td>
+					</tr>
+					<tr>
+						<td>scale()</td>
+						<td>returns the X scale factor of the object</td>
+					</tr>
+					<tr>
+						<td>scale( s )</td>
+						<td>uniformly scale the sprite on all three axis<br>returns the sprite object</td>
+					</tr>
+					<tr>
+						<td>scale( sx, sy )</td>
+						<td>sets the scale values for the X and Y axis. Z axis remains unchanged.<br>returns the sprite object</td>
+					</tr>
+					<tr>
+						<td>scale( sx, sy, sz )</td>
+						<td>sets the scale values for the X, Y and Z axis<br>returns the sprite object</td>
+					</tr>
+				</table>
+				</div>
+
+				<div class="page" id="update">
+					<h2>Updating</h2>
+				</div>
+
+				<div class="page" id="helpers">
+					<h2>Helper functions</h2>
+
+				</div>
+		</div>
+		
+	
+
+	</body>
+</html>

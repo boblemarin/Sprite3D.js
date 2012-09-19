@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name='HandheldFriendly' content='True' />
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="apple-touch-icon-precomposed" href="icon.jpg" />
+
+	<title>Cara Pulse</title>
+
+<style>
+		
+html, body { height: 100%; }
+
+body {
+	background-color: white;
+	color: black;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.blank {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100px;
+	height: 100px;
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	line-height: 1em;
+}
+
+div#white {
+	width: 50px;
+	height: 50px;
+	background: #FFF;
+}
+.cara {
+	background: url('img2/cara-pils.png');
+	width: 314px;
+	height: 286px;
+}
+			
+</style>
+
+</head>
+
+<body>
+
+<script src="../Sprite3D.js" type="text/javascript" charset="utf-8"></script>
+<script>
+
+(function(){
+	var stage = Sprite3D.stage(),
+		beers = [],
+		n = 22,
+		speedmul = .0025,
+		width = 500,
+		mx,my,
+		touchID,
+		interval,
+		i = 0;
+		
+	for(i;i<n;i++){
+		beers.push( 
+			stage.appendChild(
+				Sprite3D.create(".cara")
+				.origin( 157, 143, 0 )
+				.transformOrigin( "50%", "100%" )
+				.update()
+			)
+		);
+	}
+	
+	document.addEventListener( "mousedown", onMouseDown, false );
+	function onMouseDown(e){
+		mx = e.pageX;
+		my = e.pageY;
+		document.addEventListener( "mousemove", onMouseMove, false );
+		document.addEventListener( "mouseup", onMouseUp, false );
+		stop();
+		e.preventDefault();
+	}
+	function onMouseMove(e){
+		var nx = e.pageX,
+			ny = e.pageY;
+		width += (nx-mx)*.5;
+		speedmul -= (ny-my) * 0.00001;
+		mx = nx;
+		my = ny;
+		e.preventDefault();
+	}
+	function onMouseUp(e){
+		document.removeEventListener( "mousemove", onMouseMove, false );
+		document.removeEventListener( "mouseup", onMouseUp, false );
+		start();
+		e.preventDefault();
+	}
+	
+	document.addEventListener( "touchstart", onTouchStart, false );
+	function onTouchStart(e){
+		var t = e.changedTouches[0];
+		mx = t.pageX;
+		my = t.pageY;
+		touchID = t.identifier;
+		document.addEventListener( "touchmove", onTouchMove, false );
+		document.addEventListener( "touchend", onTouchEnd, false );
+		stop();
+		e.preventDefault();
+	}
+	function onTouchMove(e){
+		var ts = e.changedTouches,
+			nt = ts.length,
+			i=0,t,nx,ny;
+		for(i;i<nt;i++){
+			t = ts[i];
+			if ( t.identifier == touchID) {
+				nx = t.pageX,
+				ny = t.pageY;
+				width += (nx-mx)*.5;
+				speedmul -= (ny-my) * 0.00001;
+				mx = nx;
+				my = ny;
+			}
+		}
+		e.preventDefault();
+	}
+	function onTouchEnd(e){
+		document.removeEventListener( "touchmove", onTouchMove, false );
+		document.removeEventListener( "touchend", onTouchEnd, false );
+		start();
+		e.preventDefault();
+	}
+	function start() {
+		interval = setInterval( move, 18 );
+	}
+	function move() {
+			var d = new Date().getTime() * speedmul;//,cos = Math.cos(d);
+			for(i=0;i<n;i++){
+				beers[i]
+					.position( Math.sin(d+i*.52)*width, 180, i*-200+200)// + cos*600)//Math.cos(d+i*0.067)*400, i*-150 )
+					.scale(Math.abs(Math.cos(d*1.5+i*.52))*.5+1.25)
+					.update();
+			}
+	}
+	function stop() {
+		clearInterval(interval);
+	}
+	
+	start();
+	
+})();
+</script>
+
+</body>
+</html>

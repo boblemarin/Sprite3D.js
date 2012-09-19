@@ -33,7 +33,7 @@
 		<meta charset="utf-8" />
 		<meta name='HandheldFriendly' content='True' />
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
-		<title>Sprite3D.js - Basics - Sprite creation</title>
+		<title>Sprite3D.js - Basics - Box</title>
 
 		<style>
 		
@@ -42,72 +42,59 @@ html, body { height: 100%; }
 body {
 	background-color: white;
 	color: black;
+	
 	margin: 0px;
 	padding: 0px;
 	overflow: hidden;
 }
 
-.image {
-	background-image: url('img/html5_logo.png');
-	width: 400px;
-	height: 500px;
+.box1 {
+	-webkit-transition: all .4s ease-in-out;
 }
 
-			
-		</style>
+.box1 .front { background: rgba(255,0,0,0.55); }
+.box1 .back { background: rgba(0,255,0,0.55); }
+.box1 .left { background: rgba(0,0,255,0.55); }
+.box1 .right { background: rgba(255,255,0,0.55); }
+.box1 .bottom { background: rgba(255,0,255,0.55); }
+.box1 .top { background: rgba(0,255,255,0.55); }
+
+</style>
+
 	</head>
 	<body>
+		
 		<script src="../Sprite3D.js" type="text/javascript"></script>
 		<script type="text/javascript">
+		(function() {
+			
+			// create the main container
+			var stage = Sprite3D.stage();
+			
+			// "verbose" version
+			var box = Sprite3D.box( 200, 200, 200, ".box1" );
+			box.rotation( -15, 15, 0	)
+			box.update();
+			stage.appendChild(box);
 
-(function() {
-	
-	var iWantTheShortVersion = true;
-
-
-	if ( iWantTheShortVersion )
-	{
-		// you can chain the methods to get a consice syntax like this...
-		
-		Sprite3D.stage().appendChild( 
-			Sprite3D.create(".image")
-				.origin(200, 250 )
-				.rotationX(-20)
-				.update()
-		);
-	}
-	else
-	{
-
-		// ... or do one thing at a time and be verbose
-
-		// 1. first, let's create the root container for our sprites
-		var stage = Sprite3D.stage();
-
-		// 2. then, let's create a Sprite object
-		var image = Sprite3D.create();
-
-		// 3. set its class so that it displays the image chosen in the CSS
-		image.className("image");
-
-		// 4. set its registration point to the center of the image, so that it will appear centered
-		// note: this function takes 3 arguments, because the reg point is expressed in 3D space,
-		// but you can omit the third argument if you don't use it
-		image.origin( 200, 250, 0 );
-
-		// 5. rotate the sprite around the X axis
-		image.rotationX( -20 );
-
-		// 6. update the image css properties to apply the above changes 
-		// this step is required for the result to be visible
-		image.update();
-
-		// 7. add the sprite to the stage, so that it appears on the screen
-		stage.appendChild( image );
-	}
-
-})();	
-
+			// compact version
+			// var box = stage.appendChild( Sprite3D.box(200,".box1").rotation(-15,15,0).update() );
+			
+			// add some basic interaction (move on click)
+			box.addEventListener( "click", onBoxClick, false );
+			
+			function onBoxClick(e){
+				// NOTE : 
+				// In this listener function, "this" holds the reference to the box object,
+				// and "e.target" points to the cube's face that was clicked - *cool*
+				
+				// let's add some *relative* rotation, and it will result 
+				// in a nice animation thanks to the CSS transition defined above
+				this.rotate( (e.pageY-window.innerHeight*.5), -(e.pageX-window.innerWidth*.5), 0 ).update();
+			}
+			
+		})();
 		</script>
+		
 	</body>
 </html>
