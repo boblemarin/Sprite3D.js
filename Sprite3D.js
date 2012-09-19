@@ -26,7 +26,10 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 
+"use strict";
+
 var Sprite3D = Sprite3D || {
+
 	
 	/********* [PUBLIC STATIC] isSupported() ***********/
 	isSupported: function(){
@@ -93,7 +96,7 @@ var Sprite3D = Sprite3D || {
 		element.style[ this._transformProperty ] = "translateZ(0px)";
 
 		// extend element with 3D methods
-		for(prop in this._props) {
+		for(var prop in this._props) {
 			if (this._props.hasOwnProperty(prop)){
 				element[prop] = this._props[prop];
 			}

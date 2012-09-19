@@ -22,12 +22,12 @@ Creates a root container for your 3D content.
 	// usage #1
 	var stage = Sprite3D.stage();
 
-Creates an empty DIV that will be absolutely positionned in the center of the page (lef/top : 50%)
+If used without argument, creates an empty DIV that will be absolutely positionned in the center of the page (lef/top : 50%)
 	
 	// usage #2
 	var stage = Sprite3D.stage( document.getElementById("3DContainer") );
 
-Transforms an HTML element into a valid container for 3D content without modifying its existing CSS properties except _perspective_, _transform_, _transformStyle_. _position_ will also be set to "relative" if "static".
+If provided an HTML element, transforms it into a valid container for 3D content without modifying its existing CSS properties except _perspective_, _transform_, _transformStyle_. _position_ will also be set to "relative" if "static".
 
 ###Sprite3D.create( [value] )
 
@@ -56,7 +56,7 @@ Adds Sprite3D's methods and properties to the provided HTMLElement.
 
 ###Sprite3D.box( width, height, depth [, idOrClassName] )
 
-Creates a cubic box object, made of a container and 6 faces, with the specified dimensions. If you provided and ID or className, it will be applied to the container. All faces will have a className according to their position in the box (front, back, left, right, top, bottom), so you can use CSS styles to control the box's appearance.
+Creates a cubic box object, made of a container and 6 faces, with the specified dimensions. If you provided and ID or className, it will be applied to the container. All faces will have a className according to their position in the box (front, back, left, right, top, bottom), so you can use CSS styles to control the box's appearance (_#mybox.front_).
 	
 	// "anonymous" box
 	var b = Sprite3D.box( 100, 100, 20 );
@@ -151,3 +151,9 @@ Sets the scale of the sprite around all 3 axis.
 ###origin( ox, oy [, oz] )
 
 Set the origin (or registration point) of the sprite. By default, the position of a Sprite3D is its top-left corner's one. Use this method to...
+
+###todo: transition( string )
+
+Shorthand for the (browser-prefixed) transition CSS property
+
+
