@@ -1,5 +1,5 @@
 /*
-* Sprite3D.js - v2.0.1
+* Sprite3D.js - v2.0.2
 * https://github.com/boblemarin/Sprite3D.js
 *
 * Copyright (c) 2010 boblemarin emeric@minimal.be http://www.minimal.be
