@@ -8,6 +8,9 @@
 
 		<style>
 		
+		* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+
 html, body { height: 100%; }
 
 body {
@@ -20,14 +23,22 @@ body {
 }
 .box1 div {
 	/*background: rgba(255,0,0,.2);*/
-	border: 1px solid rgba(255,255,255,.5);
+	border: 3px solid rgba(255,255,255,.7);
 }
 body.fill {
 	background-color: #200;
 }
-body.fill .box1 div {
+body.fill .left,
+body.fill .back,
+body.fill .top {
 	border: 0px;
 	background: rgba(255,0,0,.2);
+	/*border: 1px solid rgba(255,255,255,.5);*/
+}
+body.fill .right,
+body.fill .bottom {
+	border: 0px;
+	background: rgba(200,0,0,.2);
 	/*border: 1px solid rgba(255,255,255,.5);*/
 }
 body.fill .front { display: none; }
@@ -39,21 +50,52 @@ body.fill .front { display: none; }
 .box1 .bottom { background: rgba(255,0,255,1); }
 .box1 .top { background: rgba(0,255,255,1); }
 */
+div.msg-top,
+div.msg-bottom {
+	position: absolute;
+	left: 0;
+	right: 0;
+	text-align: center;
+	padding: 10px;
+	margin: 0;
+	font-family: Helvetica, Geneva, Arial, sans;
+	color: #FFF;
+	font-size: 1.5em;
+}
+div.msg-top { top: 0; }
+div.msg-bottom { bottom: 0; }
+
+a, a:link, a:visited {
+	color: #F66;
+	text-decoration: none;
+	font-weight: bold;
+}
+a:hover {
+	color: white;
+}
+
+.ease {
+	-webkit-transition: all .05s ease-in-out;
+}
 </style>
 
 	</head>
 	<body>
+		<div class="msg-top">The page you are looking for cannot be found.<br>
+			They call it an ERROR 404.</div>
+		<div class="msg-bottom">This error page was brought to you by <a href="http://minimal.be">minimal.be</a>
 		<script src="../Sprite3D.js" type="text/javascript"></script>
 		<script type="text/javascript">
 
 (function(){
 	// populate scene
 	var stage = Sprite3D.stage(),
+		container = stage.appendChild( Sprite3D.create(".ease") ),
 		scale = 100,
 		slices = [],
 		numSlices = 9,
-		addSlice = function( offset, start, length, start2, length2 ){
-			var slice = stage.appendChild( 
+		addSlice = function( offset, start, length ){
+			var slice = container.appendChild( 
 				Sprite3D.create(".slice").x((slices.length-5 + offset)*scale).z(-500).update()
 			);
 
@@ -62,8 +104,9 @@ body.fill .front { display: none; }
 			);
 
 			if ( arguments.length === 5 ) {
+				console.log("2 boxes");
 				slice.appendChild(
-					Sprite3D.box( scale, length2 * scale, scale, ".box1" ).y( scale * ( start2 - 1 ) ).update()
+					Sprite3D.box( scale, arguments[4] * scale, scale, ".box1" ).y( scale * ( arguments[3] - 1 ) ).update()
 				);
 			}
 
@@ -113,10 +156,17 @@ body.fill .front { display: none; }
 				iy = .83+Math.random()*.05;
 				rx = 1 + Math.random()*5;
 				ry = 1 + Math.random()*5;
-
-				document.body.classList.toggle("fill");
 			}
 
+			if ( Math.random() > .98 ) stage.perspective(500 + Math.random() * 500 );
+			if ( Math.random() > .91 ) document.body.classList.toggle("fill");
+
+			if ( Math.random() > .94 ) 
+				container.rotation(
+					Math.random()*30-15,
+					Math.random()*10-5,
+					0
+				).z(Math.random()*200).update();
 			last += delta*1000;
 		};
 
@@ -132,42 +182,8 @@ body.fill .front { display: none; }
 	addSlice( 2, 1, 1 );
 	addSlice( 2, 0, 3 );
 
-	setInterval( move, 40 );
-	/*
-		rx=0,
-		ry=0,
-		rz=0,
-		box = stage.appendChild( 
-			Sprite3D
-				.box( 100, ".box1" )
-				.rotate( rx+=Math.random()*7-3.5, ry+=Math.random()*7-3.5, 0 )
-				.update()
-		);
-
-	// let's use the "transitionEnd" event to drive our animation
-	box.addEventListener( Sprite3D.prefix("TransitionEnd"), moveTheBox, false );
-	//box.addEventListener( Sprite3D.prefix("transitionend"), moveTheBox, false );
-	box.addEventListener( "transitionend", moveTheBox, false );
+	setInterval( move, 20 );
 	
-	function moveTheBox(moveTheBox) {
-		box.css(
-			"Transition",
-			"all "+(.2+Math.random())+"s ease-in-out",
-			true // add a third argument and Sprite3D will add the current browser prefix to the property :)
-		).rotate(
-			rx+=Math.random()*27-13.5, 
-			ry+=Math.random()*27-13.5, 
-			0
-		).scale(
-			0.25+Math.random()*4,
-			0.25+Math.random()*4,
-			0.25+Math.random()*4
-		).update();
-	}
-
-	// start the animation after the page has been rendered
-	setTimeout( moveTheBox, 500 );
-	*/
 })();
 
 		</script>

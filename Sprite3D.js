@@ -32,6 +32,12 @@ var Sprite3D = Sprite3D || {
 
 	
 	/********* [PUBLIC STATIC] isSupported() ***********/
+	/*
+	returns: Boolean
+	This method is automatically called when we create the first element, 
+	but you can call it earlier if you want to provide an alternative content 
+	to unsupported browsers.
+	*/
 	isSupported: function(){
 		// init if needed
 		if ( !this._isInit ) this._init();
@@ -40,6 +46,25 @@ var Sprite3D = Sprite3D || {
 	},
 	
 	/********* [PUBLIC STATIC] stage() ***********/
+	/*
+	Creates a root container for your 3D content.
+
+	Usage 1 : 
+		Sprite3D.stage()
+
+	Creates and returns a new <div> element that is added to the page.
+	The stage is centered, so the position (0,0,0) is in the center of the window.
+	This is the easiest and most common way to start a project
+
+	Usage 2 : 
+		Sprite3D.stage( document.querySelector("#myContainer") )
+
+	Uses an existing HTML element as root container. The element is only tweaked a bit,
+	adjusting a few transform-related CSS properties, as well as setting the CSS "position"
+	property to "relative" if it is "static".
+	This method gives you more freedom, but more responsabilities :)
+	
+	*/
 	stage: function(element) {
 		// init if needed
 		if ( !this._isInit ) this._init();
@@ -72,6 +97,26 @@ var Sprite3D = Sprite3D || {
 	},
 	
 	/********* [PUBLIC STATIC] create() ***********/
+	/*
+	Creates a new Sprite3D element
+
+	Usage 1 :
+		Sprite3D.create()
+
+		Creates a <div> element and turn it into a 
+
+	Usage 2 :
+		Sprite3D.create( document.querySelector("#myElement") )
+
+	Usage 3 :
+		Sprite3D.create( "#id" )
+		Sprite3D.create( "id" )
+
+	Usage 4 : 
+		Sprite3D.create( ".class" )
+		Sprite3D.create( ".class1 class2" )
+
+	*/
 	create: function(element){
 		// init Sprite3D if needed
 		if ( !this._isInit ) this._init();
@@ -490,6 +535,17 @@ var Sprite3D = Sprite3D || {
 			}
 		},
 		
+		//////////// Class names helper functions ////////////
+		addClass : function(name) {
+			this.classList.add(name);
+			return this;
+		},
+
+		removeClass : function(name) {
+			this.classList.remove(name);
+			return this;
+		},
+		
 		//////////// HTML helper function ////////////
 		html : function(value) {
 			if (arguments.length){
@@ -516,6 +572,8 @@ var Sprite3D = Sprite3D || {
 				}
 			} else if(arguments.length===2) {
 				this.addEventListener( arguments[0], arguments[1], false );
+			} else if(arguments.length===3) {
+				this.addEventListener( arguments[0], arguments[1], arguments[2] );
 			}
 			return this;
 		},

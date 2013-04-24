@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<title>Sprite3D.js - Basics - Box</title>
+
+		<style>
+		
+html, body { height: 100%; }
+
+body {
+	background-color: white;
+	color: black;
+	
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.box1 {
+	-webkit-transition: all .4s ease-in-out;
+}
+
+.box1 .front { background: rgba(255,0,0,0.55); }
+.box1 .back { background: rgba(0,255,0,0.55); }
+.box1 .left { background: rgba(0,0,255,0.55); }
+.box1 .right { background: rgba(255,255,0,0.55); }
+.box1 .bottom { background: rgba(255,0,255,0.55); }
+.box1 .top { background: rgba(0,255,255,0.55); }
+
+</style>
+
+	</head>
+	<body>
+		
+		<script src="../Sprite3D.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		(function() {
+			
+			var stage = Sprite3D.stage();
+
+			var box = stage.appendChild( 
+				Sprite3D
+					.box(200,".box1")
+					.rotation(-15,15,0)
+					.update() 
+			);
+
+			box.addEventListener( "click", function (e){
+				this.rotate( 
+						Math.random()*180-90,
+						Math.random()*180-90,
+						Math.random()*180-90
+					).update();
+			}, false );
+			
+		})();
+		</script>
+		
+	</body>
+</html>
