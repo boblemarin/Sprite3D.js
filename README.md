@@ -94,42 +94,93 @@ So, instead of using an `img`, rather use a `div` with a background and you'll b
 
 ## 1 - Prepare
 
-Transformed elements need to have their parent's `transform-style` property set to `preserve-3d` in order to appear properly tranformed. That's why it is required to have a root element (we'll call it a stage) that will contain your scene. 
+Transformed elements need to have their parent's `transform-style` property set to `preserve-3d` in order to appear properly tranformed. That's why it is required to have a root element (we'll call it a stage) that will contain our scene. 
 
-Creating a stage is easy thanks to the `stage()` method, that creates a new div, sets it up and adds it to the document's body. This is the easiest solution if you are making a full window 3D experience.
+Creating a stage is easy thanks to the `stage()` method, that creates a new div, sets it up and adds it to the document's body. This is the easiest solution if we are making a full window 3D experience.
 
 	var stage = Sprite3D.stage();
 
 The "default" stage is a blank div element absolutely positionned in the center of the page. Creating an element at position (0,0,0) will make it appear in centered. The X axis is pointing to the right, the Y axis down and the Z axis toward the camera.
 
-Sprite3D.js allows you to use an existing element as the stage, so you can have more control on the way it is presented. For instance, you could use a rectangular viewport in the middle of your existing text content, set its `overflow` property to `hidden`.
+Sprite3D.js allows to use an existing element as the stage, so we can have more control on the way it is presented. For instance, one could use a rectangular viewport in the middle of existing text content, set its `overflow` property to `hidden`.
 
 	var stage = Sprite3D.stage( document.querySelector("#myContainer") );
 
 
 ## 2 - Populate
-Create and position your sprites. Every time you finish altering an element's position, you should call the update() method. It applies the new transform informations in the page.
 
-The manual update process was chosen for performance reasons, as it does not fire un-needed redraws of the DOM tree.
+### Foreword
 
-	var sprite = Sprite3D.create(".kitten")
-		.position( -200, 10, -300 )
-		.rotation( 80, 0, 5 )
-		.bind( "mousedown", onMouseDown )
-		.update()
+We create a new Sprite3D with the `create()` method. We can specify an ID or className as argument, or even use an existing element. There is also a `box()` method, that we can use as helper function to create boxes and cubes.
 
-	stage.addChild( sprite );
-		
-### 3 - Interact
-When listening for events, the handler function receives two arguments : the regular DOM event, and a reference to the target Sprite3D object.
+As all setters are chainable, we can create most objects with one (long) line of code. Once created, we have to insert our element into the document, generally as a child of the stage or its descendants. We will do so using the native `appendChild()` method.
 
-	function onMouseDown( event ):void
-	{
-		event.target.z(1000).update();
-		event.preventDefault();
+One important thing to know is that setting a Sprite3D property has no effect until we call the `update()` method. Methods like `addClass()` or `size()` don't need the update, because they each affect distinct CSS properties. But all the position, rotation, scale and origin properties require a call to `update()` because they are merged into a long string that is injected into the object's style.
+
+The reason behind this system is performance. If we change the position AND the rotation of an element, the CSS `transform` property is only updated once, when we call `update()`, and the rendering engine does need to recompute the values two times.
+
+### Do you see something ?
+
+Imagine we write this :
+
+
+	// create the stage
+	var stage = Sprite3D.stage();
+
+	// create a sprite object
+	var sprite = Sprite3D.create().position( 200, 0, -100).update();
+
+	// add the sprite to the stage
+	stage.appendChild(sprite);
+
+What will you see ? Nothing. Why ? Because there is no directive about how the sprite is supposed to look. One of the interest of Sprite3D is that we will use CSS code to define your visuals. Given the fact that a Sprite3D is an HTMLElement, we can keep our tools and code habits, use CSS transitions and a very little bit of Javascript to create interactive animations.
+
+Making a cube rotate requires very few lines of code. Note that the classNames of the side of the box are automatically added by the `box()` method.
+
+	/* CSS */
+
+	.cube {
+		border: 5px solid white;
+		box-sizing: border-box; 
+		transition: transform .5s ease-in-out;
+		/* note: might need some vendor prefixes around here :) */
 	}
 
-Don't forget to use CSS transitions to animate the changes, so you don't need to set an interval to animate everything :)
+	.cube .front,
+	.cube .back {
+		background: rgba(255,255,0,0.3);
+	}
+
+	.cube .left,
+	.cube .right {
+		background: rgba(255,0,255,0.3);
+	}
+
+	.cube .top,
+	.cube .bottom {
+		background: rgba(255,0,255,0.3);
+	}
+
+	/* JS */
+	var stage = Sprite3D.stage();
+	var cube = Sprite3D.box( 100,100,100, ".cube" );
+
+	stage.appendChild( cube );
+
+	function onCubeClick(e){
+		e.target.rotationX( Math.random() * 360 ).update();
+	}
+
+	cube.addEventListener("click",onCubeClick,false);
+
+Or we could make the Javascript part even shorter like this :
+
+	var stage = Sprite3D.stage(),
+		cube = stage.appendChild( Sprite3D.box(100,".cube").bind("click",onCubeClick) );
+	function onCubeClick(e){ e.target.rotationX( Math.random() * 360 ).update(); }
+
+
+
 
 -----------------------
 
