@@ -1,0 +1,20 @@
+{
+  "name": "Sprite3D.js",
+  "main": "Sprite3D.js",
+  "version": "2.0.2",
+  "homepage": "https://github.com/boblemarin/Sprite3D.js",
+  "authors": [
+    "emeric@minimal.be"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
