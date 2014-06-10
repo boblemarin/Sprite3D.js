@@ -8,6 +8,11 @@ Sprite3D.js makes it easy to manipulate HTML elements in 3D space through the us
 
 When creating a Sprite3D element, you can specify an ID or class, or even provide an existing HTML element that will be 'enhanced'. Most of its added methods can then be used as getter or setter depending of the number of arguments.
 
+
+## Install via Bower :
+
+	bower install sprite3d
+
 -----------------------
 
 # Reference
@@ -94,7 +99,7 @@ So, instead of using an `img`, rather use a `div` with a background and you'll b
 
 ## 1 - Prepare
 
-Transformed elements need to have their parent's `transform-style` property set to `preserve-3d` in order to appear properly tranformed. That's why it is required to have a root element (we'll call it a stage) that will contain our scene. 
+Transformed elements need to have their parent's `transform-style` property set to `preserve-3d` in order to appear properly tranformed. That's why it is required to have a root element (we'll call it a stage) that will contain our scene.
 
 Creating a stage is easy thanks to the `stage()` method, that creates a new div, sets it up and adds it to the document's body. This is the easiest solution if we are making a full window 3D experience.
 
@@ -141,7 +146,7 @@ Making a cube rotate requires very few lines of code. Note that the classNames o
 
 	.cube {
 		border: 5px solid white;
-		box-sizing: border-box; 
+		box-sizing: border-box;
 		transition: transform .5s ease-in-out;
 		/* note: might need some vendor prefixes around here :) */
 	}
